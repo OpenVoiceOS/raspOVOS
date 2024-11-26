@@ -1,0 +1,13 @@
+[Unit]
+Description=Disable wlan0 powersave
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/iw wlan0 set power_save off
+ExecStop=/sbin/iw wlan0 set power_save on
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

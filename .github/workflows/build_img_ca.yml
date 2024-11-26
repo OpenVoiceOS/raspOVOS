@@ -1,0 +1,57 @@
+name: build catalan headless image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  modify-rpi-image:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout repository
+        uses: actions/checkout@v4
+      -
+        name: Configure OVOS for Catalan
+        uses: dtcooper/rpi-image-modifier@v1
+        id: create-image
+        env:
+          USER: 'ovos'
+        with:
+          base-image-url: https://github.com/JarbasAl/image_build_test/releases/download/untagged-a7109acc0e90d68aea81/raspOVOS-bookworm-arm64-lite.img.xz
+          image-path: raspOVOS-catalan-bookworm-arm64-lite.img
+          compress-with-xz: true
+          cache: true
+          mount-repository: true
+          env-vars: USER
+          script-path: build_raspOVOS_ca.sh
+      -
+        name: Print outputs
+        shell: bash
+        run: |
+          echo 'image-path: ${{ steps.create-image.outputs.image-path }}'
+          echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
+          echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
+          release_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
+          body: |
+            raspOVOS headless Catalan image
+          draft: true
+          prerelease: false
+      -
+        name: Upload to releases
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: ${{ steps.create-image.outputs.image-path }}
+          release_id: ${{ steps.create_release.outputs.id }}
+          draft: true
+          overwrite: true
+          prerelease: true
+          verbose: true
