@@ -12,19 +12,21 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       -
-        name: Configure OVOS for Catalan
+        name: Add OVOS to Raspberry Pi OS Bookworm
         uses: dtcooper/rpi-image-modifier@v1
         id: create-image
         env:
           USER: 'ovos'
+          PASSWORD: 'ovos'
+          HOSTNAME: "raspOVOS"
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-bookworm-arm64-lite-12039889625/raspOVOS-bookworm-arm64-lite.img.xz
+          base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
           mount-repository: true
-          env-vars: USER
-          script-path: build_raspOVOS_ca.sh
+          env-vars: USER,PASSWORD
+          script-path: build_raspOVOS.sh
       -
         name: Print outputs
         shell: bash

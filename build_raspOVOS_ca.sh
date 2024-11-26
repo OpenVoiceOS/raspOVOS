@@ -5,8 +5,8 @@
 # scroll back and figure out what went wrong.
 set -e
 
-# Activate the virtual environment
-source /home/$USER/.venvs/ovos/bin/activate
+# TODO - reuse previous image instead, failing for some reason
+bash /mounted-github-repo/build_raspOVOS.sh
 
 echo "Downloading default TTS + wake word models..."
 # Download and extract VOSK model
