@@ -18,7 +18,7 @@ jobs:
         env:
           USER: 'ovos'
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/untagged-ab6bc5aaca9d502d6a46/raspOVOS-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-bookworm-arm64-lite-12039889625/raspOVOS-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
