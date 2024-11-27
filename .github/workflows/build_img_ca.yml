@@ -1,6 +1,7 @@
 name: build catalan headless image
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
@@ -20,7 +21,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-bookworm-arm64-lite-12053926005/raspOVOS-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
