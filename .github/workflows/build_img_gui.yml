@@ -1,6 +1,7 @@
 name: build GUI image
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
@@ -44,7 +45,7 @@ jobs:
           release_name: raspOVOS-GUI-bookworm-arm64-lite-${{ github.run_id }}
           body: |
             raspOVOS GUI image
-          draft: true
+          draft: false
           prerelease: false
       -
         name: Upload to releases
@@ -54,7 +55,7 @@ jobs:
         with:
           file: ${{ steps.create-image.outputs.image-path }}
           release_id: ${{ steps.create_release.outputs.id }}
-          draft: true
+          draft: false
           overwrite: true
-          prerelease: true
+          prerelease: false
           verbose: true

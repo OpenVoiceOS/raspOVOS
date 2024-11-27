@@ -73,7 +73,6 @@ bash /mounted-github-repo/setup_wlan0power.sh
 bash /mounted-github-repo/setup_fstab.sh
 bash /mounted-github-repo/setup_sysctl.sh
 bash /mounted-github-repo/setup_udev.sh
-bash /mounted-github-repo/setup_kernel_modules.sh
 bash /mounted-github-repo/setup_nmanager.sh
 # make boot faster by printing less stuff and skipping file system checks
 grep -q "quiet fastboot" /boot/cmdline.txt || sed -i 's/$/ quiet fastboot/' /boot/cmdline.txt
