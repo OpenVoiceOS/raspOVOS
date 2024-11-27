@@ -10,6 +10,9 @@ set -e
 source /home/$USER/.venvs/ovos/bin/activate
 
 
+echo "Updating splashscreen..."
+cp -v /mounted-github-repo/splashscreen.png /opt/ovos/splashscreen_ca.png
+
 # install matxa
 echo "Installing Matxa TTS..."
 pip install ovos-tts-plugin-matxa-multispeaker-cat
