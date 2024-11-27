@@ -1,4 +1,4 @@
-name: build base no-OVOS headless image
+name: Build Base No-OVOS Headless Image
 
 on:
   workflow_dispatch:
@@ -9,12 +9,14 @@ on:
 jobs:
   modify-rpi-image:
     runs-on: ubuntu-latest
+
     steps:
-      -
-        name: Checkout repository
+      # Step 1: Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-      -
-        name: Add OVOS to Raspberry Pi OS Bookworm
+
+      # Step 2: Add OVOS to Raspberry Pi OS Bookworm
+      - name: Add OVOS to Raspberry Pi OS Bookworm
         uses: TigreGotico/rpi-image-modifier@main
         id: create-image
         env:
@@ -30,32 +32,46 @@ jobs:
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME
           script-path: build_base.sh
-      -
-        name: Get Current Date
+
+      # Step 3: Get current date to use in release name
+      - name: Get Current Date
         id: current-date
         run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-      -
-        name: Print outputs
+
+      # Step 4: Print the image creation outputs
+      - name: Print outputs
         shell: bash
         run: |
           echo 'image-path: ${{ steps.create-image.outputs.image-path }}'
           echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
           echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
-      -
-        name: Create Release
+
+      # Step 5: Check if release already exists
+      - name: Check if release exists
+        id: release-check
+        run: |
+          RELEASE_NAME="raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}"
+          RELEASE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$RELEASE_NAME")
+          echo "::set-output name=release_exists::$(echo $RELEASE | grep -c 'not found')"
+
+      # Step 6: Create Release if it doesn't exist
+      - name: Create Release
         id: create_release
+        if: steps.release-check.outputs.release_exists == '1'
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}
           release_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}
           body: |
-            testing base OS setup only
+            Testing base OS setup only.
           draft: false
           prerelease: false
-      -
-        name: Upload to releases
+
+      # Step 7: Upload to Releases
+      - name: Upload to releases
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
