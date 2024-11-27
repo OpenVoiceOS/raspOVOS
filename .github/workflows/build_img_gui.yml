@@ -16,8 +16,11 @@ jobs:
         id: create-image
         env:
           USER: 'ovos'
+          PASSWORD: 'ovos'
+          HOSTNAME: "raspOVOS"
+          CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/untagged-ab6bc5aaca9d502d6a46/raspOVOS-bookworm-arm64-lite.img.xz
+          base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-GUI-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true

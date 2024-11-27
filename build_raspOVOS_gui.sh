@@ -14,7 +14,44 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Creating system level mycroft.conf..."
 cp -v /mounted-github-repo/mycroft_gui.conf /etc/mycroft/mycroft.conf
 
-# TODO install ovos-shell
+sudo apt-get install -y cmake extra-cmake-modules kio kio-extras plasma-framework libqt5websockets5-dev libqt5webview5-dev qtdeclarative5-dev libqt5multimediaquick5 libqt5multimedia5-plugins libqt5webengine5 libkf5dbusaddons-dev libkf5iconthemes-dev kirigami2-dev qtmultimedia5-dev libkf5plasma-dev libkf5kio-dev qml-module-qtwebengine libqt5virtualkeyboard5 qml-module-qtmultimedia libinput-dev evemu-tools breeze-icon-theme libqt5svg5-dev qt5-qmake qtbase5-dev qtbase5-private-dev libxcb-xfixes0-dev
+
+
+# Mycroft-gui-qt5
+cd /home/ovos
+git clone https://github.com/OpenVoiceOS/mycroft-gui-qt5
+cd mycroft-gui-qt5
+echo "Building OVOS QT5 GUI"
+mkdir build && cd build
+cmake .. -DBUILD_WITH_QT6=OFF -DQT_MAJOR_VERSION=5 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+make
+make install
+cd /home/ovos
+rm -rf mycroft-gui-qt5
+
+git clone https://github.com/kbroulik/lottie-qml
+cd lottie-qml
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release   -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+make
+make install
+cd /home/ovos
+rm -rf lottie-qml
+
+# ovos-shell
+git clone https://github.com/OpenVoiceOS/ovos-shell
+cd ovos-shell
+echo "Building OVOS Shell"
+if [[ ! -d build-testing ]] ; then
+    mkdir build-testing
+fi
+cd build-testing
+cmake .. -DBUILD_WITH_QT6=OFF -DQT_MAJOR_VERSION=5 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+make
+make install
+cd /home/ovos
+rm -rf ovos-shell
 
 echo "Setting up systemd..."
 mkdir -p /home/$USER/.config/systemd/user/
