@@ -1,0 +1,18 @@
+[Unit]
+Description=OVOS Spotify OCP Hooks
+PartOf=ovos.service
+After=ovos.service
+After=ovos-messagebus.service
+
+[Service]
+Type=notify
+ExecStart=%h/.venvs/ovos/bin/python %h/.local/bin/spotifyd --device-type "speaker" --initial-volume 100 --on-song-change-hook "~/.venvs/ovos/bin/python /usr/libexec/ovos-spotifyd" --no-daemon
+TimeoutStartSec=1m
+TimeoutStopSec=1m
+Restart=on-failure
+StartLimitInterval=5min
+StartLimitBurst=4
+
+[Install]
+WantedBy=ovos.service
+
