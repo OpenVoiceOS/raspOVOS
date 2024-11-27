@@ -5,8 +5,6 @@
 # scroll back and figure out what went wrong.
 set -e
 
-bash /mounted-github-repo/build_base.sh
-
 # Update package list and install necessary tools
 echo "Installing system packages..."
 apt-get install -y --no-install-recommends i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip

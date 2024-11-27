@@ -18,7 +18,7 @@ sudo apt-get install -y cmake extra-cmake-modules kio kio-extras plasma-framewor
 
 
 # Mycroft-gui-qt5
-cd /home/ovos
+cd /home/$USER
 git clone https://github.com/OpenVoiceOS/mycroft-gui-qt5
 cd mycroft-gui-qt5
 echo "Building OVOS QT5 GUI"
@@ -26,7 +26,7 @@ mkdir build && cd build
 cmake .. -DBUILD_WITH_QT6=OFF -DQT_MAJOR_VERSION=5 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
 make
 make install
-cd /home/ovos
+cd /home/$USER
 rm -rf mycroft-gui-qt5
 
 git clone https://github.com/kbroulik/lottie-qml
@@ -36,7 +36,7 @@ cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release   -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
 make
 make install
-cd /home/ovos
+cd /home/$USER
 rm -rf lottie-qml
 
 # ovos-shell
@@ -50,7 +50,7 @@ cd build-testing
 cmake .. -DBUILD_WITH_QT6=OFF -DQT_MAJOR_VERSION=5 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DKDE_INSTALL_LIBDIR=lib -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
 make
 make install
-cd /home/ovos
+cd /home/$USER
 rm -rf ovos-shell
 
 echo "Setting up systemd..."

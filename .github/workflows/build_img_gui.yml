@@ -1,7 +1,6 @@
 name: build GUI image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
