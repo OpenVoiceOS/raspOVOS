@@ -45,7 +45,7 @@ jobs:
           release_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
           body: |
             raspOVOS headless Catalan image
-          draft: true
+          draft: false
           prerelease: false
       -
         name: Upload to releases
@@ -57,5 +57,5 @@ jobs:
           release_id: ${{ steps.create_release.outputs.id }}
           draft: false
           overwrite: true
-          prerelease: true
+          prerelease: false
           verbose: true
