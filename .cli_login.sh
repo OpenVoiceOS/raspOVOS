@@ -48,6 +48,7 @@ echo "  ovos-config            Manage your local OVOS configuration files"
 echo "  ovos-listen            Activate the microphone to listen for a command"
 echo "  ovos-speak  <phrase>   Have OVOS speak a phrase to the user"
 echo "  ovos-say-to <phrase>   Send an utterance to OVOS as if spoken by a user"
+echo "  ovos-simple-cli        Chat with your device through the terminal"
 echo
 echo "OVOS Log Viewer:"
 echo "  ovos-logs [COMMAND] --help      Small tool to help navigate the logs"
@@ -60,7 +61,6 @@ echo "  ovos-freeze             Export installed OVOS packages to requirements.t
 echo "  ovos-outdated           List outdated OVOS and skill-related packages"
 echo
 echo "Misc Helpful COMMANDs:"
-echo "  ovos-simple-cli         Chat with your device through the terminal"
 echo "  ovos-status             List OVOS-related systemd services"
 echo "  ovos-docs-viewer        OVOS documentation in your terminal"
 echo
