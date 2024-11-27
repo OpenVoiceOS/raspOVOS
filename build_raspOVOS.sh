@@ -43,11 +43,10 @@ cp -v /mounted-github-repo/.cli_login.sh /home/$USER/.cli_login.sh
 echo "Creating system level mycroft.conf..."
 cp -v /mounted-github-repo/mycroft.conf /etc/mycroft/mycroft.conf
 
-echo "Downloading constraints.txt..."
-URL="https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
+echo "Downloading constraints.txt from $CONSTRAINTS..."
 # TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages
 DEST="/etc/mycroft/constraints.txt"
-wget -O "$DEST" "$URL"
+wget -O "$DEST" "$CONSTRAINTS"
 
 # Create virtual environment for ovos
 echo "Creating virtual environment..."

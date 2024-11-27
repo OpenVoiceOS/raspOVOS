@@ -5,6 +5,9 @@
 # scroll back and figure out what went wrong.
 set -e
 
+# TODO - reuse previous image instead, failing for some reason
+bash /mounted-github-repo/build_raspOVOS.sh
+
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 

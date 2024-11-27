@@ -25,7 +25,7 @@ jobs:
           compress-with-xz: true
           cache: true
           mount-repository: true
-          env-vars: USER,PASSWORD
+          env-vars: USER,PASSWORD,HOSTNAME
           script-path: build_base.sh
       -
         name: Print outputs
