@@ -20,7 +20,7 @@ Environment=XDG_CURRENT_DESKTOP=kde
 Environment=LD_LIBRARY_PATH=/usr/lib
 Environment=LIBEXEC_PATH=/libexec:/usr/libexec:/usr/lib/libexec
 Environment=QML2_IMPORT_PATH=/usr/lib/qt/qml
-ExecStart=ovos-shell
+ExecStart=/usr/bin/ovos-shell
 StandardOutput=file:/ramdisk/mycroft/ovos_shell.log
 Restart=on-failure
 
