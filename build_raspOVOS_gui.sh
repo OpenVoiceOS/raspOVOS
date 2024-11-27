@@ -9,8 +9,7 @@ set -e
 source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Installing GUI plugins and skills..."
-pip3 install ovos-core[skills-gui]
-pip3 install ovos-gui[extras]
+pip3 install ovos-core[skills-gui] ovos-gui[extras] -C /etc/mycroft/constraints.txt
 
 echo "Creating system level mycroft.conf..."
 cp -v /mounted-github-repo/mycroft_gui.conf /etc/mycroft/mycroft.conf

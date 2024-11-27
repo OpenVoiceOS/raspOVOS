@@ -53,10 +53,13 @@ echo "OVOS Log Viewer:"
 echo "  ovos-logs [COMMAND] --help      Small tool to help navigate the logs"
 echo "  ologs                           View all logs realtime"
 echo
-echo "Misc Helpful COMMANDs:"
-echo "  ovos-simple-cli         Chat with your device through the terminal"
-echo "  ovos-status             List OVOS-related systemd services"
+echo "OVOS packages utils:"
+echo "  ovos-pip                Install ovos packages using /etc/mycroft/constraints.txt"
 echo "  ovos-update             Update all OVOS and skill-related packages"
 echo "  ovos-freeze             Export installed OVOS packages to requirements.txt"
 echo "  ovos-outdated           List outdated OVOS and skill-related packages"
+echo
+echo "Misc Helpful COMMANDs:"
+echo "  ovos-simple-cli         Chat with your device through the terminal"
+echo "  ovos-status             List OVOS-related systemd services"
 echo

@@ -9,13 +9,12 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
-
 echo "Updating splashscreen..."
 cp -v /mounted-github-repo/splashscreen.png /opt/ovos/splashscreen_ca.png
 
 # install matxa
 echo "Installing Matxa TTS..."
-pip install ovos-tts-plugin-matxa-multispeaker-cat
+pip install ovos-tts-plugin-matxa-multispeaker-cat -C /etc/mycroft/constraints.txt
 apt-get install -y automake libtool
 git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
 cd /tmp/espeak-ng
