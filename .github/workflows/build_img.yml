@@ -53,7 +53,7 @@ jobs:
         with:
           file: ${{ steps.create-image.outputs.image-path }}
           release_id: ${{ steps.create_release.outputs.id }}
-          draft: true
+          draft: false
           overwrite: true
           prerelease: true
           verbose: true

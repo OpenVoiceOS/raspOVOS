@@ -92,6 +92,7 @@ mkdir -p /home/$USER/.local/share/mycroft
 mkdir -p /home/$USER/.cache/mycroft/
 mkdir -p /home/$USER/.cache/ovos_gui/
 mkdir -p /etc/mycroft
+mkdir -p /etc/OpenVoiceOS
 
 # add bashrc and company
 echo "Creating aliases and cli login screen..."
@@ -193,8 +194,6 @@ ln -s /etc/systemd/system/ovos-admin-phal.service /etc/systemd/system/multi-user
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
 git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
-
-mkdir /etc/OpenVoiceOS
 
 cp /tmp/ovos-i2csound/i2c.conf /etc/modules-load.d/i2c.conf
 cp /tmp/ovos-i2csound/bcm2835-alsa.conf /etc/modules-load.d/bcm2835-alsa.conf
