@@ -5,6 +5,11 @@
 # scroll back and figure out what went wrong.
 set -e
 
+# Update package list and install necessary tools
+echo "Updating base system..."
+apt-get update
+apt-get install -y --no-install-recommends git unzip curl build-essential userconf-pi
+
 # if $USER is different from "pi"  (the default) rename "pi" to "$USER"
 if [ "$USER" != "pi" ]; then
   # 1. Change the username in /etc/passwd
@@ -50,10 +55,10 @@ sed -i "s/127.0.1.1.*$/127.0.1.1\t$HOSTNAME/" /etc/hosts
 echo "Enabling ssh..."
 touch /boot/firmware/ssh
 
-# Update package list and install necessary tools
-echo "Updating base system..."
-apt-get update
-apt-get install -y --no-install-recommends git unzip curl build-essential
+echo "Enabling autologin..."
+# patch first bootscript to enable autologin, otherwise OVOS doesnt launch!
+cp -v /mounted-github-repo/firstboot /usr/lib/raspberrypi-sys-mods/firstboot
+touch /var/lib/userconf-pi/autologin
 
 echo "Installing Pipewire..."
 bash /mounted-github-repo/setup_pipewire.sh
