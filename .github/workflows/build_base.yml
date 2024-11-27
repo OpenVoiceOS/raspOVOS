@@ -43,7 +43,7 @@ jobs:
           echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
           echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
 
-  # Stage 2: Check if Release Exists (Optional, but helps prevent unnecessary release creation)
+  # Stage 2: Check if Release Exists
   check-release-existence:
     runs-on: ubuntu-latest
     needs: modify-rpi-image  # Depends on the success of the image modification job
@@ -78,8 +78,8 @@ jobs:
   # Stage 4: Upload to Releases (Runs regardless of release creation)
   upload-release:
     runs-on: ubuntu-latest
-    needs: modify-rpi-image  # Make sure this runs after image modification
-    if: always()  # This ensures the upload always runs, regardless of the previous steps
+    needs: create-release  # Ensures upload happens only after release creation
+    if: always()  # This ensures the upload runs regardless of the previous steps
     steps:
       - name: Upload to releases
         uses: xresloader/upload-to-github-release@v1
@@ -87,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           file: ${{ steps.create-image.outputs.image-path }}
-          release_id: ${{ steps.create_release.outputs.id }}
+          release_id: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}
           draft: false
           overwrite: true
           prerelease: false
