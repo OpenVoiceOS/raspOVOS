@@ -1,4 +1,4 @@
-name: build headless image
+name: test build no-OVOS headless image
 
 on:
   push:
@@ -21,12 +21,12 @@ jobs:
           HOSTNAME: "raspOVOS"
         with:
           base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64-lite.img.xz
-          image-path: raspOVOS-bookworm-arm64-lite.img
+          image-path: raspOVOS-NO-OVOS-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
           mount-repository: true
           env-vars: USER,PASSWORD
-          script-path: build_raspOVOS.sh
+          script-path: build_base.sh
       -
         name: Print outputs
         shell: bash
@@ -40,10 +40,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: raspOVOS-bookworm-arm64-lite-${{ github.run_id }}
-          release_name: raspOVOS-bookworm-arm64-lite-${{ github.run_id }}
+          tag_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ github.run_id }}
+          release_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ github.run_id }}
           body: |
-            raspOVOS headless image
+            testing base OS setup only
           draft: true
           prerelease: false
       -
@@ -54,7 +54,7 @@ jobs:
         with:
           file: ${{ steps.create-image.outputs.image-path }}
           release_id: ${{ steps.create_release.outputs.id }}
-          draft: false
+          draft: true
           overwrite: true
           prerelease: true
           verbose: true
