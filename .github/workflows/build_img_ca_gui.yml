@@ -1,6 +1,7 @@
-name: build catalan headless image
+name: build GUI image
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
@@ -11,7 +12,7 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       -
-        name: Add OVOS to Raspberry Pi OS Bookworm
+        name: Add ovos-shell to image
         uses: dtcooper/rpi-image-modifier@v1
         id: create-image
         env:
@@ -20,14 +21,13 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-NO-OVOS-bookworm-arm64-lite-12053618536/raspOVOS-NO-OVOS-bookworm-arm64-lite.img.xz
-          image-path: raspOVOS-catalan-bookworm-arm64-lite.img
+          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-12054725266/raspOVOS-catalan-bookworm-arm64-lite.img.xz
+          image-path: raspOVOS-GUI-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
-          shrink: true
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
-          script-path: build_raspOVOS_ca.sh
+          script-path: build_raspOVOS_gui.sh
       -
         name: Print outputs
         shell: bash
@@ -41,10 +41,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
-          release_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
+          tag_name: raspOVOS-GUI-catalan-bookworm-arm64-lite-${{ github.run_id }}
+          release_name: raspOVOS-GUI-catalan-bookworm-arm64-lite-${{ github.run_id }}
           body: |
-            raspOVOS headless Catalan image
+            raspOVOS GUI image
           draft: false
           prerelease: false
       -
