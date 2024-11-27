@@ -56,8 +56,9 @@ echo "Enabling ssh..."
 touch /boot/firmware/ssh
 
 echo "Enabling autologin..."
-# patch first bootscript to enable autologin, otherwise OVOS doesnt launch!
+# patch first bootscript to ensure autologin is enabled, otherwise OVOS doesnt launch!
 cp -v /mounted-github-repo/firstboot /usr/lib/raspberrypi-sys-mods/firstboot
+mkdir -p /var/lib/userconf-pi/
 touch /var/lib/userconf-pi/autologin
 
 echo "Installing Pipewire..."
