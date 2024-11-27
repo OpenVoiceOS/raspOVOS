@@ -2,6 +2,9 @@ name: build catalan headless image
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'build_raspOVOS_ca.sh'
 
 jobs:
   modify-rpi-image:

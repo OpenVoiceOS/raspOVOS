@@ -7,7 +7,7 @@ set -e
 
 # Update package list and install necessary tools
 echo "Installing system packages..."
-apt-get install -y --no-install-recommends i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip
+apt-get install -y --no-install-recommends jq i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip
 
 echo "Installing KDEConnect..."
 apt-get install -y --no-install-recommends kdeconnect

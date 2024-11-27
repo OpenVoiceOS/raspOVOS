@@ -8,7 +8,7 @@ set -e
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
-apt-get install -y --no-install-recommends git unzip curl build-essential userconf-pi
+apt-get install -y --no-install-recommends jq git unzip curl build-essential userconf-pi
 
 # if $USER is different from "pi"  (the default) rename "pi" to "$USER"
 if [ "$USER" != "pi" ]; then

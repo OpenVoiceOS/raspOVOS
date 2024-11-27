@@ -2,6 +2,9 @@ name: build Catalan GUI image
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'build_raspOVOS_gui.sh'
 
 jobs:
   modify-rpi-image:

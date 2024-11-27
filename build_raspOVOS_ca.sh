@@ -15,7 +15,7 @@ cp -v /mounted-github-repo/splashscreen_ca.png /opt/ovos/splashscreen.png
 # install matxa
 echo "Installing Matxa TTS..."
 pip install ovos-tts-plugin-matxa-multispeaker-cat -c /etc/mycroft/constraints.txt
-apt-get install -y automake libtool
+apt-get install -y jq automake libtool
 git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
 cd /tmp/espeak-ng
 ./autogen.sh  && ./configure && make && make install
