@@ -1,7 +1,6 @@
-name: build GUI image
+name: build Catalan GUI image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -21,7 +20,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-12054725266/raspOVOS-catalan-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-12055722183/raspOVOS-catalan-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-GUI-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
