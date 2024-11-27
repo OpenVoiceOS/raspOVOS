@@ -4,7 +4,7 @@ PartOf=ovos.service
 After=ovos.service
 
 [Service]
-WorkingDirectory=/home/ovos
+WorkingDirectory=%h/.venvs/ovos
 Environment=QT_QPA_PLATFORM=eglfs
 Environment=QT_QPA_EGLFS_KMS_ATOMIC=1
 Environment=QT_QPA_PLATFORMTHEME=qt5ct
@@ -20,7 +20,6 @@ Environment=XDG_CURRENT_DESKTOP=kde
 Environment=LD_LIBRARY_PATH=/usr/lib
 Environment=LIBEXEC_PATH=/libexec:/usr/libexec:/usr/lib/libexec
 Environment=QML2_IMPORT_PATH=/usr/lib/qt/qml
-ExecStartPre=-/usr/bin/kbuildsycoca5
 ExecStart=ovos-shell
 StandardOutput=file:/ramdisk/mycroft/ovos_shell.log
 Restart=on-failure
