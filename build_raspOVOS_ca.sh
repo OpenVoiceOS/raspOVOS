@@ -8,7 +8,22 @@ set -e
 # TODO - reuse previous image instead, failing for some reason
 bash /mounted-github-repo/build_raspOVOS.sh
 
-echo "Downloading default TTS + wake word models..."
+
+# Activate the virtual environment
+source /home/$USER/.venvs/ovos/bin/activate
+
+
+# install matxa
+echo "Installing Matxa TTS..."
+pip install ovos-tts-plugin-matxa-multispeaker-cat
+apt-get install -y automake libtool
+git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
+cd /tmp/espeak-ng
+./autogen.sh  && ./configure && make && make install
+rm -rf /tmp/espeak-ng
+
+
+echo "Downloading catalan vosk model..."
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
 mkdir -p $VOSK_DIR
@@ -19,14 +34,6 @@ rm $VOSK_DIR/vosk-model-small-ca-0.4.zip
 # remove english piper voice
 EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
 rm -rf "$EN_PIPER_DIR"
-
-# install matxa
-pip install ovos-tts-plugin-matxa-multispeaker-cat
-apt-get install -y automake libtool
-git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
-cd /tmp/espeak-ng
-./autogen.sh  && ./configure && make && make install
-rm -rf /tmp/espeak-ng
 
 echo "Configuring mycroft.conf for catalan..."
 cp -v /mounted-github-repo/mycroft.conf /home/$USER/.config/mycroft/mycroft.conf
