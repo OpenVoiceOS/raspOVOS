@@ -1,7 +1,6 @@
 name: build headless image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -24,6 +23,7 @@ jobs:
           base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-11-19/2024-11-19-raspios-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-bookworm-arm64-lite.img
           compress-with-xz: true
+          shrink: true
           cache: true
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS

@@ -1,4 +1,4 @@
-name: test build no-OVOS headless image
+name: build base no-OVOS headless image
 
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
           image-path: raspOVOS-NO-OVOS-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
+          shrink: true
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME
           script-path: build_base.sh

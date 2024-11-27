@@ -1,7 +1,6 @@
 name: build catalan headless image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -25,6 +24,7 @@ jobs:
           image-path: raspOVOS-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
+          shrink: true
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
           script-path: build_raspOVOS_ca.sh
