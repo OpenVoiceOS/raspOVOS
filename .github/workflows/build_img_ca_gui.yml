@@ -20,7 +20,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-12055722183/raspOVOS-catalan-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-12057921586/raspOVOS-catalan-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-GUI-catalan-bookworm-arm64-lite.img
           compress-with-xz: true
           cache: true
@@ -43,7 +43,7 @@ jobs:
           tag_name: raspOVOS-GUI-catalan-bookworm-arm64-lite-${{ github.run_id }}
           release_name: raspOVOS-GUI-catalan-bookworm-arm64-lite-${{ github.run_id }}
           body: |
-            raspOVOS GUI image
+            raspOVOS GUI image in Catalan
           draft: false
           prerelease: false
       -

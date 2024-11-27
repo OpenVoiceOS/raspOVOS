@@ -62,4 +62,5 @@ echo
 echo "Misc Helpful COMMANDs:"
 echo "  ovos-simple-cli         Chat with your device through the terminal"
 echo "  ovos-status             List OVOS-related systemd services"
+echo "  ovos-docs-viewer        OVOS documentation in your terminal"
 echo
