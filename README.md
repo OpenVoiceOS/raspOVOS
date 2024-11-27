@@ -4,6 +4,11 @@ Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifi
 
 The images are then uploaded to [github releases](https://github.com/TigreGotico/raspOVOS/releases)
 
+Latest images:
+- [raspOVOS-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-lite-2024-11-27)
+- [raspOVOS-catalan-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2024-11-27)
+- [raspOVOS-GUI-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-GUI-bookworm-arm64-lite-2024-11-27)
+
 Build Scripts:
 - [build_base.sh](build_base.sh) - tunes the base system, installs pipewire, changes user, enables ssh ...
 - [build_raspOVOS.sh](build_raspOVOS.sh) - installs OVOS on top of base system (english)
