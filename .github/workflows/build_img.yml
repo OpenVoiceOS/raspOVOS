@@ -1,7 +1,6 @@
 name: build headless image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:

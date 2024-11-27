@@ -5,17 +5,17 @@
 # scroll back and figure out what went wrong.
 set -e
 
-# TODO - reuse previous image instead, failing for some reason
-bash /mounted-github-repo/build_raspOVOS.sh
-
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
+
+echo "Installing GUI plugins and skills..."
+pip3 install ovos-core[skills-gui]
+pip3 install ovos-gui[extras]
 
 echo "Creating system level mycroft.conf..."
 cp -v /mounted-github-repo/mycroft_gui.conf /etc/mycroft/mycroft.conf
 
 sudo apt-get install -y cmake extra-cmake-modules kio kio-extras plasma-framework libqt5websockets5-dev libqt5webview5-dev qtdeclarative5-dev libqt5multimediaquick5 libqt5multimedia5-plugins libqt5webengine5 libkf5dbusaddons-dev libkf5iconthemes-dev kirigami2-dev qtmultimedia5-dev libkf5plasma-dev libkf5kio-dev qml-module-qtwebengine libqt5virtualkeyboard5 qml-module-qtmultimedia libinput-dev evemu-tools breeze-icon-theme libqt5svg5-dev qt5-qmake qtbase5-dev qtbase5-private-dev libxcb-xfixes0-dev
-
 
 # Mycroft-gui-qt5
 cd /home/$USER
