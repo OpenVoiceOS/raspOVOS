@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'build_raspOVOS_gui.sh'
+      - '.github/workflows/build_img_ca_gui.yml'  # Trigger if this file changes
 
 jobs:
   modify-rpi-image:

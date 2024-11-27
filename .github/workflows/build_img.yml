@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/build_img.yml'  # Trigger if this file changes
       - 'build_raspOVOS.sh'
+      - 'setup_spotify.sh'
 
 jobs:
   modify-rpi-image:

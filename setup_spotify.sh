@@ -12,6 +12,7 @@ HOOK_SCRIPT="/usr/libexec/ovos-spotifyd"
 # Create necessary directories
 mkdir -p "$(dirname "$SPOTIFYD_BIN")" "$SERVICE_PATH/default.target.wants/"
 
+# TODO - install from branch for bugfixes https://github.com/eladyn/spotifyd/tree/deps_upgrade
 # Download and install spotifyd
 echo "Downloading and installing spotifyd..."
 curl -L "$SPOTIFYD_URL" | tar -xz -C "$(dirname "$SPOTIFYD_BIN")" --strip-components=1 spotifyd

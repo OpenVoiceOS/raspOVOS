@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/build_img_ca.yml'  # Trigger if this file changes
       - 'build_raspOVOS_ca.sh'
 
 jobs:

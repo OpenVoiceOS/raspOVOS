@@ -6,11 +6,26 @@ on:
     paths:
       - '.github/workflows/build_base.yml'  # Trigger if this file changes
       - 'build_base.sh'  # Keep this in case other relevant files should trigger the workflow
+      - 'setup_spotify.sh'
+      - 'setup_cpugovernor.sh'
+      - 'setup_fstab.sh'
+      - 'setup_nmanager.sh'
+      - 'setup_pipewire.sh'
+      - 'setup_ramdisk.sh'
+      - 'setup_sysctl.sh'
+      - 'setup_udev.sh'
+      - 'setup_wlan0power.sh'
+      - 'setup_ram.sh'
 
 jobs:
   # Stage 1: Modify the Raspberry Pi Image
   modify-rpi-image:
     runs-on: ubuntu-latest
+    outputs:
+      image-path: ${{ steps.create-image.outputs.image-path }}
+      image-size: ${{ steps.create-image.outputs.image-size }}
+      image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}
+      current_date: ${{ steps.current-date.outputs.current_date }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,7 +49,7 @@ jobs:
 
       - name: Get Current Date
         id: current-date
-        run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Print outputs
         shell: bash
@@ -46,21 +61,32 @@ jobs:
   # Stage 2: Check if Release Exists
   check-release-existence:
     runs-on: ubuntu-latest
-    needs: modify-rpi-image  # Depends on the success of the image modification job
+    needs: [modify-rpi-image]
+    outputs:
+      release_exists: ${{ steps.check-release.outputs.release_exists }}
+      release_id: ${{ steps.check-release.outputs.release_id }}
     steps:
       - name: Check if release exists
-        id: release-check
+        id: check-release
         run: |
-          RELEASE_NAME="raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}"
+          RELEASE_NAME="raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ needs.modify-rpi-image.outputs.current_date }}"
           RELEASE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/releases/tags/$RELEASE_NAME")
-          echo "::set-output name=release_exists::$(echo $RELEASE | grep -c 'not found')"
+          if [[ "$RELEASE" == *"Not Found"* ]]; then
+            echo "release_exists=false" >> $GITHUB_OUTPUT
+          else
+            RELEASE_ID=$(echo $RELEASE | jq -r .id)
+            echo "release_exists=true" >> $GITHUB_OUTPUT
+            echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
+          fi
 
   # Stage 3: Create Release (Only runs if the release doesn't already exist)
   create-release:
     runs-on: ubuntu-latest
-    needs: check-release-existence  # Only run after checking release existence
-    if: needs.check-release-existence.outputs.release_exists == '1'  # Only create release if it doesn't exist
+    needs: [modify-rpi-image, check-release-existence]
+    if: ${{ needs.check-release-existence.outputs.release_exists == 'false' }}
+    outputs:
+      release_id: ${{ steps.create_release.outputs.id }}
     steps:
       - name: Create Release
         id: create_release
@@ -68,14 +94,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}
-          release_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}
+          tag_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ needs.modify-rpi-image.outputs.current_date }}
+          release_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ needs.modify-rpi-image.outputs.current_date }}
           body: |
             Testing base OS setup only.
           draft: false
           prerelease: false
 
-  # Stage 4: Upload to Releases (Runs regardless of release creation)
+  # Stage 4: Upload to Releases
   upload-release:
     runs-on: ubuntu-latest
     needs: create-release  # Ensures upload happens only after release creation
@@ -86,8 +112,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: ${{ steps.create-image.outputs.image-path }}
-          release_id: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ env.current_date }}
+          file: ${{ needs.modify-rpi-image.outputs.image-path }}
+          release_id: ${{ needs.create-release.outputs.release_id || needs.check-release-existence.outputs.release_id }}
           draft: false
           overwrite: true
           prerelease: false
