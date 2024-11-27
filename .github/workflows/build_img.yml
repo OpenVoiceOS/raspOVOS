@@ -29,20 +29,25 @@ jobs:
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
           script-path: build_raspOVOS.sh
       -
+        name: Get Current Date
+        id: current-date
+        run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      -
         name: Print outputs
         shell: bash
         run: |
           echo 'image-path: ${{ steps.create-image.outputs.image-path }}'
           echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
           echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
-      - name: Create Release
+      -
+        name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: raspOVOS-bookworm-arm64-lite-${{ github.run_id }}
-          release_name: raspOVOS-bookworm-arm64-lite-${{ github.run_id }}
+          tag_name: raspOVOS-bookworm-arm64-lite-${{ env.current_date }}
+          release_name: raspOVOS-bookworm-arm64-lite-${{ env.current_date }}
           body: |
             raspOVOS headless image
           draft: false

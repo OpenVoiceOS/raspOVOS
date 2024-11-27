@@ -1,7 +1,6 @@
 name: build catalan headless image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
@@ -30,6 +29,10 @@ jobs:
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
           script-path: build_raspOVOS_ca.sh
       -
+        name: Get Current Date
+        id: current-date
+        run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      -
         name: Print outputs
         shell: bash
         run: |
@@ -42,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
-          release_name: raspOVOS-catalan-bookworm-arm64-lite-${{ github.run_id }}
+          tag_name: raspOVOS-catalan-bookworm-arm64-lite-${{ env.current_date }}
+          release_name: raspOVOS-catalan-bookworm-arm64-lite-${{ env.current_date }}
           body: |
             raspOVOS headless Catalan image
           draft: false
