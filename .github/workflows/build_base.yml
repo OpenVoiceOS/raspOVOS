@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/build_base.yml'  # Trigger if this file changes
-      - 'build_base.sh'  # Keep this in case other relevant files should trigger the workflow
+      - '.github/workflows/build_base.yml'
+      - 'build_base.sh'
       - 'setup_spotify.sh'
       - 'setup_cpugovernor.sh'
       - 'setup_fstab.sh'
@@ -18,14 +18,29 @@ on:
       - 'setup_ram.sh'
 
 jobs:
-  # Stage 1: Modify the Raspberry Pi Image
+  # Stage 1: Get Current Date and Release Name
+  get-date-release-name:
+    runs-on: ubuntu-latest
+    outputs:
+      current_date: ${{ steps.current-date.outputs.current_date }}
+      release_name: ${{ steps.current-date.outputs.release_name }}
+    steps:
+      - name: Get Current Date and Release Name
+        id: current-date
+        run: |
+          current_date=$(date +'%Y-%m-%d')
+          release_name="raspOVOS-NO-OVOS-bookworm-arm64-lite-${current_date}"
+          echo "current_date=$current_date" >> $GITHUB_OUTPUT
+          echo "release_name=$release_name" >> $GITHUB_OUTPUT
+
+  # Stage 2: Build Image
   modify-rpi-image:
     runs-on: ubuntu-latest
+    needs: get-date-release-name
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
       image-size: ${{ steps.create-image.outputs.image-size }}
       image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}
-      current_date: ${{ steps.current-date.outputs.current_date }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,10 +62,6 @@ jobs:
           env-vars: USER,PASSWORD,HOSTNAME
           script-path: build_base.sh
 
-      - name: Get Current Date
-        id: current-date
-        run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
       - name: Print outputs
         shell: bash
         run: |
@@ -58,63 +69,61 @@ jobs:
           echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
           echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
 
-  # Stage 2: Check if Release Exists
+  # Stage 3: Check if the Release Exists (Run in parallel with image building)
   check-release-existence:
     runs-on: ubuntu-latest
-    needs: [modify-rpi-image]
+    needs: get-date-release-name
     outputs:
-      release_exists: ${{ steps.check-release.outputs.release_exists }}
-      release_id: ${{ steps.check-release.outputs.release_id }}
+      release_id: ${{ steps.get-release-id.outputs.release_id }}
     steps:
-      - name: Check if release exists
-        id: check-release
+      - name: Check if Release Exists
+        id: get-release-id
         run: |
-          RELEASE_NAME="raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ needs.modify-rpi-image.outputs.current_date }}"
-          RELEASE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$RELEASE_NAME")
-          if [[ "$RELEASE" == *"Not Found"* ]]; then
-            echo "release_exists=false" >> $GITHUB_OUTPUT
+          release_name="${{ needs.get-date-release-name.outputs.release_name }}"
+          release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_name")
+          release_id=$(echo $release | jq -r .id)
+          if [[ "$release_id" == "null" ]]; then
+            echo "Release does not exist"
           else
-            RELEASE_ID=$(echo $RELEASE | jq -r .id)
-            echo "release_exists=true" >> $GITHUB_OUTPUT
-            echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
+            echo "Release exists with ID: $release_id"
           fi
+          echo "release_id=$release_id" >> $GITHUB_ENV
 
-  # Stage 3: Create Release (Only runs if the release doesn't already exist)
+  # Stage 4: Create Release (Only if it doesn't exist)
   create-release:
     runs-on: ubuntu-latest
     needs: [modify-rpi-image, check-release-existence]
-    if: ${{ needs.check-release-existence.outputs.release_exists == 'false' }}
-    outputs:
-      release_id: ${{ steps.create_release.outputs.id }}
+    if: ${{ needs.check-release-existence.outputs.release_id == 'null' }}  # Only run if release does not exist
     steps:
-      - name: Create Release
+      - name: Try to Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ needs.modify-rpi-image.outputs.current_date }}
-          release_name: raspOVOS-NO-OVOS-bookworm-arm64-lite-${{ needs.modify-rpi-image.outputs.current_date }}
+          tag_name: ${{ needs.get-date-release-name.outputs.release_name }}
+          release_name: ${{ needs.get-date-release-name.outputs.release_name }}
           body: |
             Testing base OS setup only.
           draft: false
           prerelease: false
 
-  # Stage 4: Upload to Releases
+  # Stage 5: Upload to Release
   upload-release:
     runs-on: ubuntu-latest
-    needs: create-release  # Ensures upload happens only after release creation
-    if: always()  # This ensures the upload runs regardless of the previous steps
+    needs: [modify-rpi-image, check-release-existence, create-release]
+    if: always()  # Runs regardless of release creation
     steps:
-      - name: Upload to releases
+      - name: Upload to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: ${{ needs.modify-rpi-image.outputs.image-path }}
-          release_id: ${{ needs.create-release.outputs.release_id || needs.check-release-existence.outputs.release_id }}
+          file: ${{ steps.create-image.outputs.image-path }}
+          release_id: ${{ env.release_id || steps.create-release.outputs.id }}
           draft: false
           overwrite: true
           prerelease: false
           verbose: true
+
