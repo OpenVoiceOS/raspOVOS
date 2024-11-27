@@ -41,9 +41,26 @@ if [ "$USER" != "pi" ]; then
   # 8. Allow autologin of user
   echo "Creating autologin for $USER"
   # NOTE: Not sure that the link is needed
-  ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
-  cp -v /mounted-github-repo/autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
-  sed -i "s/\bovos\b/${USER}/g" /etc/systemd/system/getty@tty1.service.d/autologin.conf
+  # Ensure required directories exist
+  mkdir -p /etc/systemd/system/getty@tty1.service.d/
+  mkdir -p /etc/systemd/system/getty.target.wants/
+
+  # Create symlink for getty service
+  if ! ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service; then
+    echo "Error: Failed to create getty service symlink" >&2
+    exit 1
+  fi
+
+  # Copy and configure autologin
+  if ! cp -v /mounted-github-repo/autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf; then
+    echo "Error: Failed to copy autologin configuration" >&2
+    exit 1
+  fi
+
+  if ! sed -i "s/\bovos\b/${USER}/g" /etc/systemd/system/getty@tty1.service.d/autologin.conf; then
+    echo "Error: Failed to update username in autologin configuration" >&2
+    exit 1
+  fi
   
 
   echo "User has been renamed, added to sudo group, and password updated."
