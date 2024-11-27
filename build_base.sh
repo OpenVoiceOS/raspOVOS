@@ -37,6 +37,14 @@ if [ "$USER" != "pi" ]; then
   # 7. Add the new user to the sudo group
   echo "Adding $USER to the sudo group..."
   sed -i "/^sudo:/s/pi/$USER/" /etc/group
+  
+  # 8. Allow autologin of user
+  echo "Creating autologin for $USER"
+  # NOTE: Not sure that the link is needed
+  ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
+  cp -v /mounted-github-repo/autologin.conf /etc/systemd/system/getty@tty1.service.d/autologin.conf
+  sed -i "s/\bovos\b/${USER}/g" /etc/systemd/system/getty@tty1.service.d/autologin.conf
+  
 
   echo "User has been renamed, added to sudo group, and password updated."
 fi
