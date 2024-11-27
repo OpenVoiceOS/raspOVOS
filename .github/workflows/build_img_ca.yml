@@ -26,7 +26,7 @@ jobs:
           cache: true
           mount-repository: true
           env-vars: USER,PASSWORD
-          script-path: build_raspOVOS.sh
+          script-path: build_raspOVOS_ca.sh
       -
         name: Print outputs
         shell: bash
