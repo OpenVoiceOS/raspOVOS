@@ -13,4 +13,4 @@ alias ovos-update="~/.venvs/ovos/bin/pip install -U --pre \$(pip list --format=f
 alias ovos-outdated="~/.venvs/ovos/bin/pip list --outdated | grep -E 'ovos-|skill-'"
 
 # OVOS Pip: Run pip commands with a constraints file
-alias ovos-pip="~/.venvs/ovos/bin/pip install -C /etc/mycroft/constraints.txt"
+alias ovos-pip="~/.venvs/ovos/bin/pip install -c /etc/mycroft/constraints.txt"

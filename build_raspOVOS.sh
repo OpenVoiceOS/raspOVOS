@@ -57,7 +57,7 @@ source /home/$USER/.venvs/ovos/bin/activate
 # install OVOS in venv
 echo "Installing OVOS..."
 pip3 install wheel cython sdnotify tflite_runtime
-pip3 install ovos-core[lgpl,mycroft,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] -C /etc/mycroft/constraints.txt
+pip3 install ovos-core[lgpl,mycroft,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] -c /etc/mycroft/constraints.txt
 
 echo "Installing OVOS ggwave..."
 pip3 install -U -f https://whl.smartgic.io/ ggwave
