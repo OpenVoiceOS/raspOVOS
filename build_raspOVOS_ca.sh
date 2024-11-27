@@ -22,7 +22,6 @@ cd /tmp/espeak-ng
 ./autogen.sh  && ./configure && make && make install
 rm -rf /tmp/espeak-ng
 
-
 echo "Downloading catalan vosk model..."
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
@@ -36,7 +35,7 @@ EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
 rm -rf "$EN_PIPER_DIR"
 
 echo "Configuring mycroft.conf for catalan..."
-cp -v /mounted-github-repo/mycroft.conf /home/$USER/.config/mycroft/mycroft.conf
+cp -v /mounted-github-repo/mycroft_ca.conf /etc/mycroft/mycroft.conf
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
