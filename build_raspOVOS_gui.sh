@@ -33,8 +33,8 @@ add_user_to_group $USER render
 echo "Installing GUI plugins and skills..."
 pip3 install ovos-core[skills-gui] ovos-gui[extras] -c /etc/mycroft/constraints.txt
 
-echo "Creating system level mycroft.conf..."
-cp -v /mounted-github-repo/mycroft_gui.conf /etc/mycroft/mycroft.conf
+echo "Merging gui config into system level mycroft.conf..."
+jq -s '.[0] * .[1]' /etc/mycroft/mycroft.conf /mounted-github-repo/mycroft_gui.conf > temp.json && mv temp.json /etc/mycroft/mycroft.conf
 
 apt-get install -y cmake extra-cmake-modules kio kio-extras plasma-framework libqt5websockets5-dev libqt5webview5-dev qtdeclarative5-dev libqt5multimediaquick5 libqt5multimedia5-plugins libqt5webengine5 libkf5dbusaddons-dev libkf5iconthemes-dev kirigami2-dev qtmultimedia5-dev libkf5plasma-dev libkf5kio-dev qml-module-qtwebengine libqt5virtualkeyboard5 qml-module-qtmultimedia libinput-dev evemu-tools breeze-icon-theme libqt5svg5-dev qt5-qmake qtbase5-dev qtbase5-private-dev libxcb-xfixes0-dev
 

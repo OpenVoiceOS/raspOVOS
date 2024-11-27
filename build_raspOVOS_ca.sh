@@ -34,7 +34,7 @@ EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
 rm -rf "$EN_PIPER_DIR"
 
 echo "Configuring mycroft.conf for catalan..."
-cp -v /mounted-github-repo/mycroft_ca.conf /etc/mycroft/mycroft.conf
+jq -s '.[0] * .[1]' /etc/mycroft/mycroft.conf /mounted-github-repo/mycroft_ca.conf > temp.json && mv temp.json /etc/mycroft/mycroft.conf
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
