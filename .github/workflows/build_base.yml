@@ -1,7 +1,6 @@
 name: build base no-OVOS headless image
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:

@@ -25,7 +25,7 @@ jobs:
           compress-with-xz: true
           cache: true
           mount-repository: true
-          env-vars: USER
+          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
           script-path: build_raspOVOS_gui.sh
       -
         name: Print outputs
