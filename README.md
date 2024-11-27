@@ -13,6 +13,6 @@ Build Scripts:
 Github Actions:
 - [build_base.yml](.github%2Fworkflows%2Fbuild_base.yml) creates `raspOVOS-NO-OVOS-bookworm-arm64-lite.img` [~6 mins build time / ~500 MB]
 - [build_img.yml](.github%2Fworkflows%2Fbuild_img.yml) creates `raspOVOS-bookworm-arm64-lite.img` [~30 mins build time / ~1.2 GB]
-- [build_img_gui.yml](.github%2Fworkflows%2Fbuild_img_gui.yml) creates `raspOVOS-GUI-bookworm-arm64-lite.img` [~28 mins build time / ~1.33 GB]
-- [build_img_ca.yml](.github%2Fworkflows%2Fbuild_img_ca.yml) creates `raspOVOS-catalan-bookworm-arm64-lite.img` [~25 mins build time / ~1.2 GB]
-- [build_img_ca_gui.yml](.github%2Fworkflows%2Fbuild_img_ca_gui.yml) creates `raspOVOS-GUI-catalan-bookworm-arm64-lite.img` [~28 mins build time / ~1.33 GB]
+- [build_img_gui.yml](.github%2Fworkflows%2Fbuild_img_gui.yml) creates `raspOVOS-GUI-bookworm-arm64-lite.img` [~25 mins build time / ~1.33 GB]
+- [build_img_ca.yml](.github%2Fworkflows%2Fbuild_img_ca.yml) creates `raspOVOS-catalan-bookworm-arm64-lite.img` [~20 mins build time / ~1.2 GB]
+- [build_img_ca_gui.yml](.github%2Fworkflows%2Fbuild_img_ca_gui.yml) creates `raspOVOS-GUI-catalan-bookworm-arm64-lite.img` [~25 mins build time / ~1.33 GB]
