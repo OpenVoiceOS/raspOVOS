@@ -6,7 +6,6 @@ on:
     paths:
       - '.github/workflows/build_base.yml'
       - 'build_base.sh'
-      - 'setup_spotify.sh'
       - 'setup_cpugovernor.sh'
       - 'setup_fstab.sh'
       - 'setup_nmanager.sh'
@@ -50,7 +49,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Add OVOS to Raspberry Pi OS Bookworm
+      - name: Tune base Raspberry Pi OS Bookworm
         uses: TigreGotico/rpi-image-modifier@main
         id: create-image
         env:
