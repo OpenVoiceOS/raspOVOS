@@ -128,58 +128,48 @@ jobs:
           prerelease: false
           verbose: true
 
-  update-catalan-and-gui-workflow:
+  update-gui-workflow:
     runs-on: ubuntu-latest
-    needs: [upload-image, get-date-release-name, modify-rpi-image]
+    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update image URL in catalan workflow
+      - name: Update base-image-url in build_img_gui.yml
         run: |
-          # Define the file path and the new URL
-          file=".github/workflows/build_img_ca.yml"
-          new_url="base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}"
-          
-          # Use sed to find and replace the base-image-url line
-          sed -i "s|^.*base-image-url:.*$|$new_url|" "$file"
-          
-          # Check the diff to ensure the change was made
-          git diff "$file"
+          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
+          .github/workflows/build_img_gui.yml
 
-      - name: Commit the updated file
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PA_TOKEN }}
+          branch: "update-base-image-url-${{ github.run_id }}"
+          commit-message: "Update base-image-url in build_img_gui.yml"
+          title: "Update base-image-url"
+          body: |
+            This PR updates the base-image-url in `build_img_gui.yml` to reflect the latest release.
+          labels: automated-update
+
+  update-ca-workflow:
+    runs-on: ubuntu-latest
+    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update base-image-url in build_img_ca.yml
         run: |
-          # Configure Git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Commit the changes
-          git add .github/workflows/build_img_ca.yml
-          git commit -m "Update base-image-url in build_img_ca.yml"
+          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
+          .github/workflows/build_img_ca.yml
 
-      - name: Update image URL in GUI workflow
-        run: |
-          # Define the file path and the new URL
-          file=".github/workflows/build_img_gui.yml"
-          new_url="base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}"
-
-          # Use sed to find and replace the base-image-url line
-          sed -i "s|^.*base-image-url:.*$|$new_url|" "$file"
-
-          # Check the diff to ensure the change was made
-          git diff "$file"
-
-      - name: Commit and push the updated files
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          # Configure Git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Commit and push the changes
-          git add .github/workflows/build_img_gui.yml
-          git commit -m "Update base-image-url in build_img_gui.yml"
-          git push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PA_TOKEN }}
+          branch: "update-base-image-url-${{ github.run_id }}"
+          commit-message: "Update base-image-url in build_img_ca.yml"
+          title: "Update base-image-url"
+          body: |
+            This PR updates the base-image-url in `build_img_ca.yml` to reflect the latest release.
+          labels: automated-update
