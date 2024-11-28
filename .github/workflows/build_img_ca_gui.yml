@@ -54,7 +54,7 @@ jobs:
           image-path: raspOVOS-catalan-GUI-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
-          cache: true
+          cache: false
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS,CONFIG_FILES
           script-path: build_raspOVOS_gui.sh
