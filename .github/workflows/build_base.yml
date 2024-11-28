@@ -69,10 +69,16 @@ jobs:
           echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
           echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
 
-  # Stage 3: Check if the Release Exists (Run in parallel with image building)
-  check-release-existence:
+      - name: Upload Image as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.create-image.outputs.image-path }}  # Dynamically use image-path as the artifact name
+          path: ${{ steps.create-image.outputs.image-path }}
+
+  # Stage 3: Check if Release Exists and Create if Needed
+  check-release-or-create:
     runs-on: ubuntu-latest
-    needs: get-date-release-name
+    needs: [get-date-release-name, modify-rpi-image]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
     steps:
@@ -87,15 +93,14 @@ jobs:
             echo "Release does not exist"
           else
             echo "Release exists with ID: $release_id"
+            # Optionally delete the existing release
+            echo "Deleting existing release..."
+            curl -s -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/releases/$release_id"
+            echo "Deleted existing release"
           fi
-          echo "release_id=$release_id" >> $GITHUB_ENV
+          echo "release_id=$release_id" >> $GITHUB_OUTPUT
 
-  # Stage 4: Create Release (Only if it doesn't exist)
-  create-release:
-    runs-on: ubuntu-latest
-    needs: [modify-rpi-image, check-release-existence]
-    if: ${{ needs.check-release-existence.outputs.release_id == 'null' }}  # Only run if release does not exist
-    steps:
       - name: Try to Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -108,22 +113,25 @@ jobs:
             Testing base OS setup only.
           draft: false
           prerelease: false
-
-  # Stage 5: Upload to Release
+  # Stage 4: Upload to Release
   upload-release:
     runs-on: ubuntu-latest
-    needs: [modify-rpi-image, check-release-existence, create-release]
+    needs: [modify-rpi-image, check-release-or-create]
     if: always()  # Runs regardless of release creation
     steps:
+      - name: Download Image Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.modify-rpi-image.outputs.image-path }}  # Use the dynamic image-path from the previous job
+
       - name: Upload to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: ${{ steps.create-image.outputs.image-path }}
-          release_id: ${{ env.release_id || steps.create-release.outputs.id }}
+          file: ${{ github.workspace }}/${{ needs.modify-rpi-image.outputs.image-path }}  # Use the correct path to the downloaded file
+          release_id: ${{ needs.check-release-or-create.outputs.release_id }}
           draft: false
           overwrite: true
           prerelease: false
           verbose: true
-
