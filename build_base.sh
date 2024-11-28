@@ -5,6 +5,9 @@
 # scroll back and figure out what went wrong.
 set -e
 
+echo "Updating rpi kernel..."
+rpi-update next
+
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
