@@ -40,8 +40,8 @@ echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
 
 CONFIG_ARGS=""
-# Loop through the CONFIG_FILES variable and append each file to the jq command
-IFS=',' read -r -a config_files <<< "$CONFIG_FILES"
+# Loop through the MYCROFT_CONFIG_FILES variable and append each file to the jq command
+IFS=',' read -r -a config_files <<< "$MYCROFT_CONFIG_FILES"
 for file in "${config_files[@]}"; do
   CONFIG_ARGS="$CONFIG_ARGS /mounted-github-repo/$file"
 done
