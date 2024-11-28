@@ -1,11 +1,9 @@
 name: build catalan GUI image
 
 on:
-  workflow_run:
-    workflows:
-      - "build catalan headless image"
-    types:
-      - completed
+  repository_dispatch:
+    types: [trigger-catalan-gui]  # This event type matches the one sent by the first workflow
+
   workflow_dispatch:
   push:
     paths:

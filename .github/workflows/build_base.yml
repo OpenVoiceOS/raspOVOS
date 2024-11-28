@@ -126,3 +126,16 @@ jobs:
           overwrite: true
           prerelease: false
           verbose: true
+
+  # Trigger another workflow job
+  trigger-headless-workflow:
+    runs-on: ubuntu-latest
+    needs: upload-image
+    steps:
+      - name: Trigger the headless workflow via GitHub API
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            --data '{"event_type": "trigger-headless"}' \
+            "https://api.github.com/repos/${{ github.repository }}/dispatches"

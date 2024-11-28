@@ -1,11 +1,8 @@
 name: build catalan headless image
 
 on:
-  workflow_run:
-    workflows:
-      - "build headless image"
-    types:
-      - completed
+  repository_dispatch:
+    types: [trigger-catalan]  # This event type matches the one sent by the first workflow
   workflow_dispatch:
   push:
     paths:
@@ -133,3 +130,16 @@ jobs:
           overwrite: true
           prerelease: false
           verbose: true
+
+  # Trigger another workflow job
+  trigger-catalan-gui-workflow:
+    runs-on: ubuntu-latest
+    needs: upload-image
+    steps:
+      - name: Trigger the catalan GUI workflow via GitHub API
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            --data '{"event_type": "trigger-catalan-gui"}' \
+            "https://api.github.com/repos/${{ github.repository }}/dispatches"

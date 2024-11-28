@@ -1,11 +1,9 @@
 name: build GUI image
 
 on:
-  workflow_run:
-    workflows:
-      - "build headless image"
-    types:
-      - completed
+  repository_dispatch:
+    types: [trigger-gui]  # This event type matches the one sent by the first workflow
+
   workflow_dispatch:
   push:
     paths:
