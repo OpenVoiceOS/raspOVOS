@@ -33,9 +33,18 @@ rm $VOSK_DIR/vosk-model-small-ca-0.4.zip
 EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
 rm -rf "$EN_PIPER_DIR"
 
-echo "Configuring mycroft.conf for catalan..."
+echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
-jq -s '.[0] * .[1]' /mounted-github-repo/mycroft.conf /mounted-github-repo/mycroft_ca.conf > /etc/mycroft/mycroft.conf
+# Initialize an empty jq merge command
+jq_command="jq -s"
+# Loop through the list of files from CONFIG_FILES
+IFS=',' read -r -a config_files <<< "$CONFIG_FILES"
+for file in "${config_files[@]}"; do
+  jq_command="$jq_command /mounted-github-repo/$file"
+done
+# Merge all the files using jq and save to /etc/mycroft/mycroft.conf
+eval "$jq_command > /etc/mycroft/mycroft.conf"
+
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
