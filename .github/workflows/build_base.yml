@@ -127,15 +127,34 @@ jobs:
           prerelease: false
           verbose: true
 
-  # Trigger another workflow job
-  trigger-headless-workflow:
+  update-headless-workflow:
     runs-on: ubuntu-latest
-    needs: upload-image
+    needs: [upload-image, get-date-release-name, modify-rpi-image]
     steps:
-      - name: Trigger the headless workflow via GitHub API
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update image URL in headless workflow
         run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            --data '{"event_type": "trigger-headless"}' \
-            "https://api.github.com/repos/${{ github.repository }}/dispatches"
+          # Define the file path and the new URL
+          file=".github/workflows/build_img.yml"
+          new_url="base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}"
+          
+          # Use sed to find and replace the base-image-url line
+          sed -i "s|^.*base-image-url:.*$|$new_url|" "$file"
+          
+          # Check the diff to ensure the change was made
+          git diff "$file"
+
+      - name: Commit and push the updated file
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Commit and push the changes
+          git add .github/workflows/build_img.yml
+          git commit -m "Update base-image-url in build_img.yml"
+          git push
