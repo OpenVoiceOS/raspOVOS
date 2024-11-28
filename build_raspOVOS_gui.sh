@@ -35,15 +35,16 @@ pip3 install ovos-core[skills-gui] ovos-gui[extras] -c /etc/mycroft/constraints.
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
-# Initialize an empty jq merge command
-jq_command="jq -s"
-# Loop through the list of files from CONFIG_FILES
+
+CONFIG_ARGS=""
+# Loop through the CONFIG_FILES variable and append each file to the jq command
 IFS=',' read -r -a config_files <<< "$CONFIG_FILES"
 for file in "${config_files[@]}"; do
-  jq_command="$jq_command /mounted-github-repo/$file"
+  CONFIG_ARGS="$CONFIG_ARGS /mounted-github-repo/$file"
 done
-# Merge all the files using jq and save to /etc/mycroft/mycroft.conf
-eval "$jq_command > /etc/mycroft/mycroft.conf"
+# Execute the jq command and merge the files into mycroft.conf
+jq -s 'reduce .[] as $item ({}; . * $item)' $CONFIG_ARGS > /etc/mycroft/mycroft.conf
+
 
 apt-get install -y jq cmake extra-cmake-modules kio kio-extras plasma-framework libqt5websockets5-dev libqt5webview5-dev qtdeclarative5-dev libqt5multimediaquick5 libqt5multimedia5-plugins libqt5webengine5 libkf5dbusaddons-dev libkf5iconthemes-dev kirigami2-dev qtmultimedia5-dev libkf5plasma-dev libkf5kio-dev qml-module-qtwebengine libqt5virtualkeyboard5 qml-module-qtmultimedia libinput-dev evemu-tools breeze-icon-theme libqt5svg5-dev qt5-qmake qtbase5-dev qtbase5-private-dev libxcb-xfixes0-dev
 
