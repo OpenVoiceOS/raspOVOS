@@ -37,9 +37,8 @@ jobs:
       - name: Print outputs
         shell: bash
         run: |
-          echo 'cache_key: ${{ steps.current-date.outputs.cache_key }}'
-          echo 'release_name: ${{ steps.current-date.outputs.release_name }}'
-
+          echo "cache_key: ${{ steps.current-date.outputs.cache_key }}"
+          echo "release_name: ${{ steps.current-date.outputs.release_name }}"
 
   # Stage 2: Build Image
   modify-rpi-image:
@@ -71,14 +70,14 @@ jobs:
       - name: Print outputs
         shell: bash
         run: |
-          echo 'image-path: ${{ steps.create-image.outputs.image-path }}'
-          echo 'image-size: ${{ steps.create-image.outputs.image-size }}'
-          echo 'image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}'
+          echo "image-path: ${{ steps.create-image.outputs.image-path }}"
+          echo "image-size: ${{ steps.create-image.outputs.image-size }}"
+          echo "image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}"
 
       - name: Save Image to Cache
         uses: actions/cache@v4
         with:
-          path: ./cache
+          path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
 
   # Stage 3: Check if Release Exists and Create if Needed
@@ -107,12 +106,10 @@ jobs:
       - name: Print outputs
         shell: bash
         run: |
-          echo 'release_id: ${{ steps.get-release-id.outputs.release_id }}'
-
-
+          echo "release_id: ${{ steps.get-release-id.outputs.release_id }}"
 
   # Stage 4: Upload to Release
-  upload-release:
+  upload-image:
     runs-on: ubuntu-latest
     needs: [modify-rpi-image, check-release-or-create, get-date-release-name]
     if: always()
@@ -120,18 +117,19 @@ jobs:
       - name: Restore Cache for Image
         uses: actions/cache@v4
         with:
-          path: ./cache
+          path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
+          fail-on-cache-miss: true
 
       - name: Debug Cache Content
-        run: ls ./cache
+        run: ls .
 
       - name: Upload to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: ./cache/${{ needs.modify-rpi-image.outputs.image-path }}
+          file: ${{ needs.modify-rpi-image.outputs.image-path }}
           release_id: ${{ needs.check-release-or-create.outputs.release_id }}
           draft: false
           overwrite: true
