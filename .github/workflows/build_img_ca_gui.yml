@@ -76,40 +76,55 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ get-date-release-name, modify-rpi-image ]
     outputs:
-      release_id: ${{ steps.get-release-id.outputs.release_id }}
+      release_id: ${{ steps.set-release-id.outputs.release_id }}
     steps:
       - name: Check if Release Exists
         id: get-release-id
         run: |
           release_name="${{ needs.get-date-release-name.outputs.release_name }}"
-          
+
           # Check if release exists
           release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_name")
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_name")
           echo "Release check response: $release"
-          
-          # Extract release ID
+
+          # Extract release ID if it exists
           release_id=$(echo "$release" | jq -r .id)
-          
+
           if [[ "$release_id" == "null" ]]; then
-          echo "Release not found. Creating a new one..."
-          release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-           -H "Content-Type: application/json" \
-           -d "{\"tag_name\": \"$release_name\", \"name\": \"$release_name\", \"body\": \"RaspOVOS + ovos-shell via EGLFS pre-configured for Catalan\"}" \
-           "https://api.github.com/repos/${{ github.repository }}/releases")
-          echo "Release creation response: $release"
-          release_id=$(echo "$release" | jq -r .id)
+            echo "Release does not exist."
+            echo "release_id=" >> $GITHUB_OUTPUT
           else
-          echo "Release already exists. ID: $release_id"
+            echo "Release exists with ID: $release_id"
+            echo "release_id=$release_id" >> $GITHUB_OUTPUT
           fi
-          
-          echo "release_id=$release_id" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create-release
+        if: steps.get-release-id.outputs.release_id == ''
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ needs.get-date-release-name.outputs.release_name }}
+          release_name: ${{ needs.get-date-release-name.outputs.release_name }}
+          body: |
+            RaspOVOS + ovos-shell via EGLFS pre-configured for Catalan
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Release ID
+        id: set-release-id
+        run: |
+          if [[ -n "${{ steps.get-release-id.outputs.release_id }}" ]]; then
+            echo "release_id=${{ steps.get-release-id.outputs.release_id }}" >> $GITHUB_OUTPUT
+          else
+            echo "release_id=${{ steps.create-release.outputs.id }}" >> $GITHUB_OUTPUT
 
       - name: Print outputs
-        shell: bash
         run: |
-          echo "release_id: ${{ steps.get-release-id.outputs.release_id }}"
-  
+          echo "release_id from check: ${{ steps.get-release-id.outputs.release_id }}"
+          echo "final release_id: ${{ steps.set-release-id.outputs.release_id  }}"
 
   # Stage 4: Upload to Release
   upload-image:
