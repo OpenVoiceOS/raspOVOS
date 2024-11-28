@@ -20,12 +20,12 @@ chmod +x "$SPOTIFYD_BIN"
 
 # Install OVOS spotifyd hook script
 echo "Installing spotifyd OCP hooks..."
-cp -v /mounted-github-repo/ovos-spotifyd "$HOOK_SCRIPT"
+cp -v /mounted-github-repo/services/ovos-spotifyd "$HOOK_SCRIPT"
 chmod +x "$HOOK_SCRIPT"
 
 # Copy and configure the systemd service file
 echo "Setting up the OVOS spotifyd systemd service..."
-cp -v /mounted-github-repo/$SERVICE_FILE "$SERVICE_PATH/$SERVICE_FILE"
+cp -v /mounted-github-repo/services/$SERVICE_FILE "$SERVICE_PATH/$SERVICE_FILE"
 chmod 644 "$SERVICE_PATH/$SERVICE_FILE"
 
 # Enable the service by creating a symbolic link

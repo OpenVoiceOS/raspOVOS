@@ -11,15 +11,15 @@ apt-get install -y --no-install-recommends jq i2c-tools fbi swig mpv libssl-dev 
 
 echo "Installing KDEConnect..."
 apt-get install -y --no-install-recommends kdeconnect
-cp -v /mounted-github-repo/kdeconnect.service /etc/systemd/system/kdeconnect.service
+cp -v /mounted-github-repo/services/kdeconnect.service /etc/systemd/system/kdeconnect.service
 chmod 644 /etc/systemd/system/kdeconnect.service
 ln -s /etc/systemd/system/kdeconnect.service /etc/systemd/system/multi-user.target.wants/kdeconnect.service
 
 # splashscreen
 echo "Creating OVOS splashscreen..."
 mkdir -p /opt/ovos
-cp -v /mounted-github-repo/splashscreen.png /opt/ovos/splashscreen.png
-cp -v /mounted-github-repo/splashscreen.service /etc/systemd/system/splashscreen.service
+cp -v /mounted-github-repo/services/splashscreen.png /opt/ovos/splashscreen.png
+cp -v /mounted-github-repo/services/splashscreen.service /etc/systemd/system/splashscreen.service
 chmod 644 /etc/systemd/system/splashscreen.service
 ln -s /etc/systemd/system/splashscreen.service /etc/systemd/system/multi-user.target.wants/splashscreen.service
 
@@ -34,9 +34,9 @@ mkdir -p /etc/OpenVoiceOS
 
 # add bashrc and company
 echo "Creating aliases and cli login screen..."
-cp -v /mounted-github-repo/.bashrc /home/$USER/.bashrc
-cp -v /mounted-github-repo/.bash_aliases /home/$USER/.bash_aliases
-cp -v /mounted-github-repo/.cli_login.sh /home/$USER/.cli_login.sh
+cp -v /mounted-github-repo/tuning/.bashrc /home/$USER/.bashrc
+cp -v /mounted-github-repo/tuning/.bash_aliases /home/$USER/.bash_aliases
+cp -v /mounted-github-repo/tuning/.cli_login.sh /home/$USER/.cli_login.sh
 
 echo "Creating system level mycroft.conf..."
 cp -v /mounted-github-repo/mycroft.conf /etc/mycroft/mycroft.conf
@@ -65,11 +65,11 @@ pip3 install -U -f https://whl.smartgic.io/ ggwave
 pip3 install ovos-audio-transformer-plugin-ggwave
 
 echo "Installing OVOS Spotifyd..."
-bash /mounted-github-repo/setup_spotify.sh
+bash /mounted-github-repo/tuning/setup_spotify.sh
 
 echo "Installing Balena wifi setup..."
-cp -v /mounted-github-repo/wifi-connect.bin /usr/local/sbin/wifi-connect
-cp -rv /mounted-github-repo/wifi-connect /usr/local/share/
+cp -v /mounted-github-repo/services/wifi-connect.bin /usr/local/sbin/wifi-connect
+cp -rv /mounted-github-repo/services/wifi-connect /usr/local/share/
 pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
 
 echo "Downloading default TTS + wake word models..."
@@ -95,24 +95,24 @@ rm "$VOICE_ARCHIVE"
 
 echo "Setting up systemd..."
 # copy system scripts over
-cp -v /mounted-github-repo/ovos-systemd-skills /usr/libexec/ovos-systemd-skills
-cp -v /mounted-github-repo/ovos-systemd-messagebus /usr/libexec/ovos-systemd-messagebus
-cp -v /mounted-github-repo/ovos-systemd-audio /usr/libexec/ovos-systemd-audio
-cp -v /mounted-github-repo/ovos-systemd-listener /usr/libexec/ovos-systemd-listener
-cp -v /mounted-github-repo/ovos-systemd-phal /usr/libexec/ovos-systemd-phal
-cp -v /mounted-github-repo/ovos-systemd-gui /usr/libexec/ovos-systemd-gui
-cp -v /mounted-github-repo/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
+cp -v /mounted-github-repo/services/ovos-systemd-skills /usr/libexec/ovos-systemd-skills
+cp -v /mounted-github-repo/services/ovos-systemd-messagebus /usr/libexec/ovos-systemd-messagebus
+cp -v /mounted-github-repo/services/ovos-systemd-audio /usr/libexec/ovos-systemd-audio
+cp -v /mounted-github-repo/services/ovos-systemd-listener /usr/libexec/ovos-systemd-listener
+cp -v /mounted-github-repo/services/ovos-systemd-phal /usr/libexec/ovos-systemd-phal
+cp -v /mounted-github-repo/services/ovos-systemd-gui /usr/libexec/ovos-systemd-gui
+cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
 
 mkdir -p /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-skills.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-messagebus.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-audio.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-listener.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-phal.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-gui.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-ggwave.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-admin-phal.service /etc/systemd/system/
+cp -v /mounted-github-repo/services/ovos.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-skills.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-messagebus.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-audio.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-listener.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-phal.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-gui.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-ggwave.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
 
 # Set permissions for services
 chmod 644 /home/$USER/.config/systemd/user/*.service

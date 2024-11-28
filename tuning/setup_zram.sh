@@ -10,7 +10,7 @@ echo "Setting up ZRAM..."
 apt-get install -y --no-install-recommends systemd-zram-generator
 
 # Copy configuration
-cp -v /mounted-github-repo/zram-generator.conf /etc/systemd/zram-generator.conf
+cp -v /mounted-github-repo/tuning/zram-generator.conf /etc/systemd/zram-generator.conf
 SYSCTL_CONF="/etc/sysctl.d/98-zram.conf"
 
 # Configure sysctl settings for ZRAM

@@ -7,7 +7,7 @@ set -e
 
 
 echo "Copying wlan0-power systemd service to /etc/systemd/system/wlan0-power.service"
-cp -v /mounted-github-repo/wlan0-power.service /etc/systemd/system/wlan0-power.service
+cp -v /mounted-github-repo/services/wlan0-power.service /etc/systemd/system/wlan0-power.service
 
 # enable service without using systemctl
 ln -s /etc/systemd/system/wlan0-power.service /etc/systemd/system/multi-user.target.wants/wlan0-power.service

@@ -6,7 +6,8 @@ on:
     paths:
       - '.github/workflows/build_img.yml'  # Trigger if this file changes
       - 'build_raspOVOS.sh'
-      - 'setup_spotify.sh'
+      - 'tuning/setup_spotify.sh'
+      - 'services/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name

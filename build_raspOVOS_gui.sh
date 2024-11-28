@@ -78,7 +78,7 @@ rm -rf ovos-shell
 
 echo "Setting up systemd..."
 mkdir -p /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/ovos-shell.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-shell.service /home/$USER/.config/systemd/user/
 chmod 644 /home/$USER/.config/systemd/user/ovos-shell.service
 
 # Enable services manually by creating symbolic links

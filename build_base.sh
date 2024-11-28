@@ -57,25 +57,25 @@ touch /boot/firmware/ssh
 
 echo "Enabling autologin..."
 # patch first bootscript to ensure autologin is enabled, otherwise OVOS doesnt launch!
-cp -v /mounted-github-repo/firstboot /usr/lib/raspberrypi-sys-mods/firstboot
+cp -v /mounted-github-repo/patches/firstboot /usr/lib/raspberrypi-sys-mods/firstboot
 mkdir -p /var/lib/userconf-pi/
 touch /var/lib/userconf-pi/autologin
 
 echo "Installing Pipewire..."
-bash /mounted-github-repo/setup_pipewire.sh
+bash /mounted-github-repo/tuning/setup_pipewire.sh
 
 echo "Tuning base system..."
-cp -v /mounted-github-repo/boot_config.txt /boot/firmware/config.txt
-bash /mounted-github-repo/setup_ramdisk.sh
-bash /mounted-github-repo/setup_zram.sh
-bash /mounted-github-repo/setup_cpugovernor.sh
-bash /mounted-github-repo/setup_wlan0power.sh
-bash /mounted-github-repo/setup_fstab.sh
-bash /mounted-github-repo/setup_sysctl.sh
-bash /mounted-github-repo/setup_udev.sh
-bash /mounted-github-repo/setup_nmanager.sh
+cp -v /mounted-github-repo/patches/boot_config.txt /boot/firmware/config.txt
+bash /mounted-github-repo/tuning/setup_ramdisk.sh
+bash /mounted-github-repo/tuning/setup_zram.sh
+bash /mounted-github-repo/tuning/setup_cpugovernor.sh
+bash /mounted-github-repo/tuning/setup_wlan0power.sh
+bash /mounted-github-repo/tuning/setup_fstab.sh
+bash /mounted-github-repo/tuning/setup_sysctl.sh
+bash /mounted-github-repo/tuning/setup_udev.sh
+bash /mounted-github-repo/tuning/setup_nmanager.sh
 # make boot faster by printing less stuff and skipping file system checks
-grep -q "quiet fastboot" /boot/cmdline.txt || sed -i 's/$/ quiet fastboot/' /boot/cmdline.txt
+grep -q "quiet fastboot" /boot/firmware/cmdline.txt || sed -i 's/$/ quiet fastboot/' /boot/firmware/cmdline.txt
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

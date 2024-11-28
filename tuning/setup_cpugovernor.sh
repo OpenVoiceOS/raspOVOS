@@ -19,7 +19,7 @@ else
 fi
 
 # Create the cpu governor systemd service file
-cp -v /mounted-github-repo/cpu-governor.service /etc/systemd/system/cpu-governor.service
+cp -v /mounted-github-repo/services/cpu-governor.service /etc/systemd/system/cpu-governor.service
 # Set permissions, enable, and start the service
 chmod 644 /etc/systemd/system/cpu-governor.service
 # enable service without using systemctl

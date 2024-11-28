@@ -6,15 +6,7 @@ on:
     paths:
       - '.github/workflows/build_base.yml'
       - 'build_base.sh'
-      - 'setup_cpugovernor.sh'
-      - 'setup_fstab.sh'
-      - 'setup_nmanager.sh'
-      - 'setup_pipewire.sh'
-      - 'setup_ramdisk.sh'
-      - 'setup_sysctl.sh'
-      - 'setup_udev.sh'
-      - 'setup_wlan0power.sh'
-      - 'setup_ram.sh'
+      - 'tuning/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name

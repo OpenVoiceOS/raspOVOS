@@ -10,7 +10,7 @@ set -e
 source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Updating splashscreen..."
-cp -v /mounted-github-repo/splashscreen_ca.png /opt/ovos/splashscreen.png
+cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
 
 # install matxa
 echo "Installing Matxa TTS..."
