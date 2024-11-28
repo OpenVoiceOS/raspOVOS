@@ -9,7 +9,6 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/build_img.yml'  # Trigger if this file changes
       - 'build_raspOVOS.sh'
       - 'tuning/setup_spotify.sh'
       - 'services/**'
@@ -17,6 +16,7 @@ on:
 jobs:
   # Stage 1: Get Current Date and Release Name
   get-date-release-name:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     outputs:
       release_name: ${{ steps.current-date.outputs.release_name }}
@@ -41,6 +41,7 @@ jobs:
   modify-rpi-image:
     runs-on: ubuntu-latest
     needs: get-date-release-name
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
     steps:
@@ -80,7 +81,8 @@ jobs:
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
     runs-on: ubuntu-latest
-    needs: [get-date-release-name, modify-rpi-image]
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    needs: [ get-date-release-name, modify-rpi-image ]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
     steps:
@@ -108,8 +110,8 @@ jobs:
   # Stage 4: Upload to Release
   upload-image:
     runs-on: ubuntu-latest
-    needs: [modify-rpi-image, check-release-or-create, get-date-release-name]
-    if: always()
+    needs: [ modify-rpi-image, check-release-or-create, get-date-release-name ]
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Restore Cache for Image
         uses: actions/cache@v4
