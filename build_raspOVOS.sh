@@ -64,8 +64,9 @@ echo "Installing OVOS ggwave..."
 pip3 install -U -f https://whl.smartgic.io/ ggwave
 pip3 install ovos-audio-transformer-plugin-ggwave
 
-echo "Installing OVOS Spotifyd..."
-bash /mounted-github-repo/tuning/setup_spotify.sh
+# TODO - once it works properly
+#echo "Installing OVOS Spotifyd..."
+#bash /mounted-github-repo/tuning/setup_spotify.sh
 
 echo "Installing Balena wifi setup..."
 cp -v /mounted-github-repo/services/wifi-connect.bin /usr/local/sbin/wifi-connect
