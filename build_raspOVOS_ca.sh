@@ -35,16 +35,18 @@ rm -rf "$EN_PIPER_DIR"
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
-# Initialize an empty jq merge command
+# Initialize the jq command with -s for combining files
 jq_command="jq -s"
+
 # Loop through the list of files from CONFIG_FILES
 IFS=',' read -r -a config_files <<< "$CONFIG_FILES"
 for file in "${config_files[@]}"; do
   # Properly quote file paths to prevent shell issues
-  jq_command="$jq_command \"/mounted-github-repo/$file\""
+  jq_command="$jq_command /mounted-github-repo/$file"
 done
-# Merge all the files using jq and save to /etc/mycroft/mycroft.conf
-eval "$jq_command > /etc/mycroft/mycroft.conf"
+
+# Execute the jq command to merge all the files and output to mycroft.conf
+$jq_command > /etc/mycroft/mycroft.conf
 
 
 echo "Ensuring permissions for $USER user..."
