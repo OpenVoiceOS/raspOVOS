@@ -1,6 +1,11 @@
 name: build GUI image
 
 on:
+  workflow_run:
+    workflows:
+      - "build headless image"
+    types:
+      - completed
   workflow_dispatch:
   push:
     paths:

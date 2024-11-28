@@ -1,4 +1,4 @@
-name: Build Base No-OVOS Headless Image
+name: build base image
 
 on:
   workflow_dispatch:

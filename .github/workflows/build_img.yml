@@ -1,6 +1,11 @@
 name: build headless image
 
 on:
+  workflow_run:
+    workflows:
+      - "build base image"
+    types:
+      - completed
   workflow_dispatch:
   push:
     paths:
