@@ -14,3 +14,8 @@ alias ovos-outdated="~/.venvs/ovos/bin/pip list --outdated | grep -E 'ovos-|skil
 
 # OVOS Pip: Run pip commands with a constraints file
 alias ovos-pip="~/.venvs/ovos/bin/pip install -c /etc/mycroft/constraints.txt"
+
+# OVOS quick docs:
+alias ovos-manual="~/.venvs/ovos/bin/ovos-docs-viewer technical"
+alias ovos-skills-info="~/.venvs/ovos/bin/ovos-docs-viewer skills"
+alias ovos-server-status="~/.venvs/ovos/bin/ovos-docs-viewer live-status"
