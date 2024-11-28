@@ -137,7 +137,7 @@ jobs:
 
       - name: Update base-image-url in build_img_gui.yml
         run: |
-          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
+          sed -i "s|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-NO-OVOS-bookworm-arm64-lite-2024-11-28/raspOVOS-NO-OVOS-bookworm-arm64-lite.img.xz
           .github/workflows/build_img_gui.yml
 
       - name: Create Pull Request
@@ -160,7 +160,7 @@ jobs:
 
       - name: Update base-image-url in build_img_ca.yml
         run: |
-          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
+          sed -i "s|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-NO-OVOS-bookworm-arm64-lite-2024-11-28/raspOVOS-NO-OVOS-bookworm-arm64-lite.img.xz
           .github/workflows/build_img_ca.yml
 
       - name: Create Pull Request
