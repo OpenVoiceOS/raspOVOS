@@ -3,6 +3,8 @@ name: build base image
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
     paths:
       - '.github/workflows/build_base.yml'
       - 'build_base.sh'

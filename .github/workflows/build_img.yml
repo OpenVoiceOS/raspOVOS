@@ -1,20 +1,18 @@
 name: build headless image
 
 on:
-  repository_dispatch:
-    types: [ trigger-headless ]  # This event type matches the one sent by the first workflow
-
   workflow_dispatch:
   push:
+    branches:
+      - master
     paths:
+      - '.github/workflows/build_img.yml'
       - 'build_raspOVOS.sh'
-      - 'tuning/setup_spotify.sh'
       - 'services/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
   get-date-release-name:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     outputs:
       release_name: ${{ steps.current-date.outputs.release_name }}
@@ -39,7 +37,6 @@ jobs:
   modify-rpi-image:
     runs-on: ubuntu-latest
     needs: get-date-release-name
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
     steps:
@@ -79,7 +76,6 @@ jobs:
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: [ get-date-release-name, modify-rpi-image ]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
@@ -109,7 +105,6 @@ jobs:
   upload-image:
     runs-on: ubuntu-latest
     needs: [ modify-rpi-image, check-release-or-create, get-date-release-name ]
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Restore Cache for Image
         uses: actions/cache@v4
@@ -133,28 +128,58 @@ jobs:
           prerelease: false
           verbose: true
 
-  # Trigger another workflow job
-  trigger-catalan-workflow:
+  update-catalan-and-gui-workflow:
     runs-on: ubuntu-latest
-    needs: upload-image
+    needs: [upload-image, get-date-release-name, modify-rpi-image]
     steps:
-      - name: Trigger the catalan headless workflow via GitHub API
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            --data '{"event_type": "trigger-catalan"}' \
-            "https://api.github.com/repos/${{ github.repository }}/dispatches"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  # Trigger another workflow job
-  trigger-gui-workflow:
-    runs-on: ubuntu-latest
-    needs: upload-image
-    steps:
-      - name: Trigger the GUI workflow via GitHub API
+      - name: Update image URL in catalan workflow
         run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            --data '{"event_type": "trigger-gui"}' \
-            "https://api.github.com/repos/${{ github.repository }}/dispatches"
+          # Define the file path and the new URL
+          file=".github/workflows/build_img_ca.yml"
+          new_url="base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}"
+          
+          # Use sed to find and replace the base-image-url line
+          sed -i "s|^.*base-image-url:.*$|$new_url|" "$file"
+          
+          # Check the diff to ensure the change was made
+          git diff "$file"
+
+      - name: Commit the updated file
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Commit the changes
+          git add .github/workflows/build_img_ca.yml
+          git commit -m "Update base-image-url in build_img_ca.yml"
+
+      - name: Update image URL in GUI workflow
+        run: |
+          # Define the file path and the new URL
+          file=".github/workflows/build_img_gui.yml"
+          new_url="base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}"
+
+          # Use sed to find and replace the base-image-url line
+          sed -i "s|^.*base-image-url:.*$|$new_url|" "$file"
+
+          # Check the diff to ensure the change was made
+          git diff "$file"
+
+      - name: Commit and push the updated files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Commit and push the changes
+          git add .github/workflows/build_img_gui.yml
+          git commit -m "Update base-image-url in build_img_gui.yml"
+          git push
