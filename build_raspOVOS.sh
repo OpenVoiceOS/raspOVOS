@@ -33,16 +33,7 @@ cp -v /mounted-github-repo/tuning/.bash_aliases /home/$USER/.bash_aliases
 cp -v /mounted-github-repo/tuning/.cli_login.sh /home/$USER/.cli_login.sh
 
 echo "Creating system level mycroft.conf..."
-mkdir -p /etc/mycroft
-# Initialize an empty jq merge command
-jq_command="jq -s"
-# Loop through the list of files from CONFIG_FILES
-IFS=',' read -r -a config_files <<< "$CONFIG_FILES"
-for file in "${config_files[@]}"; do
-  jq_command="$jq_command /mounted-github-repo/$file"
-done
-# Merge all the files using jq and save to /etc/mycroft/mycroft.conf
-eval "$jq_command > /etc/mycroft/mycroft.conf"
+cp -v /mounted-github-repo/mycroft.conf /etc/mycroft/mycroft.conf
 
 echo "Downloading constraints.txt from $CONSTRAINTS..."
 # TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages

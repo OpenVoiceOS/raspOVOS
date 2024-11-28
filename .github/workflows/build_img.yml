@@ -50,7 +50,6 @@ jobs:
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
-          CONFIG_FILES: "mycroft.conf"
         with:
           base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-NO-OVOS-bookworm-arm64-lite-2024-11-28/raspOVOS-NO-OVOS-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-bookworm-arm64-lite.img
