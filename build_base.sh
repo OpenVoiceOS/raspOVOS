@@ -5,9 +5,6 @@
 # scroll back and figure out what went wrong.
 set -e
 
-echo "Updating rpi kernel..."
-rpi-update next
-
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
@@ -77,7 +74,7 @@ echo "Tuning base system..."
 cp -v /mounted-github-repo/patches/boot_config.txt /boot/firmware/config.txt
 bash /mounted-github-repo/tuning/setup_ramdisk.sh
 bash /mounted-github-repo/tuning/setup_zram.sh
-bash /mounted-github-repo/tuning/setup_cpugovernor.sh
+#bash /mounted-github-repo/tuning/setup_cpugovernor.sh
 bash /mounted-github-repo/tuning/setup_wlan0power.sh
 bash /mounted-github-repo/tuning/setup_fstab.sh
 bash /mounted-github-repo/tuning/setup_sysctl.sh
