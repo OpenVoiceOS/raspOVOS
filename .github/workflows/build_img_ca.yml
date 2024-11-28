@@ -87,7 +87,7 @@ jobs:
           if [[ "$release_id" == "null" ]]; then
             release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"Testing base OS setup only.\"}" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS pre-configured for Catalan\"}" \
               "https://api.github.com/repos/${{ github.repository }}/releases")
             release_id=$(echo $release | jq -r .id)
           fi

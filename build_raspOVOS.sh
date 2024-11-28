@@ -9,12 +9,6 @@ set -e
 echo "Installing system packages..."
 apt-get install -y --no-install-recommends jq i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip
 
-echo "Installing KDEConnect..."
-apt-get install -y --no-install-recommends kdeconnect
-cp -v /mounted-github-repo/services/kdeconnect.service /etc/systemd/system/kdeconnect.service
-chmod 644 /etc/systemd/system/kdeconnect.service
-ln -s /etc/systemd/system/kdeconnect.service /etc/systemd/system/multi-user.target.wants/kdeconnect.service
-
 # splashscreen
 echo "Creating OVOS splashscreen..."
 mkdir -p /opt/ovos
@@ -68,9 +62,7 @@ pip3 install ovos-audio-transformer-plugin-ggwave
 #echo "Installing OVOS Spotifyd..."
 #bash /mounted-github-repo/tuning/setup_spotify.sh
 
-echo "Installing Balena wifi setup..."
-cp -v /mounted-github-repo/services/wifi-connect.bin /usr/local/sbin/wifi-connect
-cp -rv /mounted-github-repo/services/wifi-connect /usr/local/share/
+echo "Installing Balena wifi plugin..."
 pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
 
 echo "Downloading default TTS + wake word models..."

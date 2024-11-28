@@ -64,6 +64,12 @@ touch /var/lib/userconf-pi/autologin
 echo "Installing Pipewire..."
 bash /mounted-github-repo/tuning/setup_pipewire.sh
 
+echo "Installing KDEConnect..."
+bash /mounted-github-repo/tuning/setup_kdeconnect.sh
+
+echo "Installing Balena Wifi-connect..."
+bash /mounted-github-repo/tuning/setup_balena_wifi.sh
+
 echo "Tuning base system..."
 cp -v /mounted-github-repo/patches/boot_config.txt /boot/firmware/config.txt
 bash /mounted-github-repo/tuning/setup_ramdisk.sh
