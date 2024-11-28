@@ -134,35 +134,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update image URL in headless workflow
+      - name: Update base-image-url in build_img.yml
         run: |
-          # Define the file path and the new URL
-          file=".github/workflows/build_img.yml"
-          new_url="base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}"
-          
-          # Use sed to find and replace the base-image-url line
-          sed -i "s|^.*base-image-url:.*$|$new_url|" "$file"
-          
-          # Check the diff to ensure the change was made
-          git diff "$file"
-
-      - name: Commit changes and create a branch
-        run: |
-          # Configure Git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Commit the change
-          branch_name="update-base-image-url-${{ github.run_id }}"
-          git checkout -b "$branch_name"
-          git add .github/workflows/build_img.yml
-          git commit -m "Update base-image-url in build_img.yml"
-          git push origin "$branch_name"
+          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
+          .github/workflows/build_img.yml
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: $branch_name
-          title: "Update base-image-url in build_img.yml"
-          body: "Automated update to base-image-url."
+          token: ${{ secrets.PA_TOKEN }}
+          branch: "update-base-image-url-${{ github.run_id }}"
+          commit-message: "Update base-image-url in build_img.yml"
+          title: "Update base-image-url"
+          body: |
+            This PR updates the base-image-url in `build_img.yml` to reflect the latest release.
+          labels: automated-update
