@@ -36,7 +36,7 @@ Whenever we update the base raspios image the workflows will be automatically up
 ![image](https://github.com/user-attachments/assets/92bd2a6f-e2d1-47d4-8140-a5b5b4cb7140)
 
 The workflows account for each language/platform combination
-![image](https://github.com/user-attachments/assets/eb08d42f-9cb0-4924-9ec0-fef70e370258)
+![image](https://github.com/user-attachments/assets/22c4ce7e-478a-4ef5-96e8-6e2f7c55ffff)
 
 ## OVOS Raspberry Pi Image Optimizations
 
