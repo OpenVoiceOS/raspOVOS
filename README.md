@@ -19,7 +19,7 @@ Build Scripts:
 - [build_raspOVOS_gui.sh](build_raspOVOS_gui.sh) - installs OVOS GUI on top of base system
 - [build_raspOVOS_ca.sh](build_raspOVOS_ca.sh) - configures OVOS to catalan, installs MatxaTTS
 
-Github Actions:
+## Github Actions:
 
 - [build_base.yml](.github%2Fworkflows%2Fbuild_base.yml)
   creates `raspOVOS-NO-OVOS-bookworm-arm64-lite.img` [~6 mins build time / ~500 MB]
@@ -32,7 +32,13 @@ Github Actions:
 - [build_img_ca_gui.yml](.github%2Fworkflows%2Fbuild_img_ca_gui.yml)
   creates `raspOVOS-GUI-catalan-bookworm-arm64-lite.img` [~25 mins build time / ~1.33 GB]
 
-# OVOS Raspberry Pi Image Optimization
+Whenever we update the base raspios image the workflows will be automatically updated to start from the newly built images
+![image](https://github.com/user-attachments/assets/92bd2a6f-e2d1-47d4-8140-a5b5b4cb7140)
+
+The workflows account for each language/platform combination
+![image](https://github.com/user-attachments/assets/eb08d42f-9cb0-4924-9ec0-fef70e370258)
+
+## OVOS Raspberry Pi Image Optimizations
 
 This repository contains scripts designed to optimize Raspberry Pi OS for running OVOS (Open Voice OS), improving
 overall system performance and stability.
