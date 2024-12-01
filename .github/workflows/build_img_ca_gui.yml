@@ -52,7 +52,7 @@ jobs:
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
           MYCROFT_CONFIG_FILES: "mycroft.conf,mycroft_gui.conf,mycroft_ca.conf"
         with:
-          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-2024-11-28/raspOVOS-catalan-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/raspOVOS-catalan-bookworm-arm64-lite-2024-12-01/raspOVOS-catalan-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-catalan-GUI-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
