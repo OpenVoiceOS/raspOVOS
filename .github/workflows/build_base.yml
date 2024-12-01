@@ -138,10 +138,20 @@ jobs:
 
       - name: Update base-image-url in build_img.yml
         run: |
-          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
-          .github/workflows/build_img.yml
+          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_img.yml
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --exit-code .github/workflows/build_img.yml; then
+            echo "base image download url didnt change"
+            echo "no_changes=true" >> $GITHUB_ENV
+          else
+            echo "base image download url updated in build_img.yml"
+            echo "no_changes=false" >> $GITHUB_ENV
 
       - name: Create Pull Request
+        if: env.no_changes == 'false'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PA_TOKEN }}
