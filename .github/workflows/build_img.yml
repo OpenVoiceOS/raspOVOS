@@ -128,29 +128,6 @@ jobs:
           prerelease: false
           verbose: true
 
-  update-gui-workflow:
-    runs-on: ubuntu-latest
-    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Update base-image-url in build_img_gui.yml
-        run: |
-          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
-          .github/workflows/build_img_gui.yml
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.PA_TOKEN }}
-          branch: "update-base-image-url-${{ github.run_id }}"
-          commit-message: "Update base-image-url in build_img_gui.yml"
-          title: "Update base-image-url"
-          body: |
-            This PR updates the base-image-url in `build_img_gui.yml` to reflect the latest release.
-          labels: automated-update
-
   update-ca-workflow:
     runs-on: ubuntu-latest
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
@@ -160,10 +137,21 @@ jobs:
 
       - name: Update base-image-url in build_img_ca.yml
         run: |
-          sed -i "s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|" \
-          .github/workflows/build_img_ca.yml
+          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_img_ca.yml
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --exit-code .github/workflows/build_img_ca.yml; then
+            echo "base image download url didnt change"
+            echo "no_changes=true" >> $GITHUB_ENV
+          else
+            echo "base image download url updated in build_img_ca.yml"
+            echo "no_changes=false" >> $GITHUB_ENV
+          fi
 
       - name: Create Pull Request
+        if: env.no_changes == 'false'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PA_TOKEN }}
@@ -172,4 +160,38 @@ jobs:
           title: "Update base-image-url"
           body: |
             This PR updates the base-image-url in `build_img_ca.yml` to reflect the latest release.
+          labels: automated-update
+
+  update-gui-workflow:
+    runs-on: ubuntu-latest
+    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update base-image-url in build_img_gui.yml
+        run: |
+          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_img_gui.yml
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --exit-code .github/workflows/build_img_gui.yml; then
+            echo "base image download url didnt change"
+            echo "no_changes=true" >> $GITHUB_ENV
+          else
+            echo "base image download url updated in build_img_gui.yml"
+            echo "no_changes=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create Pull Request
+        if: env.no_changes == 'false'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PA_TOKEN }}
+          branch: "update-base-image-url-${{ github.run_id }}"
+          commit-message: "Update base-image-url in build_img_gui.yml"
+          title: "Update base-image-url"
+          body: |
+            This PR updates the base-image-url in `build_img_gui.yml` to reflect the latest release.
           labels: automated-update
