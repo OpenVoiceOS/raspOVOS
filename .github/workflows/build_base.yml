@@ -155,6 +155,8 @@ jobs:
         if: env.no_changes == 'false'
         uses: peter-evans/create-pull-request@v5
         with:
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           token: ${{ secrets.PA_TOKEN }}
           branch: "update-base-image-url-headless"
           commit-message: "Update base-image-url in build_img.yml"
