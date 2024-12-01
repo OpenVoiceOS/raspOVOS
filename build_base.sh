@@ -10,7 +10,7 @@ echo "Updating base system..."
 apt-get update
 apt-get install -y --no-install-recommends jq git unzip curl build-essential userconf-pi
 # what else can be removed to make the system even lighter?
-apt purge -y rfkill libx11-* libxcb-* libxext6 libdrm-* mesa-* cups ppp
+apt purge -y rfkill cups ppp
 
 
 # if $USER is different from "pi"  (the default) rename "pi" to "$USER"
