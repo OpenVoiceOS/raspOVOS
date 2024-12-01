@@ -149,6 +149,7 @@ jobs:
           else
             echo "base image download url updated in build_img.yml"
             echo "no_changes=false" >> $GITHUB_ENV
+          fi
 
       - name: Create Pull Request
         if: env.no_changes == 'false'
