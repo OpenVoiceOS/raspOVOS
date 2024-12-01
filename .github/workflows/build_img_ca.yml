@@ -100,10 +100,15 @@ jobs:
         shell: bash
         run: |
           echo "release_id: ${{ steps.get-release-id.outputs.release_id }}"
+          if [[ $release_id == "null" ]]; then
+            echo "Failed to create release. Response: $release"
+            exit 1
+          fi
 
   # Stage 4: Upload to Release
   upload-image:
     runs-on: ubuntu-latest
+    if: ${{ needs.check-release-or-create.outputs.release_id }}
     needs: [modify-rpi-image, check-release-or-create, get-date-release-name]
     steps:
       - name: Restore Cache for Image
