@@ -156,9 +156,9 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.PA_TOKEN }}
-          branch: "update-base-image-url-${{ github.run_id }}"
+          branch: "update-base-image-url-headless"
           commit-message: "Update base-image-url in build_img.yml"
-          title: "Update base-image-url"
+          title: "Update base-image-url-headless"
           body: |
             This PR updates the base-image-url in `build_img.yml` to reflect the latest release.
           labels: automated-update
