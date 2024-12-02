@@ -1,4 +1,4 @@
-name: build catalan headless image
+name: build portuguese headless image
 
 on:
   workflow_dispatch:
