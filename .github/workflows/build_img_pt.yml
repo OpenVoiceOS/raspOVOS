@@ -42,7 +42,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configuring OVOS for Catalan
+      - name: Configuring OVOS for Portuguese
         uses: TigreGotico/rpi-image-modifier@main
         id: create-image
         env:
@@ -90,7 +90,7 @@ jobs:
           if [[ "$release_id" == "null" ]]; then
             release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS pre-configured for Catalan\"}" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS pre-configured for Portuguese\"}" \
               "https://api.github.com/repos/${{ github.repository }}/releases")
             release_id=$(echo $release | jq -r .id)
           fi
