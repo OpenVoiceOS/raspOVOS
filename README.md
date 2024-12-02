@@ -1,16 +1,24 @@
 # RaspOVOS
 
-Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier) we download
-a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS
-on top
+Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier) we download a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top
 
 The images are then uploaded to [github releases](https://github.com/TigreGotico/raspOVOS/releases)
+
+Notes:
+- default user: ovos
+- default password: ovos
+- default hostname: raspOVOS
+- OVOS services run under the OVOS user, autologin is enabled
+
+> **known issue**: if you change the user in rpi-imager it will not have [sudo access](https://github.com/TigreGotico/raspOVOS/issues/14)
 
 Latest images:
 
 - [raspOVOS-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-lite-2024-11-27)
 - [raspOVOS-catalan-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2024-11-27)
 - [raspOVOS-GUI-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-GUI-bookworm-arm64-lite-2024-11-27)
+
+> **TODO**: github workflow to keep these urls up to date automatically
 
 Build Scripts:
 
