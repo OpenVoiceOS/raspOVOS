@@ -8,7 +8,7 @@ set -e
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
-apt-get install -y --no-install-recommends jq git unzip curl build-essential userconf-pi
+apt-get install -y --no-install-recommends jq git unzip curl build-essential
 # what else can be removed to make the system even lighter?
 apt purge -y rfkill cups ppp
 
@@ -61,8 +61,6 @@ touch /boot/firmware/ssh
 echo "Enabling autologin..."
 # patch first bootscript to ensure autologin is enabled, otherwise OVOS doesnt launch!
 cp -v /mounted-github-repo/patches/firstboot /usr/lib/raspberrypi-sys-mods/firstboot
-mkdir -p /var/lib/userconf-pi/
-touch /var/lib/userconf-pi/autologin
 
 echo "Installing Pipewire..."
 bash /mounted-github-repo/tuning/setup_pipewire.sh
