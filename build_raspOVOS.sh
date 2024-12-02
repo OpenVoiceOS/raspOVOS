@@ -61,6 +61,12 @@ pip3 install ovos-audio-transformer-plugin-ggwave
 #echo "Installing OVOS Spotifyd..."
 #bash /mounted-github-repo/tuning/setup_spotify.sh
 
+echo "Adding ntp sync signal..."
+# emit "system.clock.synced" to the bus
+mkdir -p /etc/systemd/system/systemd-timesyncd.service.d/
+cp -v /mounted-github-repo/services/ovos-clock-sync.service /etc/systemd/system/systemd-timesyncd.service.d/ovos-clock-sync.conf
+cp -v /mounted-github-repo/services/ovos-clock-sync /usr/libexec/ovos-clock-sync
+
 echo "Installing Balena wifi plugin..."
 pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
 

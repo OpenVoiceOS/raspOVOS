@@ -1,0 +1,2 @@
+[Service]
+ExecStartPost=%h/.venvs/ovos/bin/python /usr/libexec/ovos-clock-sync

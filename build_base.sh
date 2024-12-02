@@ -8,7 +8,7 @@ set -e
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
-apt-get install -y --no-install-recommends jq git unzip curl build-essential
+apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock
 # what else can be removed to make the system even lighter?
 apt purge -y rfkill cups ppp
 
