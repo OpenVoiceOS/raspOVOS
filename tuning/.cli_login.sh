@@ -66,4 +66,5 @@ echo "  ovos-status             List OVOS-related systemd services"
 echo "  ovos-server-status      Check live status of OVOS public servers"
 echo "  ovos-manual             OVOS technical manual in your terminal"
 echo "  ovos-skills-info        Skills documentation in your terminal"
+echo "  ovos-help               Show this message"
 echo

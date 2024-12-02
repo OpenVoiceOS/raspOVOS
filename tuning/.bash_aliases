@@ -19,3 +19,5 @@ alias ovos-pip="~/.venvs/ovos/bin/pip install -c /etc/mycroft/constraints.txt"
 alias ovos-manual="~/.venvs/ovos/bin/ovos-docs-viewer technical"
 alias ovos-skills-info="~/.venvs/ovos/bin/ovos-docs-viewer skills"
 alias ovos-server-status="~/.venvs/ovos/bin/ovos-docs-viewer live-status"
+
+alias ovos-help="/bin/bash ~/.cli_login.sh"
