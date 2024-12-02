@@ -3,8 +3,6 @@ Description=OVOS Skills
 PartOf=ovos.service
 After=ovos.service
 After=ovos-messagebus.service
-After=systemd-timesyncd.service time-sync.target
-Wants=time-sync.target
 
 [Service]
 Type=notify
