@@ -23,6 +23,8 @@ add_user_to_group() {
         echo "$user is already in $group"
     fi
 }
+echo "Customizing boot/firmware/config.txt..."
+cp -v /mounted-github-repo/patches/boot_config_gui.txt /boot/firmware/config.txt
 
 echo "Adding user to video and render groups..."
 # Adding user to video group
