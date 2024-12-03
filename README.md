@@ -48,8 +48,10 @@ Build Scripts:
   - PiperTTS (`carlfm-x-low`) model
 - [build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)
   - configures OVOS to galician
-  - downloads Vosk portuguese model (`"desperta"`  wake word) (**NOTE**: galician model does not exist!)
-  - installs Remote Cotovia TTS (**TODO** replace with NOS TTS once it supports onnx)
+  - downloads Vosk portuguese model (`"desperta"`  wake word)
+    - **NOTE**: galician model does not exist! test if spanish works better
+  - installs Remote Cotovia TTS
+  - **TODO** replace with NOS TTS once it supports onnx
 - [build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)
   - configures OVOS to catalan
   - sets STT to AINA public servers
@@ -59,7 +61,7 @@ Build Scripts:
    - configures OVOS to basque
    - (**TODO** AhoTTS)
    - (**TODO** Remote HiTz)
-   - (**TODO** find "wake up" wake word alternative)
+   - (**TODO** find `"wake up"` wake word alternative)
 
 ## Github Actions:
 
