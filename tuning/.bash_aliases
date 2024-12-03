@@ -21,3 +21,5 @@ alias ovos-skills-info="~/.venvs/ovos/bin/ovos-docs-viewer skills"
 alias ovos-server-status="~/.venvs/ovos/bin/ovos-docs-viewer live-status"
 
 alias ovos-help="/bin/bash ~/.cli_login.sh"
+
+alias ovos-restart="systemctl --user restart ovos"

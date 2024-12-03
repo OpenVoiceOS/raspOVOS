@@ -6,6 +6,6 @@ from ovos_bus_client.util import get_mycroft_bus
 
 bus = get_mycroft_bus()
 bus.connected_event.wait()
-bus.emit(Message("system.clock.synced", {"display": True}))
+bus.emit(Message("system.ssh.enabled", {"display": True}))
 time.sleep(1)
 bus.close()

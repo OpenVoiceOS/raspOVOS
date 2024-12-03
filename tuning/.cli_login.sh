@@ -63,6 +63,7 @@ echo "  ologs                           View all logs realtime"
 echo
 echo "Misc Helpful COMMANDs:"
 echo "  ovos-status             List OVOS-related systemd services"
+echo "  ovos-restart            Restart all OVOS-related systemd services"
 echo "  ovos-server-status      Check live status of OVOS public servers"
 echo "  ovos-manual             OVOS technical manual in your terminal"
 echo "  ovos-skills-info        Skills documentation in your terminal"

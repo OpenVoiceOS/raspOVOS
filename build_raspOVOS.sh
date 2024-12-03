@@ -67,6 +67,21 @@ mkdir -p /etc/systemd/system/systemd-timesyncd.service.d/
 cp -v /mounted-github-repo/services/ovos-clock-sync.service /etc/systemd/system/systemd-timesyncd.service.d/ovos-clock-sync.conf
 cp -v /mounted-github-repo/services/ovos-clock-sync /usr/libexec/ovos-clock-sync
 
+echo "Adding ssh signals..."
+mkdir -p /etc/systemd/system/ssh.service.d
+cp -v /mounted-github-repo/services/ovos-ssh-signal.service /etc/systemd/system/ssh.service.d/ovos-ssh-change-signal.conf
+cp -v /mounted-github-repo/services/ovos-ssh-disabled-signal /usr/libexec/ovos-ssh-disabled-signal
+cp -v /mounted-github-repo/services/ovos-ssh-enabled-signal /usr/libexec/ovos-ssh-enabled-signal
+
+echo "Adding shutdown/reboot signals..."
+cp -v /mounted-github-repo/services/ovos-reboot-signal.service /etc/systemd/system/ovos-reboot-signal.service
+cp -v /mounted-github-repo/services/ovos-shutdown-signal.service /etc/systemd/system/ovos-shutdown-signal.service
+ln -s /etc/systemd/system/ovos-reboot-signal.service /etc/systemd/system/multi-user.target.wants/ovos-reboot-signal.service
+ln -s /etc/systemd/system/ovos-shutdown-signal.service /etc/systemd/system/multi-user.target.wants/ovos-shutdown-signal.service
+cp -v /mounted-github-repo/services/ovos-restart-signal /usr/libexec/ovos-restart-signal
+cp -v /mounted-github-repo/services/ovos-reboot-signal /usr/libexec/ovos-reboot-signal
+cp -v /mounted-github-repo/services/ovos-shutdown-signal /usr/libexec/ovos-shutdown-signal
+
 echo "Installing Balena wifi plugin..."
 pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
 
