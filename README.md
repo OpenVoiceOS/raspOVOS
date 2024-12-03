@@ -36,7 +36,7 @@ Build Scripts:
 - [build_raspOVOS_en.sh](build_raspOVOS_en.sh)
   - configures OVOS to english
   - downloads Vosk english model (`"wake up"` wake word)
-  - downloads PiperTTS (`voice-en-gb-alan-low`) model
+  - PiperTTS (`voice-en-gb-alan-low`) model
 - [build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)
   - configures OVOS to portuguese
   -  sets STT to MyNorthAI public servers

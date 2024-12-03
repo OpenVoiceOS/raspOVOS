@@ -8,6 +8,9 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
+echo "Installing Piper TTS..."
+pip install ovos-tts-plugin-piper
+
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
 mkdir -p $VOSK_DIR
