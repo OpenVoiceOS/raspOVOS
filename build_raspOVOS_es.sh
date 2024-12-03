@@ -19,16 +19,15 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-es-0.42.zip -P $VOSK_D
 unzip -o $VOSK_DIR/vosk-model-small-es-0.42.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-es-0.42.zip
 
-
 # download default piper voice for spanish
 PIPER_DIR="/home/$USER/.local/share/piper_tts/carlfm-x-low"
 VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-es-carlfm-x-low.tar.gz"
+VOICE_ARCHIVE="$PIPER_DIR/voice-es-carlfm-x-low.tar.gz"
 mkdir -p "$PIPER_DIR"
-echo "Downloading voice from $VOICE_URL..."
+echo "Downloading voice from $VOICE_URL ..."
 wget "$VOICE_URL" -O "$VOICE_ARCHIVE"
 tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
 rm "$VOICE_ARCHIVE"
-
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
