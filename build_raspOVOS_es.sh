@@ -16,9 +16,6 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-es-0.42.zip -P $VOSK_D
 unzip -o $VOSK_DIR/vosk-model-small-es-0.42.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-es-0.42.zip
 
-# remove english piper voice
-EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
-rm -rf "$EN_PIPER_DIR"
 
 # download default piper voice for spanish
 PIPER_DIR="/home/$USER/.local/share/piper_tts/carlfm-x-low"

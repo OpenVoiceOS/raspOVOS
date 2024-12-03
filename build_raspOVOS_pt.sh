@@ -16,10 +16,6 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-pt-0.3.zip -P $VOSK_DI
 unzip -o $VOSK_DIR/vosk-model-small-pt-0.3.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
-# remove english piper voice
-EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
-rm -rf "$EN_PIPER_DIR"
-
 # download default piper voice for portuguese
 PIPER_DIR="/home/$USER/.local/share/piper_tts/tugao-medium"
 VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_PT/tug%C3%A3o/medium/pt_PT-tug%C3%A3o-medium.onnx"

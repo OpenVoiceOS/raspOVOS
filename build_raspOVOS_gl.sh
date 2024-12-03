@@ -20,7 +20,7 @@ rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
 rm -rf "$EN_PIPER_DIR"
 
-# TODO cotovia
+# TODO local cotovia
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft

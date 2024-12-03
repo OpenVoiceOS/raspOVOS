@@ -5,29 +5,26 @@
 # scroll back and figure out what went wrong.
 set -e
 
-
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
-echo "Updating splashscreen..."
-cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
-
-# install matxa
-echo "Installing Matxa TTS..."
-pip install ovos-tts-plugin-matxa-multispeaker-cat -c /etc/mycroft/constraints.txt
-apt-get install -y jq automake libtool
-git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
-cd /tmp/espeak-ng
-./autogen.sh  && ./configure && make && make install
-rm -rf /tmp/espeak-ng
-
-echo "Downloading catalan vosk model..."
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
 mkdir -p $VOSK_DIR
-wget https://alphacephei.com/vosk/models/vosk-model-small-ca-0.4.zip -P $VOSK_DIR
-unzip -o $VOSK_DIR/vosk-model-small-ca-0.4.zip -d $VOSK_DIR
-rm $VOSK_DIR/vosk-model-small-ca-0.4.zip
+wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip -P $VOSK_DIR
+unzip -o $VOSK_DIR/vosk-model-small-en-us-0.15.zip -d $VOSK_DIR
+rm $VOSK_DIR/vosk-model-small-en-us-0.15.zip
+
+# download default piper voice for english  (change this for other languages)
+PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
+VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-gb-alan-low.tar.gz"
+VOICE_ARCHIVE="$PIPER_DIR/voice-en-gb-alan-low.tar.gz"
+mkdir -p "$PIPER_DIR"
+echo "Downloading voice from $VOICE_URL..."
+wget "$VOICE_URL" -O "$VOICE_ARCHIVE"
+tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
+rm "$VOICE_ARCHIVE"
+
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
@@ -40,6 +37,7 @@ for file in "${config_files[@]}"; do
 done
 # Execute the jq command and merge the files into mycroft.conf
 jq -s 'reduce .[] as $item ({}; . * $item)' $CONFIG_ARGS > /etc/mycroft/mycroft.conf
+
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

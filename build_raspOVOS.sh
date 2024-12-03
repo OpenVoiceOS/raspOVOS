@@ -70,26 +70,9 @@ cp -v /mounted-github-repo/services/ovos-clock-sync /usr/libexec/ovos-clock-sync
 echo "Installing Balena wifi plugin..."
 pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
 
-echo "Downloading default TTS + wake word models..."
+echo "Downloading default wake word model..."
 # Download precise-lite model
 wget https://github.com/OpenVoiceOS/precise-lite-models/raw/master/wakewords/en/hey_mycroft.tflite -P /home/$USER/.local/share/precise_lite/
-
-# Download and extract VOSK model
-VOSK_DIR="/home/$USER/.local/share/vosk"
-mkdir -p $VOSK_DIR
-wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip -P $VOSK_DIR
-unzip -o $VOSK_DIR/vosk-model-small-en-us-0.15.zip -d $VOSK_DIR
-rm $VOSK_DIR/vosk-model-small-en-us-0.15.zip
-
-# download default piper voice for english  (change this for other languages)
-PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
-VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-gb-alan-low.tar.gz"
-VOICE_ARCHIVE="$PIPER_DIR/voice-en-gb-alan-low.tar.gz"
-mkdir -p "$PIPER_DIR"
-echo "Downloading voice from $VOICE_URL..."
-wget "$VOICE_URL" -O "$VOICE_ARCHIVE"
-tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
-rm "$VOICE_ARCHIVE"
 
 echo "Setting up systemd..."
 # copy system scripts over
