@@ -22,10 +22,44 @@ Latest images:
 
 Build Scripts:
 
-- [build_base.sh](build_base.sh) - tunes the base system, installs pipewire, changes user, enables ssh ...
-- [build_raspOVOS.sh](build_raspOVOS.sh) - installs OVOS on top of base system (english)
-- [build_raspOVOS_gui.sh](build_raspOVOS_gui.sh) - installs OVOS GUI on top of base system
-- [build_raspOVOS_ca.sh](build_raspOVOS_ca.sh) - configures OVOS to catalan, installs MatxaTTS
+- [build_base.sh](build_base.sh)
+  - tunes the base system (see below)
+  - installs pipewire
+  - changes user
+  - enables ssh
+  - ...
+- [build_raspOVOS.sh](build_raspOVOS.sh)
+  - installs OVOS on top of base system
+  - download `"hey mycroft"` wake word
+- [build_raspOVOS_gui.sh](build_raspOVOS_gui.sh)
+  - installs OVOS GUI on top of base system
+- [build_raspOVOS_en.sh](build_raspOVOS_en.sh)
+  - configures OVOS to english
+  - downloads Vosk english model (`"wake up"` wake word)
+  - downloads PiperTTS (`voice-en-gb-alan-low`) model
+- [build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)
+  - configures OVOS to portuguese
+  -  sets STT to MyNorthAI public servers
+  -  downloads Vosk portuguese model (`"acorda"` wake word)
+  -  PiperTTS (`tugao-medium`) model
+- [build_raspOVOS_es.sh](build_raspOVOS_es.sh)
+  - configures OVOS to spanish
+  - downloads Vosk spanish model (`"desperta"` wake word)
+  - PiperTTS (`carlfm-x-low`) model
+- [build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)
+  - configures OVOS to galician
+  - downloads Vosk portuguese model (`"desperta"`  wake word) (**NOTE**: galician model does not exist!)
+  - installs Remote Cotovia TTS (**TODO** replace with NOS TTS once it supports onnx)
+- [build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)
+  - configures OVOS to catalan
+  - sets STT to AINA public servers
+  - downloads Vosk catalan model (for `"desperta"` wake word)
+  - installs MatxaTTS
+- [build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)
+   - configures OVOS to basque
+   - (**TODO** AhoTTS)
+   - (**TODO** Remote HiTz)
+   - (**TODO** find "wake up" wake word alternative)
 
 ## Github Actions:
 
@@ -37,6 +71,14 @@ Build Scripts:
   creates `raspOVOS-GUI-bookworm-arm64-lite.img` [~25 mins build time / ~1.33 GB]
 - [build_img_ca.yml](.github%2Fworkflows%2Fbuild_img_ca.yml)
   creates `raspOVOS-catalan-bookworm-arm64-lite.img` [~20 mins build time / ~1.2 GB]
+- [build_img_en.yml](.github%2Fworkflows%2Fbuild_img_en.yml)
+  creates `raspOVOS-english-bookworm-arm64-lite.img` [~20 mins build time / ~1.2 GB]
+- [build_img_es.yml](.github%2Fworkflows%2Fbuild_img_es.yml)
+  creates `raspOVOS-spanish-bookworm-arm64-lite.img` [~20 mins build time / ~1.2 GB]
+- [build_img_eu.yml](.github%2Fworkflows%2Fbuild_img_eu.yml)
+  creates `raspOVOS-basque-bookworm-arm64-lite.img` [~20 mins build time / ~1.2 GB]
+- [build_img_pt.yml](.github%2Fworkflows%2Fbuild_img_pt.yml)
+  creates `raspOVOS-portuguese-bookworm-arm64-lite.img` [~20 mins build time / ~1.2 GB]
 - [build_img_ca_gui.yml](.github%2Fworkflows%2Fbuild_img_ca_gui.yml)
   creates `raspOVOS-GUI-catalan-bookworm-arm64-lite.img` [~25 mins build time / ~1.33 GB]
 
