@@ -5,6 +5,18 @@
 # scroll back and figure out what went wrong.
 set -e
 
+# Retrieve the GID of the 'mycroft' group
+GROUP_FILE="/etc/group"
+TGID=$(awk -F: -v group="mycroft" '$1 == group {print $3}' "$GROUP_FILE")
+
+# Check if GID was successfully retrieved
+if [[ -z "$TGID" ]]; then
+    echo "Error: Failed to retrieve GID for group 'mycroft'. Exiting..."
+    exit 1
+fi
+
+echo "The GID for 'mycroft' is: $TGID"
+
 # Parse the UID directly from /etc/passwd
 PASSWD_FILE="/etc/passwd"
 TUID=$(awk -F: -v user="$USER" '$1 == user {print $3}' "$PASSWD_FILE")
@@ -17,17 +29,6 @@ fi
 
 echo "The UID for '$USER' is: $TUID"
 
-# Retrieve the GID of the 'mycroft' group
-GROUP_FILE="/etc/group"
-TGID=$(awk -F: -v group="mycroft" '$1 == group {print $3}' "$GROUP_FILE")
-
-# Check if GID was successfully retrieved
-if [[ -z "$TGID" ]]; then
-    echo "Error: Failed to retrieve GID for group 'mycroft'. Exiting..."
-    exit 1
-fi
-
-echo "The GID for 'mycroft' is: $TGID"
 
 # Update package list and install necessary tools
 echo "Installing system packages..."
@@ -68,7 +69,6 @@ cp -v /mounted-github-repo/mycroft.conf /etc/mycroft/mycroft.conf
 echo "Configuring default skill settings.json..."
 mkdir -p /home/$USER/.config/mycroft/skills
 cp -rv /mounted-github-repo/settings/ /home/$USER/.config/mycroft/skills/
-
 
 echo "Downloading constraints.txt from $CONSTRAINTS..."
 # TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages
