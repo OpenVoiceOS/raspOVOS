@@ -58,6 +58,14 @@ ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target
 echo "Installing ovos-bus-client on host to allow signals..."
 pip install ovos-bus-client --break-system-packages -c $CONSTRAINTS
 
+echo "Installing admin phal..."
+pip install ovos-phal ovos-PHAL-plugin-system --break-system-packages -c $CONSTRAINTS
+
+cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
+cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
+chmod 644 /etc/systemd/system/ovos-admin-phal.service
+ln -s /etc/systemd/system/ovos-admin-phal.service /etc/systemd/system/multi-user.target.wants/ovos-admin-phal.service
+
 echo "Adding ntp sync signal..."
 # emit "system.clock.synced" to the bus
 mkdir -p /etc/systemd/system/systemd-timesyncd.service.d/
@@ -93,7 +101,7 @@ source /home/$USER/.venvs/ovos/bin/activate
 # install OVOS in venv
 echo "Installing OVOS..."
 pip3 install wheel cython sdnotify
-pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] -c $CONSTRAINTS
+pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] ovos-gui -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
 pip3 install -U -f https://whl.smartgic.io/ ggwave
@@ -118,7 +126,6 @@ cp -v /mounted-github-repo/services/ovos-systemd-audio /usr/libexec/ovos-systemd
 cp -v /mounted-github-repo/services/ovos-systemd-listener /usr/libexec/ovos-systemd-listener
 cp -v /mounted-github-repo/services/ovos-systemd-phal /usr/libexec/ovos-systemd-phal
 cp -v /mounted-github-repo/services/ovos-systemd-gui /usr/libexec/ovos-systemd-gui
-cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
 
 mkdir -p /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos.service /home/$USER/.config/systemd/user/
@@ -129,11 +136,9 @@ cp -v /mounted-github-repo/services/ovos-listener.service /home/$USER/.config/sy
 cp -v /mounted-github-repo/services/ovos-phal.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-gui.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-ggwave.service /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
 
 # Set permissions for services
 chmod 644 /home/$USER/.config/systemd/user/*.service
-chmod 644 /etc/systemd/system/ovos-admin-phal.service
 
 # Enable services manually by creating symbolic links
 mkdir -p /home/$USER/.config/systemd/user/default.target.wants/
@@ -145,7 +150,6 @@ ln -s /home/$USER/.config/systemd/user/ovos-listener.service /home/$USER/.config
 ln -s /home/$USER/.config/systemd/user/ovos-phal.service /home/$USER/.config/systemd/user/default.target.wants/ovos-phal.service
 ln -s /home/$USER/.config/systemd/user/ovos-gui.service /home/$USER/.config/systemd/user/default.target.wants/ovos-gui.service
 ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
-ln -s /etc/systemd/system/ovos-admin-phal.service /etc/systemd/system/multi-user.target.wants/ovos-admin-phal.service
 
 
 echo "Ensuring permissions for $USER user..."
