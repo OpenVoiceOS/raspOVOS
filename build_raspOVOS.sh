@@ -107,11 +107,7 @@ source /home/$USER/.venvs/ovos/bin/activate
 # install OVOS in venv
 echo "Installing OVOS..."
 uv pip install --quiet wheel cython -c $CONSTRAINTS
-uv pip install --quiet --pre ovos-docs-viewer ovos-utils[extras] ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
-uv pip install --quiet --pre ovos-dinkum-listener[extras,linux,onnx] tflite_runtime -c $CONSTRAINTS
-uv pip install --quiet --pre ovos-phal[extras,linux] -c $CONSTRAINTS
-uv pip install --quiet --pre ovos-audio[extras] -c $CONSTRAINTS
-uv pip install --quiet --pre ovos-gui -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
 pip install -U -f https://whl.smartgic.io/ ggwave
