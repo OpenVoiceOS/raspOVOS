@@ -14,8 +14,6 @@ ExecStop=/usr/bin/kill -s KILL $MAINPID
 Restart=on-failure
 RestartSec=5s
 StartLimitBurst=0
-StandardOutput=append:/ramdisk/mycroft/ggwave.log
-StandardError=append:/ramdisk/mycroft/ggwave.log
 
 [Install]
 WantedBy=ovos.service

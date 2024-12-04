@@ -148,6 +148,7 @@ cp -v /mounted-github-repo/services/ovos-ggwave.service /home/$USER/.config/syst
 
 # Set permissions for services
 chmod 644 /home/$USER/.config/systemd/user/*.service
+chmod +x /usr/libexec/ovos-*
 
 # Enable services manually by creating symbolic links
 mkdir -p /home/$USER/.config/systemd/user/default.target.wants/
@@ -160,10 +161,13 @@ ln -s /home/$USER/.config/systemd/user/ovos-phal.service /home/$USER/.config/sys
 ln -s /home/$USER/.config/systemd/user/ovos-gui.service /home/$USER/.config/systemd/user/default.target.wants/ovos-gui.service
 ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
 
-
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$USER
+
+echo "Ensuring log file permissions..."
+mkdir -p /home/$USER/.local/state/mycroft
+chmod -R 2775 /home/$USER/.local/state/mycroft
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean

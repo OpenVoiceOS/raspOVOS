@@ -14,8 +14,6 @@ TimeoutStopSec=1m
 Restart=on-failure
 StartLimitInterval=5min
 StartLimitBurst=4
-StandardOutput=append:/ramdisk/mycroft/phal.log
-StandardError=append:/ramdisk/mycroft/phal.error.log
 
 [Install]
 WantedBy=ovos.service

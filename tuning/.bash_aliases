@@ -1,4 +1,4 @@
-alias ologs="tail -f /ramdisk/mycroft/!(bus.log)"
+alias ologs="tail -f ~/.local/state/mycroft/!(bus.log)"
 
 # OVOS Status: List OVOS-related systemd services
 alias ovos-status="systemctl --user list-units | grep ovos"

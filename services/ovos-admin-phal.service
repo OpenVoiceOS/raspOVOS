@@ -8,15 +8,12 @@ After=ovos-messagebus.service
 Type=notify
 Group=mycroft
 UMask=002
-ExecStartPre=/bin/mkdir -p /ramdisk/mycroft && /bin/chmod -R 2775 /ramdisk/mycroft
 ExecStart=/usr/bin/python /usr/libexec/ovos-systemd-admin-phal
 TimeoutStartSec=1m
 TimeoutStopSec=1m
 Restart=on-failure
 StartLimitInterval=5min
 StartLimitBurst=4
-StandardOutput=append:/ramdisk/mycroft/admin.log
-StandardError=append:/ramdisk/mycroft/admin.log
 
 [Install]
 WantedBy=ovos.service

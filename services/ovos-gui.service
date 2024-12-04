@@ -14,8 +14,6 @@ TimeoutStopSec=1m
 Restart=on-failure
 StartLimitInterval=5min
 StartLimitBurst=4
-StandardOutput=append:/ramdisk/mycroft/gui.log
-StandardError=append:/ramdisk/mycroft/gui.log
 
 [Install]
 WantedBy=ovos.service

@@ -1,4 +1,2 @@
 [Service]
 ExecStartPost=/bin/bash -c 'nohup /usr/bin/python /usr/libexec/ovos-clock-sync > /dev/null 2>&1 &'
-StandardOutput=append:/ramdisk/mycroft/signals.log
-StandardError=append:/ramdisk/mycroft/signals.log
