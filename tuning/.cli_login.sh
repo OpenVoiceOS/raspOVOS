@@ -54,6 +54,7 @@ echo
 echo "OVOS packages utils:"
 echo "  ovos-pip                Install ovos packages using /etc/mycroft/constraints.txt"
 echo "  ovos-update             Update all OVOS and skill-related packages"
+echo "  ovos-force-reinstall    Force a reinstall of all ovos packages, for when you completely break your system"
 echo "  ovos-freeze             Export installed OVOS packages to requirements.txt"
 echo "  ovos-outdated           List outdated OVOS and skill-related packages"
 echo
