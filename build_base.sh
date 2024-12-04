@@ -54,7 +54,8 @@ echo "Adding $USER to mycroft group..."
 if ! getent group mycroft > /dev/null; then
     groupadd mycroft
 fi
-susermod -aG mycroft $USER
+
+usermod -aG mycroft $USER
 
 echo "Changing system hostname to $HOSTNAME..."
 # Update /etc/hostname
