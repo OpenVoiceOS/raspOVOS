@@ -65,7 +65,7 @@ echo "Installing ovos-bus-client on host to allow signals..."
 pip install ovos-bus-client --break-system-packages -c $CONSTRAINTS
 
 echo "Installing admin phal..."
-pip install ovos-phal ovos-PHAL-plugin-system --break-system-packages -c $CONSTRAINTS
+pip install sdnotify ovos-phal ovos-PHAL-plugin-system --break-system-packages -c $CONSTRAINTS
 
 cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
 cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
