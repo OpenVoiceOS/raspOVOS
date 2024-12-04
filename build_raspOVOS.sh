@@ -106,11 +106,15 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 # install OVOS in venv
 echo "Installing OVOS..."
-uv pip install --quiet wheel cython
-uv pip install --quiet ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] ovos-gui -c $CONSTRAINTS
+uv pip install --quiet wheel cython ovos-docs-viewer -c $CONSTRAINTS
+uv pip install --quiet ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
+uv pip install --quiet ovos-dinkum-listener[extras,linux,onnx] tflite_runtime -c $CONSTRAINTS
+uv pip install --quiet ovos-phal[extras,linux] -c $CONSTRAINTS
+uv pip install --quiet ovos-audio[extras] -c $CONSTRAINTS
+uv pip install --quiet ovos-gui -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
-uv pip install --quiet -f https://whl.smartgic.io/ ggwave
+uv pip install --quiet -i https://whl.smartgic.io/ ggwave
 uv pip install --quiet ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
 
 echo "Downloading nltk resources..."
