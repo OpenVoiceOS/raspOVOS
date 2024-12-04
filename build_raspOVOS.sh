@@ -5,9 +5,31 @@
 # scroll back and figure out what went wrong.
 set -e
 
+# Retrieve UID
+UID=$(getent passwd $USER | cut -d: -f3)
+
+# Check if UID was successfully retrieved
+if [[ -z "$UID" ]]; then
+    echo "Error: Failed to retrieve UID for user '$USERNAME'. Exiting..."
+    exit 1
+fi
+
+echo "The UID for '$USER' is: $UID"
+
+# Get the mycroft group GID
+GID=$(getent group mycroft | cut -d: -f3)
+
+# Check if UID was successfully retrieved
+if [[ -z "$GID" ]]; then
+    echo "Error: Failed to retrieve GID for group 'mycroft'. Exiting..."
+    exit 1
+fi
+
+echo "The GID for 'mycroft' is: $GID"
+
 # Update package list and install necessary tools
 echo "Installing system packages..."
-apt-get install -y --no-install-recommends i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip
+apt-get install -y --no-install-recommends i2c-tools mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev
 
 # splashscreen
 echo "Creating OVOS splashscreen..."
@@ -23,8 +45,13 @@ mkdir -p /home/$USER/.local/share/OpenVoiceOS
 mkdir -p /home/$USER/.local/share/mycroft
 mkdir -p /home/$USER/.cache/mycroft/
 mkdir -p /home/$USER/.cache/ovos_gui/
+mkdir -p /home/$USER/.local/state/mycroft
 mkdir -p /etc/mycroft
 mkdir -p /etc/OpenVoiceOS
+
+echo "Ensuring log file permissions for mycroft group..."
+chown -R $UID:$GID /home/$USER/.local/state/mycroft
+chmod -R 2775 /home/$USER/.local/state/mycroft
 
 # add bashrc and company
 echo "Creating aliases and cli login screen..."
@@ -60,9 +87,6 @@ chmod 644 /etc/systemd/system/i2csound.service
 chmod +x /usr/libexec/ovos-i2csound
 
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
-
-echo "Installing uv ..."
-pip install uv --break-system-packages
 
 echo "Installing admin phal..."
 pip install sdnotify ovos-bus-client ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --break-system-packages
@@ -163,11 +187,8 @@ ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/s
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
-chown -R 1000:1000 /home/$USER
+chown -R $UID:$GID /home/$USER
 
-echo "Ensuring log file permissions..."
-mkdir -p /home/$USER/.local/state/mycroft
-chmod -R 2775 /home/$USER/.local/state/mycroft
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean
