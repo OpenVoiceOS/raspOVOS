@@ -18,7 +18,8 @@ if [ "$USER" != "pi" ]; then
 
   # 3. Rename the home directory from /home/pi to /home/newuser
   echo "Renaming home directory..."
-  sed -i "s|^$USER:[^:]*:[^:]*:[^:]*:[^:]*:/home/pi:|$USER:x:1000:1000:,,,:/home/$USER:/bin/bash|" "/etc/passwd"
+  # replace "pi"" with "$USER" in /etc/passwd
+  sed -i "s|pi:|$USER:|g" "/etc/passwd"
   mv "/home/pi" "/home/$USER"
 
   # 4. Change ownership of the new home directory
