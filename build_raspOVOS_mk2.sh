@@ -13,7 +13,7 @@ cp -v /mounted-github-repo/patches/boot_config.txt /boot/firmware/config.txt
 source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Installing mk2 plugins and skills..."
-uv pip install ovos-PHAL[mk2] -c $CONSTRAINTS
+uv pip install --quiet ovos-PHAL[mk2] -c $CONSTRAINTS
 
 # TODO - install mk2 drivers
 
