@@ -7,7 +7,7 @@ set -e
 
 # Update package list and install necessary tools
 echo "Installing system packages..."
-apt-get install -y --no-install-recommends jq i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip
+apt-get install -y --no-install-recommends i2c-tools fbi swig mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev python3-dev python3-pip
 
 # splashscreen
 echo "Creating OVOS splashscreen..."
@@ -39,6 +39,9 @@ echo "Downloading constraints.txt from $CONSTRAINTS..."
 # TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages
 DEST="/etc/mycroft/constraints.txt"
 wget -O "$DEST" "$CONSTRAINTS"
+
+echo "Installing ovos-bus-client on host to allow signals..."
+pip install ovos-bus-client --break-system-packages
 
 # Create virtual environment for ovos
 echo "Creating virtual environment..."

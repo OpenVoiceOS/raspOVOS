@@ -5,7 +5,7 @@ Before=reboot.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/.venvs/ovos/bin/python /usr/libexec/ovos-reboot-signal
+ExecStart=/usr/bin/python /usr/libexec/ovos-reboot-signal
 
 [Install]
 WantedBy=reboot.target

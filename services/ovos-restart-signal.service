@@ -1,2 +1,0 @@
-[Service]
-ExecStartPre=%h/.venvs/ovos/bin/python /usr/libexec/ovos-restart-signal

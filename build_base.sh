@@ -56,7 +56,8 @@ echo "$HOSTNAME" > /etc/hostname
 sed -i "s/127.0.1.1.*$/127.0.1.1\t$HOSTNAME/" /etc/hosts
 
 echo "Enabling ssh..."
-touch /boot/firmware/ssh
+sudo ln -s /etc/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/
+
 
 echo "Enabling autologin..."
 # patch first bootscript to ensure autologin is enabled, otherwise OVOS doesnt launch!
