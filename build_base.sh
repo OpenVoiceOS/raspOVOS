@@ -10,7 +10,7 @@ set -e
 if [ "$USER" != "pi" ]; then
   # 1. Change the username in /etc/passwd
   echo "Renaming user in /etc/passwd..."
-  sed -i "s/^pi:/^$USER:/g" "/etc/passwd"
+  sed -i "s/^pi:/$USER:/g" "/etc/passwd"
 
   # 2. Change the group name in /etc/group
   echo "Renaming user in /etc/group..."
@@ -18,6 +18,7 @@ if [ "$USER" != "pi" ]; then
 
   # 3. Rename the home directory from /home/pi to /home/newuser
   echo "Renaming home directory..."
+  sed -i "s|^$USER:[^:]*:[^:]*:[^:]*:[^:]*:/home/pi:|$USER:x:1000:1000:,,,:/home/$USER:/bin/bash|" "/etc/passwd"
   mv "/home/pi" "/home/$USER"
 
   # 4. Change ownership of the new home directory
