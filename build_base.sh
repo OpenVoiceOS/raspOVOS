@@ -49,13 +49,29 @@ if [ "$USER" != "pi" ]; then
   echo "User has been renamed, added to sudo group, and password updated."
 fi
 
-echo "Adding $USER to mycroft group..."
+
+# Function to add user to group in /etc/group
+add_user_to_group() {
+    local user=$1
+    local group=$2
+    if ! grep -q "^$group:" /etc/group; then
+        echo "Group $group doesn't exist"
+        return 1
+    fi
+    if ! grep -q "^$group:.*\b$user\b" /etc/group; then
+        echo "Adding $user to $group"
+        sed -i "/^$group:/s/$/,$user/" /etc/group
+    else
+        echo "$user is already in $group"
+    fi
+}
+
+echo "Adding $USER to the mycroft group..."
 # Create the 'mycroft' group if it doesn't exist
 if ! getent group mycroft > /dev/null; then
     groupadd mycroft
 fi
-
-usermod -aG mycroft $USER
+add_user_to_group $USER mycroft
 
 echo "Changing system hostname to $HOSTNAME..."
 # Update /etc/hostname
