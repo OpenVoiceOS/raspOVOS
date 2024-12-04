@@ -7,8 +7,8 @@ set -e
 
 
 # Define variables
-URL="https://github.com/OscillateLabsLLC/ovos-rust-messagebus/releases/download/v1.0.0/ovos_messagebus-armv7-unknown-linux-gnueabihf.tar.gz"
-BINARY_NAME="ovos_messagebus-armv7-unknown-linux-gnueabihf"
+URL="https://github.com/OscillateLabsLLC/ovos-rust-messagebus/releases/download/v1.0.0/ovos_messagebus-aarch64-unknown-linux-gnu.tar.gz"
+BINARY_NAME="ovos_messagebus-aarch64-unknown-linux-gnu"
 TARGET_DIR="/usr/libexec"
 
 mkdir -p $TARGET_DIR
