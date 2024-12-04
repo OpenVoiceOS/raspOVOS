@@ -4,7 +4,7 @@ PartOf=ovos.service
 After=ovos.service
 
 [Service]
-Group=mycroft
+Group=ovos
 UMask=002
 WorkingDirectory=%h/.venvs/ovos
 Environment=QT_QPA_PLATFORM=eglfs

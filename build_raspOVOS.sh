@@ -5,17 +5,17 @@
 # scroll back and figure out what went wrong.
 set -e
 
-# Retrieve the GID of the 'mycroft' group
+# Retrieve the GID of the 'ovos' group
 GROUP_FILE="/etc/group"
-TGID=$(awk -F: -v group="mycroft" '$1 == group {print $3}' "$GROUP_FILE")
+TGID=$(awk -F: -v group="ovos" '$1 == group {print $3}' "$GROUP_FILE")
 
 # Check if GID was successfully retrieved
 if [[ -z "$TGID" ]]; then
-    echo "Error: Failed to retrieve GID for group 'mycroft'. Exiting..."
+    echo "Error: Failed to retrieve GID for group 'ovos'. Exiting..."
     exit 1
 fi
 
-echo "The GID for 'mycroft' is: $TGID"
+echo "The GID for 'ovos' is: $TGID"
 
 # Parse the UID directly from /etc/passwd
 PASSWD_FILE="/etc/passwd"
@@ -52,7 +52,7 @@ mkdir -p /home/$USER/.local/state/mycroft
 mkdir -p /etc/mycroft
 mkdir -p /etc/OpenVoiceOS
 
-echo "Ensuring log file permissions for mycroft group..."
+echo "Ensuring log file permissions for ovos group..."
 chown -R $TUID:$TGID /home/$USER/.local/state/mycroft
 chmod -R 2775 /home/$USER/.local/state/mycroft
 

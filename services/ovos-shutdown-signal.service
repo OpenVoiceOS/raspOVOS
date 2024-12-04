@@ -5,7 +5,7 @@ Before=halt.target shutdown.target
 
 [Service]
 Type=oneshot
-Group=mycroft
+Group=ovos
 UMask=002
 ExecStart=/usr/bin/python /usr/libexec/ovos-shutdown-signal
 

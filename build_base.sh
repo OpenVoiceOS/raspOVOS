@@ -14,7 +14,7 @@ if [ "$USER" != "pi" ]; then
 
   # 2. Change the group name in /etc/group
   echo "Renaming user in /etc/group..."
-  sed -i "s/^pi:/^$USER:/g" "/etc/group"
+  sed -i "s/\bpi\b/$USER/g" "/etc/group"
 
   # 3. Rename the home directory from /home/pi to /home/newuser
   echo "Renaming home directory..."
@@ -60,12 +60,12 @@ add_user_to_group() {
     fi
 }
 
-echo "Adding $USER to the mycroft group..."
-# Create the 'mycroft' group if it doesn't exist
-if ! getent group mycroft > /dev/null; then
-    groupadd mycroft
+echo "Adding $USER to the ovos group..."
+# Create the 'ovos' group if it doesn't exist
+if ! getent group ovos > /dev/null; then
+    groupadd ovos
 fi
-add_user_to_group $USER mycroft
+add_user_to_group $USER ovos
 
 echo "Changing system hostname to $HOSTNAME..."
 # Update /etc/hostname

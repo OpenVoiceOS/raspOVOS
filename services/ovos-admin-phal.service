@@ -6,7 +6,7 @@ After=ovos-messagebus.service
 
 [Service]
 Type=notify
-Group=mycroft
+Group=ovos
 UMask=002
 ExecStart=/usr/bin/python /usr/libexec/ovos-systemd-admin-phal
 TimeoutStartSec=1m

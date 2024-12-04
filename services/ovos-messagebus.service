@@ -4,7 +4,7 @@ PartOf=ovos.service
 After=ovos.service
 
 [Service]
-Group=mycroft
+Group=ovos
 UMask=002
 ExecStart=/usr/libexec/ovos_rust_messagebus
 Restart=on-failure

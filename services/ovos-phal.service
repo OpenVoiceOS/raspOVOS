@@ -5,7 +5,7 @@ After=ovos.service
 After=ovos-messagebus.service
 
 [Service]
-Group=mycroft
+Group=ovos
 Type=notify
 UMask=002
 ExecStart=%h/.venvs/ovos/bin/python /usr/libexec/ovos-systemd-phal

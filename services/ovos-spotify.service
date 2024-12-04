@@ -6,7 +6,7 @@ After=ovos-messagebus.service
 
 [Service]
 Type=notify
-Group=mycroft
+Group=ovos
 UMask=002
 ExecStart%h/.local/bin/spotifyd --device-type "speaker" --initial-volume 100 --on-song-change-hook "~/.venvs/ovos/bin/python /usr/libexec/ovos-spotifyd" --no-daemon
 TimeoutStartSec=1m

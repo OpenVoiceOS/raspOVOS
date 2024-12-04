@@ -5,7 +5,7 @@ PartOf=ovos.service
 Requires=ovos.service ovos-messagebus.service
 
 [Service]
-Group=mycroft
+Group=ovos
 UMask=002
 WorkingDirectory=%h/.venvs/ovos
 ExecStart=%h/.venvs/ovos/bin/ovos-ggwave-listener
