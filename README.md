@@ -10,6 +10,7 @@ Notes:
 - default hostname: raspOVOS
 - OVOS services run under the OVOS user, autologin is enabled
 
+> **known issue**: if you change the user in rpi-imager PHAL admin service will fail to start
 > **known issue**: if you change the user in rpi-imager it will not have [sudo access](https://github.com/TigreGotico/raspOVOS/issues/14)
 
 Latest images:
