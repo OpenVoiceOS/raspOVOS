@@ -114,7 +114,7 @@ uv pip install --quiet --pre ovos-audio[extras] -c $CONSTRAINTS
 uv pip install --quiet --pre ovos-gui -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
-uv pip install --quiet -i https://whl.smartgic.io/ ggwave
+pip install -U -f https://whl.smartgic.io/ ggwave
 uv pip install --quiet --pre ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
 
 echo "Downloading nltk resources..."
