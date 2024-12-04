@@ -66,10 +66,10 @@ echo "Installing uv ..."
 pip install uv --break-system-packages
 
 echo "Installing ovos-bus-client on host to allow signals..."
-uv pip install ovos-bus-client --break-system-packages -c $CONSTRAINTS
+uv pip install ovos-bus-client -c $CONSTRAINTS --system
 
 echo "Installing admin phal..."
-uv pip install sdnotify ovos-phal ovos-PHAL-plugin-system --break-system-packages -c $CONSTRAINTS
+uv pip install sdnotify ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --system
 
 cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
 cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
@@ -110,7 +110,7 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 # install OVOS in venv
 echo "Installing OVOS..."
-uv pip install wheel cython sdnotify
+uv pip install wheel cython
 uv pip install ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] ovos-gui -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
