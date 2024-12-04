@@ -49,6 +49,13 @@ if [ "$USER" != "pi" ]; then
   echo "User has been renamed, added to sudo group, and password updated."
 fi
 
+echo "Adding $USER to mycroft group..."
+# Create the 'mycroft' group if it doesn't exist
+if ! getent group mycroft > /dev/null; then
+    groupadd mycroft
+fi
+susermod -aG mycroft $USER
+
 echo "Changing system hostname to $HOSTNAME..."
 # Update /etc/hostname
 echo "$HOSTNAME" > /etc/hostname

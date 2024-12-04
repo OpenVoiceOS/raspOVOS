@@ -18,3 +18,7 @@ ln -s /ramdisk/mycroft/phal_admin.log /home/$USER/.local/state/mycroft/
 ln -s /ramdisk/mycroft/phal.log /home/$USER/.local/state/mycroft/
 ln -s /ramdisk/mycroft/skills.log /home/$USER/.local/state/mycroft/
 ln -s /ramdisk/mycroft/voice.log /home/$USER/.local/state/mycroft/
+
+
+# Set permissions for /ramdisk/mycroft
+chmod 2775 /ramdisk/mycroft

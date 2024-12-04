@@ -5,6 +5,8 @@ PartOf=ovos.service
 Requires=ovos.service ovos-messagebus.service
 
 [Service]
+Group=mycroft
+UMask=002
 WorkingDirectory=%h/.venvs/ovos
 ExecStart=%h/.venvs/ovos/bin/ovos-ggwave-listener
 ExecReload=/usr/bin/kill -s HUP $MAINPID
@@ -12,6 +14,8 @@ ExecStop=/usr/bin/kill -s KILL $MAINPID
 Restart=on-failure
 RestartSec=5s
 StartLimitBurst=0
+StandardOutput=append:/ramdisk/mycroft/ggwave.log
+StandardError=append:/ramdisk/mycroft/ggwave.log
 
 [Install]
 WantedBy=ovos.service

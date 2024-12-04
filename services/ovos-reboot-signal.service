@@ -5,7 +5,11 @@ Before=reboot.target
 
 [Service]
 Type=oneshot
+Group=mycroft
+UMask=002
 ExecStart=/usr/bin/python /usr/libexec/ovos-reboot-signal
+StandardOutput=append:/ramdisk/mycroft/signals.log
+StandardError=append:/ramdisk/mycroft/signals.log
 
 [Install]
 WantedBy=reboot.target

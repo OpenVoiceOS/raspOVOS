@@ -1,3 +1,5 @@
 [Service]
 ExecStartPre=/bin/bash -c 'nohup /usr/bin/python /usr/libexec/ovos-ssh-enabled-signal > /dev/null 2>&1 &'
 ExecStopPost=/bin/bash -c 'nohup /usr/bin/python /usr/libexec/ovos-ssh-disabled-signal > /dev/null 2>&1 &'
+StandardOutput=append:/ramdisk/mycroft/signals.log
+StandardError=append:/ramdisk/mycroft/signals.log

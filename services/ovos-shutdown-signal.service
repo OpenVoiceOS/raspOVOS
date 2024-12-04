@@ -5,7 +5,11 @@ Before=halt.target shutdown.target
 
 [Service]
 Type=oneshot
+Group=mycroft
+UMask=002
 ExecStart=/usr/bin/python /usr/libexec/ovos-shutdown-signal
+StandardOutput=append:/ramdisk/mycroft/signals.log
+StandardError=append:/ramdisk/mycroft/signals.log
 
 [Install]
 WantedBy=halt.target shutdown.target

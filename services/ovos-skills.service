@@ -6,12 +6,16 @@ After=ovos-messagebus.service
 
 [Service]
 Type=notify
+Group=mycroft
+UMask=002
 ExecStart=%h/.venvs/ovos/bin/python /usr/libexec/ovos-systemd-skills
 TimeoutStartSec=10m
 TimeoutStopSec=1m
 Restart=on-failure
 StartLimitInterval=5min
 StartLimitBurst=4
+StandardOutput=append:/ramdisk/mycroft/skills.log
+StandardError=append:/ramdisk/mycroft/skills.log
 
 [Install]
 WantedBy=ovos.service

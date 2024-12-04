@@ -5,13 +5,17 @@ After=ovos.service
 After=ovos-messagebus.service
 
 [Service]
+Group=mycroft
 Type=notify
+UMask=002
 ExecStart=%h/.venvs/ovos/bin/python /usr/libexec/ovos-systemd-phal
 TimeoutStartSec=1m
 TimeoutStopSec=1m
 Restart=on-failure
 StartLimitInterval=5min
 StartLimitBurst=4
+StandardOutput=append:/ramdisk/mycroft/phal.log
+StandardError=append:/ramdisk/mycroft/phal.error.log
 
 [Install]
 WantedBy=ovos.service

@@ -1,11 +1,15 @@
 [Unit]
-Description=OVOS Messagebus
+Description=OVOS Messagebus (Rust)
 PartOf=ovos.service
 After=ovos.service
 
 [Service]
+Group=mycroft
+UMask=002
 ExecStart=/usr/libexec/ovos_rust_messagebus
 Restart=on-failure
+StandardOutput=append:/ramdisk/mycroft/bus.log
+StandardError=append:/ramdisk/mycroft/bus.error.log
 
 [Install]
 WantedBy=ovos.service

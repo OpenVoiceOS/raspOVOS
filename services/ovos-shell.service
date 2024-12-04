@@ -4,6 +4,8 @@ PartOf=ovos.service
 After=ovos.service
 
 [Service]
+Group=mycroft
+UMask=002
 WorkingDirectory=%h/.venvs/ovos
 Environment=QT_QPA_PLATFORM=eglfs
 Environment=QT_QPA_EGLFS_KMS_ATOMIC=1
@@ -22,6 +24,7 @@ Environment=LIBEXEC_PATH=/libexec:/usr/libexec:/usr/lib/libexec
 Environment=QML2_IMPORT_PATH=/usr/lib/qt/qml
 ExecStart=/usr/bin/ovos-shell
 StandardOutput=file:/ramdisk/mycroft/ovos_shell.log
+StandardError=append:/ramdisk/mycroft/ovos_shell.log
 Restart=on-failure
 
 [Install]
