@@ -85,12 +85,12 @@ touch /var/lib/userconf-pi/autologin
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
-apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip
+apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip fbi
 # what else can be removed to make the system even lighter?
 apt purge -y rfkill cups ppp
 
-echo "Installing uv ..."
-pip install uv --break-system-packages
+echo "Installing uv and sdnotify..."
+pip install sdnotify uv --break-system-packages
 
 echo "Installing Pipewire..."
 bash /mounted-github-repo/tuning/setup_pipewire.sh
