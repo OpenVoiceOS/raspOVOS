@@ -106,16 +106,16 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 # install OVOS in venv
 echo "Installing OVOS..."
-uv pip install --quiet wheel cython ovos-docs-viewer -c $CONSTRAINTS
-uv pip install --quiet ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
-uv pip install --quiet ovos-dinkum-listener[extras,linux,onnx] tflite_runtime -c $CONSTRAINTS
-uv pip install --quiet ovos-phal[extras,linux] -c $CONSTRAINTS
-uv pip install --quiet ovos-audio[extras] -c $CONSTRAINTS
-uv pip install --quiet ovos-gui -c $CONSTRAINTS
+uv pip install --quiet wheel cython -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-docs-viewer ovos-utils[extras] ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-dinkum-listener[extras,linux,onnx] tflite_runtime -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-phal[extras,linux] -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-audio[extras] -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-gui -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
 uv pip install --quiet -i https://whl.smartgic.io/ ggwave
-uv pip install --quiet ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
 
 echo "Downloading nltk resources..."
 # used by wordnet skill
@@ -128,7 +128,7 @@ python -m nltk.downloader omw-1.4
 #bash /mounted-github-repo/tuning/setup_spotify.sh
 
 echo "Installing Balena wifi plugin..."
-uv pip install --quiet ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup -c $CONSTRAINTS
 
 echo "Downloading default wake word model..."
 # Download precise-lite model
