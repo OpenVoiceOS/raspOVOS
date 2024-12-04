@@ -99,7 +99,7 @@ bash /mounted-github-repo/tuning/setup_rustbus.sh
 # Create virtual environment for ovos
 echo "Creating virtual environment..."
 mkdir -p /home/$USER/.venvs
-python3 -m venv /home/$USER/.venvs/ovos
+python3 -m venv --system-site-packages /home/$USER/.venvs/ovos
 
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
