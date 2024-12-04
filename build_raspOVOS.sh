@@ -40,8 +40,44 @@ echo "Downloading constraints.txt from $CONSTRAINTS..."
 DEST="/etc/mycroft/constraints.txt"
 wget -O "$DEST" "$CONSTRAINTS"
 
+# setup ovos-i2csound
+echo "Installing ovos-i2csound..."
+git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
+
+cp /tmp/ovos-i2csound/i2c.conf /etc/modules-load.d/i2c.conf
+cp /tmp/ovos-i2csound/bcm2835-alsa.conf /etc/modules-load.d/bcm2835-alsa.conf
+cp /tmp/ovos-i2csound/i2csound.service /etc/systemd/system/i2csound.service
+cp /tmp/ovos-i2csound/ovos-i2csound /usr/libexec/ovos-i2csound
+cp /tmp/ovos-i2csound/99-i2c.rules /usr/lib/udev/rules.d/99-i2c.rules
+
+chmod 644 /etc/systemd/system/i2csound.service
+chmod +x /usr/libexec/ovos-i2csound
+
+ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
+
 echo "Installing ovos-bus-client on host to allow signals..."
 pip install ovos-bus-client --break-system-packages
+
+echo "Adding ntp sync signal..."
+# emit "system.clock.synced" to the bus
+mkdir -p /etc/systemd/system/systemd-timesyncd.service.d/
+cp -v /mounted-github-repo/services/ovos-clock-sync.service /etc/systemd/system/systemd-timesyncd.service.d/ovos-clock-sync.conf
+cp -v /mounted-github-repo/services/ovos-clock-sync /usr/libexec/ovos-clock-sync
+
+echo "Adding ssh enabled/disabled signals..."
+mkdir -p /etc/systemd/system/ssh.service.d
+cp -v /mounted-github-repo/services/ovos-ssh-signal.service /etc/systemd/system/ssh.service.d/ovos-ssh-change-signal.conf
+cp -v /mounted-github-repo/services/ovos-ssh-disabled-signal /usr/libexec/ovos-ssh-disabled-signal
+cp -v /mounted-github-repo/services/ovos-ssh-enabled-signal /usr/libexec/ovos-ssh-enabled-signal
+
+echo "Adding shutdown/reboot signals..."
+cp -v /mounted-github-repo/services/ovos-reboot-signal.service /etc/systemd/system/ovos-reboot-signal.service
+cp -v /mounted-github-repo/services/ovos-shutdown-signal.service /etc/systemd/system/ovos-shutdown-signal.service
+ln -s /etc/systemd/system/ovos-reboot-signal.service /etc/systemd/system/multi-user.target.wants/ovos-reboot-signal.service
+ln -s /etc/systemd/system/ovos-shutdown-signal.service /etc/systemd/system/multi-user.target.wants/ovos-shutdown-signal.service
+cp -v /mounted-github-repo/services/ovos-restart-signal /usr/libexec/ovos-restart-signal
+cp -v /mounted-github-repo/services/ovos-reboot-signal /usr/libexec/ovos-reboot-signal
+cp -v /mounted-github-repo/services/ovos-shutdown-signal /usr/libexec/ovos-shutdown-signal
 
 # Create virtual environment for ovos
 echo "Creating virtual environment..."
@@ -63,27 +99,6 @@ pip3 install ovos-audio-transformer-plugin-ggwave
 # TODO - once it works properly
 #echo "Installing OVOS Spotifyd..."
 #bash /mounted-github-repo/tuning/setup_spotify.sh
-
-echo "Adding ntp sync signal..."
-# emit "system.clock.synced" to the bus
-mkdir -p /etc/systemd/system/systemd-timesyncd.service.d/
-cp -v /mounted-github-repo/services/ovos-clock-sync.service /etc/systemd/system/systemd-timesyncd.service.d/ovos-clock-sync.conf
-cp -v /mounted-github-repo/services/ovos-clock-sync /usr/libexec/ovos-clock-sync
-
-echo "Adding ssh signals..."
-mkdir -p /etc/systemd/system/ssh.service.d
-cp -v /mounted-github-repo/services/ovos-ssh-signal.service /etc/systemd/system/ssh.service.d/ovos-ssh-change-signal.conf
-cp -v /mounted-github-repo/services/ovos-ssh-disabled-signal /usr/libexec/ovos-ssh-disabled-signal
-cp -v /mounted-github-repo/services/ovos-ssh-enabled-signal /usr/libexec/ovos-ssh-enabled-signal
-
-echo "Adding shutdown/reboot signals..."
-cp -v /mounted-github-repo/services/ovos-reboot-signal.service /etc/systemd/system/ovos-reboot-signal.service
-cp -v /mounted-github-repo/services/ovos-shutdown-signal.service /etc/systemd/system/ovos-shutdown-signal.service
-ln -s /etc/systemd/system/ovos-reboot-signal.service /etc/systemd/system/multi-user.target.wants/ovos-reboot-signal.service
-ln -s /etc/systemd/system/ovos-shutdown-signal.service /etc/systemd/system/multi-user.target.wants/ovos-shutdown-signal.service
-cp -v /mounted-github-repo/services/ovos-restart-signal /usr/libexec/ovos-restart-signal
-cp -v /mounted-github-repo/services/ovos-reboot-signal /usr/libexec/ovos-reboot-signal
-cp -v /mounted-github-repo/services/ovos-shutdown-signal /usr/libexec/ovos-shutdown-signal
 
 echo "Installing Balena wifi plugin..."
 pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
@@ -129,20 +144,6 @@ ln -s /home/$USER/.config/systemd/user/ovos-gui.service /home/$USER/.config/syst
 ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
 ln -s /etc/systemd/system/ovos-admin-phal.service /etc/systemd/system/multi-user.target.wants/ovos-admin-phal.service
 
-# setup ovos-i2csound
-echo "Installing ovos-i2csound..."
-git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
-
-cp /tmp/ovos-i2csound/i2c.conf /etc/modules-load.d/i2c.conf
-cp /tmp/ovos-i2csound/bcm2835-alsa.conf /etc/modules-load.d/bcm2835-alsa.conf
-cp /tmp/ovos-i2csound/i2csound.service /etc/systemd/system/i2csound.service
-cp /tmp/ovos-i2csound/ovos-i2csound /usr/libexec/ovos-i2csound
-cp /tmp/ovos-i2csound/99-i2c.rules /usr/lib/udev/rules.d/99-i2c.rules
-
-chmod 644 /etc/systemd/system/i2csound.service
-chmod +x /usr/libexec/ovos-i2csound
-
-ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

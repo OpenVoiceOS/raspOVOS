@@ -56,7 +56,7 @@ echo "$HOSTNAME" > /etc/hostname
 sed -i "s/127.0.1.1.*$/127.0.1.1\t$HOSTNAME/" /etc/hosts
 
 echo "Enabling ssh..."
-sudo ln -s /etc/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/
+ln -s /etc/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/
 
 
 echo "Enabling autologin..."
