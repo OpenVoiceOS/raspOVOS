@@ -56,7 +56,7 @@ chmod +x /usr/libexec/ovos-i2csound
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 
 echo "Installing ovos-bus-client on host to allow signals..."
-pip install ovos-bus-client --break-system-packages
+pip install ovos-bus-client --break-system-packages -c $CONSTRAINTS
 
 echo "Adding ntp sync signal..."
 # emit "system.clock.synced" to the bus
@@ -90,11 +90,11 @@ source /home/$USER/.venvs/ovos/bin/activate
 # install OVOS in venv
 echo "Installing OVOS..."
 pip3 install wheel cython sdnotify
-pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,mycroft,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] -c /etc/mycroft/constraints.txt
+pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,mycroft,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
 pip3 install -U -f https://whl.smartgic.io/ ggwave
-pip3 install ovos-audio-transformer-plugin-ggwave
+pip3 install ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
 
 # TODO - once it works properly
 #echo "Installing OVOS Spotifyd..."

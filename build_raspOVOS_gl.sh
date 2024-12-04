@@ -16,11 +16,8 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-pt-0.3.zip -P $VOSK_DI
 unzip -o $VOSK_DIR/vosk-model-small-pt-0.3.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
-# remove english piper voice
-EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
-rm -rf "$EN_PIPER_DIR"
-
-# TODO local cotovia
+# TODO local cotovia / nos
+pip install ovos-tts-plugin-cotovia ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft

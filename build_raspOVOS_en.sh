@@ -9,7 +9,7 @@ set -e
 source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Installing Piper TTS..."
-pip install ovos-tts-plugin-piper
+pip install ovos-tts-plugin-piper -c $CONSTRAINTS
 
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
