@@ -8,6 +8,7 @@ After=ovos-messagebus.service
 Type=notify
 Group=mycroft
 UMask=002
+ExecStartPre=/bin/mkdir -p /ramdisk/mycroft && /bin/chmod -R 2775 /ramdisk/mycroft
 ExecStart=/usr/bin/python /usr/libexec/ovos-systemd-admin-phal
 TimeoutStartSec=1m
 TimeoutStopSec=1m
