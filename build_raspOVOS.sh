@@ -79,6 +79,9 @@ cp -v /mounted-github-repo/services/ovos-restart-signal /usr/libexec/ovos-restar
 cp -v /mounted-github-repo/services/ovos-reboot-signal /usr/libexec/ovos-reboot-signal
 cp -v /mounted-github-repo/services/ovos-shutdown-signal /usr/libexec/ovos-shutdown-signal
 
+echo "Installing OVOS Rust Messagebus..."
+bash /mounted-github-repo/tuning/setup_rustbus.sh
+
 # Create virtual environment for ovos
 echo "Creating virtual environment..."
 mkdir -p /home/$USER/.venvs
@@ -90,7 +93,7 @@ source /home/$USER/.venvs/ovos/bin/activate
 # install OVOS in venv
 echo "Installing OVOS..."
 pip3 install wheel cython sdnotify
-pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,mycroft,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] -c $CONSTRAINTS
+pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
 pip3 install -U -f https://whl.smartgic.io/ ggwave

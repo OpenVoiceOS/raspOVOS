@@ -4,13 +4,8 @@ PartOf=ovos.service
 After=ovos.service
 
 [Service]
-Type=notify
-ExecStart=%h/.venvs/ovos/bin/python /usr/libexec/ovos-systemd-messagebus
-TimeoutStartSec=1m
-TimeoutStopSec=1m
+ExecStart=/usr/libexec/ovos_rust_messagebus
 Restart=on-failure
-StartLimitInterval=5min
-StartLimitBurst=4
 
 [Install]
 WantedBy=ovos.service
