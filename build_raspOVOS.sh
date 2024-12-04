@@ -113,6 +113,12 @@ echo "Installing OVOS ggwave..."
 pip3 install -U -f https://whl.smartgic.io/ ggwave
 pip3 install ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
 
+echo "Downloading nltk resources..."
+# used by wordnet skill
+python -m nltk.downloader punkt
+python -m nltk.downloader wordnet
+python -m nltk.downloader omw-1.4
+
 # TODO - once it works properly
 #echo "Installing OVOS Spotifyd..."
 #bash /mounted-github-repo/tuning/setup_spotify.sh
