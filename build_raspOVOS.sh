@@ -5,8 +5,9 @@
 # scroll back and figure out what went wrong.
 set -e
 
-# Retrieve UID
-TUID=$(getent passwd $USER | cut -d: -f3)
+# Parse the UID directly from /etc/passwd
+PASSWD_FILE="/etc/passwd"
+TUID=$(awk -F: -v user="$USER" '$1 == user {print $3}' "$PASSWD_FILE")
 
 # Check if UID was successfully retrieved
 if [[ -z "$TUID" ]]; then
@@ -16,10 +17,11 @@ fi
 
 echo "The UID for '$USER' is: $TUID"
 
-# Get the mycroft group GID
-TGID=$(getent group mycroft | cut -d: -f3)
+# Retrieve the GID of the 'mycroft' group
+GROUP_FILE="/etc/group"
+TGID=$(awk -F: -v group="mycroft" '$1 == group {print $3}' "$GROUP_FILE")
 
-# Check if UID was successfully retrieved
+# Check if GID was successfully retrieved
 if [[ -z "$TGID" ]]; then
     echo "Error: Failed to retrieve GID for group 'mycroft'. Exiting..."
     exit 1
