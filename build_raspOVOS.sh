@@ -6,26 +6,26 @@
 set -e
 
 # Retrieve UID
-UID=$(getent passwd $USER | cut -d: -f3)
+TUID=$(getent passwd $USER | cut -d: -f3)
 
 # Check if UID was successfully retrieved
-if [[ -z "$UID" ]]; then
-    echo "Error: Failed to retrieve UID for user '$USERNAME'. Exiting..."
+if [[ -z "$TUID" ]]; then
+    echo "Error: Failed to retrieve UID for user '$USER'. Exiting..."
     exit 1
 fi
 
-echo "The UID for '$USER' is: $UID"
+echo "The UID for '$USER' is: $TUID"
 
 # Get the mycroft group GID
-GID=$(getent group mycroft | cut -d: -f3)
+TGID=$(getent group mycroft | cut -d: -f3)
 
 # Check if UID was successfully retrieved
-if [[ -z "$GID" ]]; then
+if [[ -z "$TGID" ]]; then
     echo "Error: Failed to retrieve GID for group 'mycroft'. Exiting..."
     exit 1
 fi
 
-echo "The GID for 'mycroft' is: $GID"
+echo "The GID for 'mycroft' is: $TGID"
 
 # Update package list and install necessary tools
 echo "Installing system packages..."
@@ -50,7 +50,7 @@ mkdir -p /etc/mycroft
 mkdir -p /etc/OpenVoiceOS
 
 echo "Ensuring log file permissions for mycroft group..."
-chown -R $UID:$GID /home/$USER/.local/state/mycroft
+chown -R $TUID:$TGID /home/$USER/.local/state/mycroft
 chmod -R 2775 /home/$USER/.local/state/mycroft
 
 # add bashrc and company
@@ -187,7 +187,7 @@ ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/s
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
-chown -R $UID:$GID /home/$USER
+chown -R $TUID:$TGID /home/$USER
 
 
 echo "Cleaning up apt packages..."
