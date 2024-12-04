@@ -17,7 +17,7 @@ unzip -o $VOSK_DIR/vosk-model-small-pt-0.3.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
 # TODO local cotovia / nos
-uv pip install --quiet ovos-tts-plugin-cotovia ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
+uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft

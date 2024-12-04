@@ -9,7 +9,7 @@ set -e
 source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Installing Piper TTS..."
-uv pip install --quiet ovos-tts-plugin-piper -c $CONSTRAINTS
+uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
 echo "Downloading spanish vosk model..."
 # Download and extract VOSK model

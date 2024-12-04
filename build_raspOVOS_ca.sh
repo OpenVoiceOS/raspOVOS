@@ -14,7 +14,7 @@ cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.p
 
 # install matxa
 echo "Installing Matxa TTS..."
-uv pip install --quiet ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
+uv pip install --no-progress ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
 apt-get install -y jq automake libtool
 git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
 cd /tmp/espeak-ng
