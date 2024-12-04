@@ -61,15 +61,11 @@ chmod +x /usr/libexec/ovos-i2csound
 
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 
-
 echo "Installing uv ..."
 pip install uv --break-system-packages
 
-echo "Installing ovos-bus-client on host to allow signals..."
-uv pip install ovos-bus-client -c $CONSTRAINTS --system
-
 echo "Installing admin phal..."
-uv pip install sdnotify ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --system
+pip install sdnotify ovos-bus-client ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --break-system-packages
 
 cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
 cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
