@@ -95,13 +95,13 @@ echo "Installing uv and sdnotify..."
 pip install sdnotify uv --break-system-packages
 
 echo "Installing Pipewire..."
-bash /mounted-github-repo/tuning/setup_pipewire.sh
+bash /mounted-github-repo/packages/setup_pipewire.sh
 
 echo "Installing KDEConnect..."
-bash /mounted-github-repo/tuning/setup_kdeconnect.sh
+bash /mounted-github-repo/packages/setup_kdeconnect.sh
 
 echo "Installing Balena Wifi-connect..."
-bash /mounted-github-repo/tuning/setup_balena_wifi.sh
+bash /mounted-github-repo/packages/setup_balena_wifi.sh
 
 echo "Tuning base system..."
 cp -v /mounted-github-repo/patches/boot_config.txt /boot/firmware/config.txt
