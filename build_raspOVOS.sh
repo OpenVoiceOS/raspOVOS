@@ -61,11 +61,15 @@ chmod +x /usr/libexec/ovos-i2csound
 
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 
+
+echo "Installing uv ..."
+pip install uv --break-system-packages
+
 echo "Installing ovos-bus-client on host to allow signals..."
-pip install ovos-bus-client --break-system-packages -c $CONSTRAINTS
+uv pip install ovos-bus-client --break-system-packages -c $CONSTRAINTS
 
 echo "Installing admin phal..."
-pip install sdnotify ovos-phal ovos-PHAL-plugin-system --break-system-packages -c $CONSTRAINTS
+uv pip install sdnotify ovos-phal ovos-PHAL-plugin-system --break-system-packages -c $CONSTRAINTS
 
 cp -v /mounted-github-repo/services/ovos-admin-phal.service /etc/systemd/system/
 cp -v /mounted-github-repo/services/ovos-systemd-admin-phal /usr/libexec/ovos-systemd-admin-phal
@@ -106,12 +110,12 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 # install OVOS in venv
 echo "Installing OVOS..."
-pip3 install wheel cython sdnotify
-pip3 install ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] ovos-gui -c $CONSTRAINTS
+uv pip install wheel cython sdnotify
+uv pip install ovos-docs-viewer tflite_runtime ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] ovos-dinkum-listener[extras,linux,onnx] ovos-phal[extras,linux] ovos-audio[extras] ovos-gui -c $CONSTRAINTS
 
 echo "Installing OVOS ggwave..."
-pip3 install -U -f https://whl.smartgic.io/ ggwave
-pip3 install ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
+uv pip install -U -f https://whl.smartgic.io/ ggwave
+uv pip install ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
 
 echo "Downloading nltk resources..."
 # used by wordnet skill
@@ -124,7 +128,7 @@ python -m nltk.downloader omw-1.4
 #bash /mounted-github-repo/tuning/setup_spotify.sh
 
 echo "Installing Balena wifi plugin..."
-pip3 install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
+uv pip install ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup
 
 echo "Downloading default wake word model..."
 # Download precise-lite model
