@@ -104,14 +104,14 @@ python3 -m venv --system-site-packages /home/$USER/.venvs/ovos
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
+uv pip install --quiet wheel cython -c $CONSTRAINTS
+
+echo "Installing ggwave..."
+uv pip install --quiet /mounted-github-repo/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
+
 # install OVOS in venv
 echo "Installing OVOS..."
-uv pip install --quiet wheel cython -c $CONSTRAINTS
-uv pip install --quiet --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
-
-echo "Installing OVOS ggwave..."
-pip install -U -f https://whl.smartgic.io/ ggwave
-uv pip install --quiet --pre ovos-audio-transformer-plugin-ggwave -c $CONSTRAINTS
+uv pip install --quiet --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
 
 echo "Caching nltk resources..."
 cp -rv /mounted-github-repo/nltk_data /home/$USER/
