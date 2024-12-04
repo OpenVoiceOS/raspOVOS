@@ -35,6 +35,12 @@ cp -v /mounted-github-repo/tuning/.cli_login.sh /home/$USER/.cli_login.sh
 echo "Creating system level mycroft.conf..."
 cp -v /mounted-github-repo/mycroft.conf /etc/mycroft/mycroft.conf
 
+# copy default skill settings.json
+echo "Configuring default skill settings.json..."
+mkdir -p /home/$USER/.config/mycroft/skills
+cp -rv /mounted-github-repo/settings/ /home/$USER/.config/mycroft/skills/
+
+
 echo "Downloading constraints.txt from $CONSTRAINTS..."
 # TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages
 DEST="/etc/mycroft/constraints.txt"

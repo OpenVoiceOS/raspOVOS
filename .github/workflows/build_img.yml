@@ -9,6 +9,7 @@ on:
       - '.github/workflows/build_img.yml'
       - 'build_raspOVOS.sh'
       - 'services/**'
+      - 'settings/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
