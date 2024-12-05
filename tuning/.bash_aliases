@@ -22,6 +22,6 @@ alias ovos-server-status="~/.venvs/ovos/bin/ovos-docs-viewer live-status"
 
 alias ovos-help="/bin/bash ~/.cli_login.sh"
 
-alias ovos-force-reinstall="uv pip install --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-testing.txt --force-reinstall"
+alias ovos-force-reinstall="uv pip install --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-stable.txt --force-reinstall"
 
 alias ovos-restart="systemctl --user restart ovos"
