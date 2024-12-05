@@ -8,6 +8,7 @@ on:
     paths:
       - '.github/workflows/build_img_gl.yml'
       - 'build_raspOVOS_gl.sh'
+      - 'intent_cache/gl/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name

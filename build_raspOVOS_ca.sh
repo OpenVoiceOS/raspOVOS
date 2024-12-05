@@ -11,6 +11,10 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Updating splashscreen..."
 cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
 
+echo "Caching pre-trained padatious intents..."
+mkdir -p /home/$USER/.local/share/mycroft/intent_cache
+cp -rv /mounted-github-repo/intent_cache/ca /home/$USER/.local/share/mycroft/intent_cache/
+
 # install matxa
 echo "Installing Matxa TTS..."
 # TODO matxa on pypi does not include the model need to git clone for now
