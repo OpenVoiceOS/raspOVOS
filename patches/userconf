@@ -26,6 +26,16 @@ add_to_ovos_group () {
     else
         echo "User '$NEWNAME' is already in group 'ovos'."
     fi
+
+    echo "Ensuring permissions for ovos group..."
+
+    # Ensure ownership of the home directory by the user and the ovos group
+    chown -R "$NEWNAME:ovos" /home/$NEWNAME
+
+    # Ensure the correct permissions on the home directory
+    # 2775 ensures read/write/execute for owner and group, directories inherit group
+    find /home/$NEWNAME -type d -exec chmod 2775 {} \;
+    find /home/$NEWNAME -type f -exec chmod 664 {} \;
 }
 
 if [ $# -eq 3 ]; then
