@@ -5,7 +5,6 @@
 # scroll back and figure out what went wrong.
 set -e
 
-
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
@@ -14,7 +13,11 @@ cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.p
 
 # install matxa
 echo "Installing Matxa TTS..."
-uv pip install --no-progress ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
+# TODO matxa on pypi does not include the model need to git clone for now
+git clone https://github.com/OpenVoiceOS/ovos-tts-plugin-matxa-multispeaker-cat /home/$USER/.ovos-tts-plugin-matxa-multispeaker-cat
+uv pip install --no-progress -e /home/$USER/.ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
+
+echo "Compiling latest espeak..."
 apt-get install -y jq automake libtool
 git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
 cd /tmp/espeak-ng
