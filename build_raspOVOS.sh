@@ -42,6 +42,9 @@ cp -v /mounted-github-repo/services/splashscreen.service /etc/systemd/system/spl
 chmod 644 /etc/systemd/system/splashscreen.service
 ln -s /etc/systemd/system/splashscreen.service /etc/systemd/system/multi-user.target.wants/splashscreen.service
 
+echo "Creating OVOS login ASCII art..."
+cp -v /mounted-github-repo/tuning/etc_issue /etc/issue
+
 echo "Creating default OVOS XDG paths..."
 mkdir -p /home/$USER/.config/mycroft
 mkdir -p /home/$USER/.local/share/OpenVoiceOS
@@ -60,6 +63,7 @@ chmod -R 2775 /home/$USER/.local/state/mycroft
 echo "Creating aliases and cli login screen..."
 cp -v /mounted-github-repo/tuning/.bashrc /home/$USER/.bashrc
 cp -v /mounted-github-repo/tuning/.bash_aliases /home/$USER/.bash_aliases
+cp -v /mounted-github-repo/tuning/.logo.sh /home/$USER/.logo.sh
 cp -v /mounted-github-repo/tuning/.cli_login.sh /home/$USER/.cli_login.sh
 
 echo "Creating system level mycroft.conf..."
@@ -120,7 +124,7 @@ cp -v /mounted-github-repo/services/ovos-reboot-signal /usr/libexec/ovos-reboot-
 cp -v /mounted-github-repo/services/ovos-shutdown-signal /usr/libexec/ovos-shutdown-signal
 
 echo "Installing OVOS Rust Messagebus..."
-bash /mounted-github-repo/tuning/setup_rustbus.sh
+bash /mounted-github-repo/packages/setup_rustbus.sh
 
 # Create virtual environment for ovos
 echo "Creating virtual environment..."
@@ -138,6 +142,11 @@ uv pip install --no-progress /mounted-github-repo/packages/ggwave-0.4.2-cp311-cp
 # install OVOS in venv
 echo "Installing OVOS..."
 uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c $CONSTRAINTS
+
+# some skills import from these libs and dont have them as dependencies
+# just until that is fixed...
+echo "Installing deprecated OVOS packages for compat..."
+uv pip install --no-progress --pre ovos-lingua-franca ovos-backend-client -c $CONSTRAINTS
 
 echo "Caching nltk resources..."
 cp -rv /mounted-github-repo/packages/nltk_data /home/$USER/
