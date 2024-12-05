@@ -27,7 +27,9 @@ mkdir -p "$PIPER_DIR"
 echo "Downloading voice from $VOICE_URL ..."
 wget "$VOICE_URL" -O "$VOICE_ARCHIVE"
 tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
+# if we remove the voice archive the plugin will think its missing and redownload voice on boot...
 rm "$VOICE_ARCHIVE"
+touch $VOICE_ARCHIVE
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
