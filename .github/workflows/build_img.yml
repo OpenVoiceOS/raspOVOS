@@ -10,6 +10,7 @@ on:
       - 'build_raspOVOS.sh'
       - 'services/**'
       - 'settings/**'
+      - 'packages/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
