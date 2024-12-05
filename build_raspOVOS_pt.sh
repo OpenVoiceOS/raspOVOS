@@ -10,7 +10,7 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
-cp -rv /mounted-github-repo/intent_cache/pt /home/$USER/.local/share/mycroft/intent_cache/
+cp -rv /mounted-github-repo/intent_cache/pt-PT /home/$USER/.local/share/mycroft/intent_cache/
 
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS

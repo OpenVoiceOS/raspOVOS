@@ -13,7 +13,7 @@ cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.p
 
 echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
-cp -rv /mounted-github-repo/intent_cache/ca /home/$USER/.local/share/mycroft/intent_cache/
+cp -rv /mounted-github-repo/intent_cache/ca-ES /home/$USER/.local/share/mycroft/intent_cache/
 
 # install matxa
 echo "Installing Matxa TTS..."

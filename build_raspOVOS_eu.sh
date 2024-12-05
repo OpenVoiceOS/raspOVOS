@@ -8,9 +8,11 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
-# remove english piper voice
-EN_PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
-rm -rf "$EN_PIPER_DIR"
+
+echo "Caching pre-trained padatious intents..."
+mkdir -p /home/$USER/.local/share/mycroft/intent_cache
+cp -rv /mounted-github-repo/intent_cache/eu-ES /home/$USER/.local/share/mycroft/intent_cache/
+
 
 # TODO TTS and STT
 echo "Creating system level mycroft.conf..."
