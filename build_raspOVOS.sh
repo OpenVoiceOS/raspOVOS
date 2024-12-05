@@ -72,7 +72,7 @@ cp -v /mounted-github-repo/mycroft.conf /etc/mycroft/mycroft.conf
 # copy default skill settings.json
 echo "Configuring default skill settings.json..."
 mkdir -p /home/$USER/.config/mycroft/skills
-cp -rv /mounted-github-repo/settings/ /home/$USER/.config/mycroft/skills/
+cp -rv /mounted-github-repo/settings/* /home/$USER/.config/mycroft/skills/
 
 echo "Downloading constraints.txt from $CONSTRAINTS..."
 # TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages
