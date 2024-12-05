@@ -9,7 +9,9 @@ on:
       - '.github/workflows/build_base.yml'
       - 'build_base.sh'
       - 'tuning/**'
-      - 'patches/**'
+      - 'patches/firstboot'
+      - 'patches/userconf'
+      - 'patches/boot_config.txt'
 
 jobs:
   # Stage 1: Get Current Date and Release Name

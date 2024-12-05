@@ -11,6 +11,11 @@ on:
       - 'services/**'
       - 'settings/**'
       - 'packages/**'
+      - 'tuning/etc_issue'
+      - 'tuning/.cli_login.sh'
+      - 'tuning/.logo.sh'
+      - 'tuning/.bashrc'
+      - 'tuning/.bash_aliases'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
