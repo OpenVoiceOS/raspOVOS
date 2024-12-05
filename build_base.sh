@@ -68,6 +68,10 @@ if ! getent group ovos > /dev/null; then
 fi
 add_user_to_group $USER ovos
 
+echo "Patching userconf to ensure 'ovos' group always exists..."
+cp -v /mounted-github-repo/patches/userconf /usr/lib/userconf-pi/userconf
+
+
 echo "Changing system hostname to $HOSTNAME..."
 # Update /etc/hostname
 echo "$HOSTNAME" > /etc/hostname
