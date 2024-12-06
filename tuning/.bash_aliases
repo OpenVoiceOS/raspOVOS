@@ -33,3 +33,6 @@ alias ls-stt="~/.venvs/ovos/bin/python -c \"from ovos_plugin_manager.stt import 
 alias ls-tts="~/.venvs/ovos/bin/python -c \"from ovos_plugin_manager.tts import find_tts_plugins; from ovos_utils.log import LOG; LOG.set_level('ERROR'); from pprint import pprint; pprint(find_tts_plugins())\""
 alias ls-tx="~/.venvs/ovos/bin/python -c \"from ovos_plugin_manager.language import find_tx_plugins; from ovos_utils.log import LOG; LOG.set_level('ERROR'); from pprint import pprint; pprint(find_tx_plugins())\""
 alias ls-ww="~/.venvs/ovos/bin/python -c \"from ovos_plugin_manager.wakewords import find_wake_word_plugins; from ovos_utils.log import LOG; LOG.set_level('ERROR'); from pprint import pprint; pprint(find_wake_word_plugins())\""
+
+# helper to "reset OVOS brain"
+alias ovos-rm-skills="uv pip list | grep skill | awk '{print $1}' | xargs uv pip uninstall"

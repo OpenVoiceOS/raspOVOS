@@ -19,6 +19,7 @@ echo "  ovos-update             Update all OVOS and skill-related packages"
 echo "  ovos-force-reinstall    Force a reinstall of all ovos packages, for when you completely break your system"
 echo "  ovos-freeze             Export installed OVOS packages to requirements.txt"
 echo "  ovos-outdated           List outdated OVOS and skill-related packages"
+echo "  ovos-rm-skills          Reset 'OVOS brain' to a blank state by uninstalling all skills"
 echo
 echo "OVOS plugin utils:"
 echo "  ls-skills               List skill_id for all installed skills"
