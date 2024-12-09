@@ -8,10 +8,6 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
-echo "Installing padatious from debug branch..."
-uv pip install git+https://github.com/OpenVoiceOS/ovos-padatious-pipeline-plugin@delayed_training
-uv pip install git+https://github.com/OpenVoiceOS/ovos-core@delay_padatious
-
 echo "Updating splashscreen..."
 cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
 
