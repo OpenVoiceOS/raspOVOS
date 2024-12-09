@@ -14,7 +14,7 @@ echo "  ovos-simple-cli        Chat with your device through the terminal"
 echo "  ovos-docs-viewer       OVOS documentation viewer util"
 echo
 echo "OVOS packages utils:"
-echo "  ovos-pip                Install ovos packages using /etc/mycroft/constraints.txt"
+echo "  ovos-install            Install ovos packages with version constraints"
 echo "  ovos-update             Update all OVOS and skill-related packages"
 echo "  ovos-force-reinstall    Force a reinstall of all ovos packages, for when you completely break your system"
 echo "  ovos-freeze             Export installed OVOS packages to requirements.txt"

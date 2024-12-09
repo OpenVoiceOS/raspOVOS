@@ -18,7 +18,7 @@ alias ovos-force-reinstall="uv pip install --pre ovos-docs-viewer ovos-utils[ext
 alias ovos-outdated="uv pip list --outdated | grep -E 'ovos-|skill-'"
 
 # OVOS Pip: Run pip commands with a constraints file
-alias ovos-pip="uv pip install -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-testing.txt"
+alias ovos-install="uv pip install -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-testing.txt"
 
 # OVOS quick docs:
 alias ovos-logo="/bin/bash ~/.logo.sh"
