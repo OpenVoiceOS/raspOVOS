@@ -155,8 +155,9 @@ cp -rv /mounted-github-repo/packages/nltk_data /home/$USER/
 #echo "Installing OVOS Spotifyd..."
 #bash /mounted-github-repo/packages/setup_spotify.sh
 
-echo "Installing Balena wifi plugin..."
-uv pip install --no-progress --pre ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup -c $CONSTRAINTS
+# no balena for now, let's use ggwave instead
+#echo "Installing Balena wifi plugin..."
+#uv pip install --no-progress --pre ovos-PHAL-plugin-balena-wifi ovos-PHAL-plugin-wifi-setup -c $CONSTRAINTS
 
 echo "Downloading default wake word model..."
 # Download precise-lite model
