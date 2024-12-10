@@ -104,8 +104,8 @@ bash /mounted-github-repo/packages/setup_pipewire.sh
 echo "Installing KDEConnect..."
 bash /mounted-github-repo/packages/setup_kdeconnect.sh
 
-echo "Installing Balena Wifi-connect..."
-bash /mounted-github-repo/packages/setup_balena_wifi.sh
+#echo "Installing Balena Wifi-connect..."
+#bash /mounted-github-repo/packages/setup_balena_wifi.sh
 
 echo "Tuning base system..."
 cp -v /mounted-github-repo/patches/boot_config.txt /boot/firmware/config.txt
