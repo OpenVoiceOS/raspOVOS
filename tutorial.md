@@ -107,7 +107,9 @@ The most straightforward method is to set up Wi-Fi during the imaging process.
 4. If successful, you’ll hear an acknowledgment tone.  
    - If decoding fails or credentials are incorrect, you’ll hear an error tone.  
 
-**Note:** ggwave is a **work-in-progress** feature and does not provide on-screen feedback.  
+**Note:** ggwave is a **work-in-progress** feature and does not have any dialogs or provide on-screen feedback.  
+
+![image](https://github.com/user-attachments/assets/ce2857b1-b93f-4092-99f3-43f555e04920)
 
 ---
 
