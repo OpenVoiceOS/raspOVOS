@@ -124,9 +124,6 @@ echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$USER
 
-echo "Ensuring wifi is enabled.."
-nmcli radio wifi on
-
 # Enable lingering for the user
 echo "Enabling lingering for $USER user ..."
 # Enable lingering by creating the directory
