@@ -8,6 +8,10 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
+
+echo "Setting up default wifi country..."
+/usr/bin/raspi-config nonint do_wifi_country PT
+
 echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
 cp -rv /mounted-github-repo/intent_cache/pt-PT /home/$USER/.local/share/mycroft/intent_cache/
