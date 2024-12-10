@@ -93,7 +93,10 @@ echo "Updating base system..."
 apt-get update
 apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip fbi
 # what else can be removed to make the system even lighter?
-apt purge -y rfkill cups ppp
+apt purge -y cups ppp
+
+echo "Setting rfkill default value..."
+cp -v /mounted-github-repo/tuning/rfkill_default.conf /etc/modprobe.d/rfkill_default.conf
 
 echo "Installing uv and sdnotify..."
 pip install sdnotify uv --break-system-packages
