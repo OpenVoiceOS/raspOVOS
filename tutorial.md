@@ -45,8 +45,15 @@ Raspberry Pi boards are notoriously **picky about power supplies**. Insufficient
      - **Choose OS:** Select "Use custom" and locate the RaspOVOS image file.  
      - **Choose Storage:** Select your SD card or USB drive.  
 
+
+![image](https://github.com/user-attachments/assets/92458289-a3c3-4c7b-afc8-126881445f9f)
+
+![image](https://github.com/user-attachments/assets/36a83d0a-ebc2-4095-94ba-604ad78b5452)
+
+![image](https://github.com/user-attachments/assets/47c92497-d1a2-4f2d-90be-189806736c0d)
+
 3. **Advanced Configuration Options**  
-   - Click the ⚙️ (Advanced Options) button to customize settings, including:  
+   - Click **Next** and select **Edit Settings** to customize settings, including:  
      - **Password:** Change the default password.  
      - **Hostname:** Set a custom hostname for your device.  
      - **Wi-Fi Credentials:** Enter your Wi-Fi network name and password.  
@@ -54,8 +61,12 @@ Raspberry Pi boards are notoriously **picky about power supplies**. Insufficient
 
    **Important:** **Do NOT change the default username** (`ovos`), as it is required for the system to function properly.  
 
+![image](https://github.com/user-attachments/assets/9509ea57-ae46-4c0b-b9e9-97935579d207)
+
+![image](https://github.com/user-attachments/assets/252af1a0-54dc-4450-aa4a-eb0f0a4d139f)
+
 4. **Write the Image**  
-   - Click **Write** to flash the image onto your storage device.  
+   - Click **Save** and then **Yes** to flash the image onto your storage device.  
    - Once complete, safely remove the SD card or USB drive from your computer.  
 
 ---
