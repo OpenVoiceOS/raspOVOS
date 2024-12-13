@@ -20,7 +20,8 @@ cp -rv /mounted-github-repo/intent_cache/ca-ES /home/$USER/.local/share/mycroft/
 
 
 echo "Installing Citrinet plugin..."
-uv pip install ovos-stt-plugoin-citrinet
+uv pip install torch==2.1.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+uv pip install ovos-stt-plugin-citrinet
 
 echo "Downloading catalan citrinet model..."
 huggingface-cli repo download projecte-aina/stt-ca-citrinet-512 --filename model.onnx --subdir onnx
