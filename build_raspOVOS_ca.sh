@@ -18,15 +18,11 @@ echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
 cp -rv /mounted-github-repo/intent_cache/ca-ES /home/$USER/.local/share/mycroft/intent_cache/
 
-
 echo "Installing Citrinet plugin..."
 uv pip install ovos-stt-plugin-citrinet
 
 echo "Downloading catalan citrinet model..."
-huggingface-cli repo download projecte-aina/stt-ca-citrinet-512 --filename model.onnx --subdir onnx
-huggingface-cli repo download projecte-aina/stt-ca-citrinet-512 --filename tokenizer.spm --subdir onnx
-huggingface-cli repo download projecte-aina/stt-ca-citrinet-512 --filename preprocessor.ts --subdir onnx
-
+python /mounted-github-repo/packages/download_citrinet_ca.py
 
 # install matxa
 echo "Installing Matxa TTS..."
