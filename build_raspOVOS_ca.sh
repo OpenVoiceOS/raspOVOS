@@ -23,6 +23,9 @@ uv pip install ovos-stt-plugin-citrinet
 
 echo "Downloading catalan citrinet model..."
 python /mounted-github-repo/packages/download_citrinet_ca.py
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--projecte-aina--stt-ca-citrinet-512/ /home/ovos/.cache/huggingface/hub/models--projecte-aina--stt-ca-citrinet-512/
 
 # install matxa
 echo "Installing Matxa TTS..."
