@@ -12,6 +12,14 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
+echo "Installing AhoTTS"
+git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
+cd /tmp/AhoTTS
+./script_compile_all_linux.sh
+mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
+cp /mounted-github-repo/packages/ahotts.py /usr/bin/AhoTTS/ahotts.py
+cd ~
+
 echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
 cp -rv /mounted-github-repo/intent_cache/eu-ES /home/$USER/.local/share/mycroft/intent_cache/
