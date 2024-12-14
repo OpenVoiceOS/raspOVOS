@@ -8,6 +8,7 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
+apt-get install -y cmake
 
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
