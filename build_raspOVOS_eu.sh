@@ -14,6 +14,7 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
 echo "Installing AhoTTS"
+uv pip install --no-progress ovos-tts-plugin-ahotts
 git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
 cd /tmp/AhoTTS
 ./script_compile_all_linux.sh

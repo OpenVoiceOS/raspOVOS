@@ -11,8 +11,15 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
-echo "Installing Piper TTS..."
-uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
+
+echo "Installing AhoTTS"
+uv pip install --no-progress ovos-tts-plugin-ahotts
+git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
+cd /tmp/AhoTTS
+./script_compile_all_linux.sh
+mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
+cp /mounted-github-repo/packages/ahotts.py /usr/bin/AhoTTS/ahotts.py
+cd ~
 
 echo "Downloading spanish vosk model..."
 # Download and extract VOSK model
@@ -22,17 +29,6 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-es-0.42.zip -P $VOSK_D
 unzip -o $VOSK_DIR/vosk-model-small-es-0.42.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-es-0.42.zip
 
-# download default piper voice for spanish
-PIPER_DIR="/home/$USER/.local/share/piper_tts/carlfm-x-low"
-VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-es-carlfm-x-low.tar.gz"
-VOICE_ARCHIVE="$PIPER_DIR/voice-es-carlfm-x-low.tar.gz"
-mkdir -p "$PIPER_DIR"
-echo "Downloading voice from $VOICE_URL ..."
-wget "$VOICE_URL" -O "$VOICE_ARCHIVE"
-tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
-# if we remove the voice archive the plugin will think its missing and redownload voice on boot...
-rm "$VOICE_ARCHIVE"
-touch $VOICE_ARCHIVE
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
