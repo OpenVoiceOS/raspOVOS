@@ -18,7 +18,6 @@ cd /tmp/AhoTTS
 apt-get install -y cmake
 ./script_compile_all_linux.sh
 mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
-cp /mounted-github-repo/packages/ahotts.py /usr/bin/AhoTTS/ahotts.py
 cd ~
 
 echo "Downloading spanish vosk model..."

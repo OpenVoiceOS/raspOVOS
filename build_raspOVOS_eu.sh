@@ -19,7 +19,6 @@ git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
 cd /tmp/AhoTTS
 ./script_compile_all_linux.sh
 mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
-cp /mounted-github-repo/packages/ahotts.py /usr/bin/AhoTTS/ahotts.py
 cd ~
 
 echo "Caching pre-trained padatious intents..."
