@@ -357,7 +357,6 @@ jobs:
           body: |
             This PR updates the base-image-url in `build_img_es.yml` to reflect the latest release.
           labels: automated-update
-
   update-nl-workflow:
     runs-on: ubuntu-latest
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
@@ -392,6 +391,42 @@ jobs:
           title: "Update base-image-url-nl"
           body: |
             This PR updates the base-image-url in `build_img_nl.yml` to reflect the latest release.
+          labels: automated-update
+
+  update-de-workflow:
+    runs-on: ubuntu-latest
+    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update base-image-url in build_img_de.yml
+        run: |
+          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/TigreGotico/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_img_de.yml
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          if git diff --exit-code .github/workflows/build_img_de.yml; then
+            echo "base image download url didnt change"
+            echo "no_changes=true" >> $GITHUB_ENV
+          else
+            echo "base image download url updated in build_img_de.yml"
+            echo "no_changes=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create Pull Request
+        if: env.no_changes == 'false'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          token: ${{ secrets.PA_TOKEN }}
+          branch: "update-base-image-url-de"
+          commit-message: "Update base-image-url in build_img_de.yml"
+          title: "Update base-image-url-de"
+          body: |
+            This PR updates the base-image-url in `build_img_de.yml` to reflect the latest release.
           labels: automated-update
 
   update-gui-workflow:
