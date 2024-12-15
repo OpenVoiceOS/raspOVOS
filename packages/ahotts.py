@@ -11,6 +11,7 @@ def main(text_to_synthesize: str, output_file: str, speed: int = 100,
     print(f"Speed: {speed}")
     print(f"TTS Binary: {tts_binary}")
 
+    # TODO need to change workdir to dirname(tts_binary)
     # Use a temporary directory for intermediate files
     with tempfile.TemporaryDirectory() as tmp_dir:
         input_file = os.path.join(tmp_dir, "input.txt")

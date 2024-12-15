@@ -11,11 +11,11 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
-
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
 git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
 cd /tmp/AhoTTS
+apt-get install -y cmake
 ./script_compile_all_linux.sh
 mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
 cp /mounted-github-repo/packages/ahotts.py /usr/bin/AhoTTS/ahotts.py

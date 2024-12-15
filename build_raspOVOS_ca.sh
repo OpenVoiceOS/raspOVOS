@@ -19,7 +19,7 @@ mkdir -p /home/$USER/.local/share/mycroft/intent_cache
 cp -rv /mounted-github-repo/intent_cache/ca-ES /home/$USER/.local/share/mycroft/intent_cache/
 
 echo "Installing Citrinet plugin..."
-uv pip install ovos-stt-plugin-citrinet
+uv pip install --no-progress ovos-stt-plugin-citrinet
 
 echo "Downloading catalan citrinet model..."
 python /mounted-github-repo/packages/download_citrinet_ca.py

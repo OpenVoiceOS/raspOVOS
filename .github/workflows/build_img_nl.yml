@@ -8,7 +8,7 @@ on:
     paths:
       - '.github/workflows/build_img_nl.yml'
       - 'build_raspOVOS_nl.sh'
-      - 'intent_cache/nl/**'
+      - 'intent_cache/nl-NL/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
