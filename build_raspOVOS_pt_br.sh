@@ -9,11 +9,11 @@ set -e
 source /home/$USER/.venvs/ovos/bin/activate
 
 echo "Setting up default wifi country..."
-/usr/bin/raspi-config nonint do_wifi_country PT
+/usr/bin/raspi-config nonint do_wifi_country BR
 
 echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
-cp -rv /mounted-github-repo/intent_cache/pt-PT /home/$USER/.local/share/mycroft/intent_cache/
+cp -rv /mounted-github-repo/intent_cache/pt-BR /home/$USER/.local/share/mycroft/intent_cache/
 
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet
@@ -36,7 +36,7 @@ unzip -o $VOSK_DIR/vosk-model-small-pt-0.3.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
 # download default piper voice for portuguese
-PIPER_DIR="/home/$USER/.local/share/piper_tts/tugao-medium"
+PIPER_DIR="/home/$USER/.local/share/piper_tts/faber-medium"
 VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_PT/tug%C3%A3o/medium/pt_PT-tug%C3%A3o-medium.onnx"
 VOICE_URL2="https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_PT/tug%C3%A3o/medium/pt_PT-tug%C3%A3o-medium.onnx.json"
 mkdir -p "$PIPER_DIR"
