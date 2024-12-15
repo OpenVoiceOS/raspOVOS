@@ -12,10 +12,9 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country NL
 
-# TODO - get dutch intents
-#echo "Caching pre-trained padatious intents..."
-#mkdir -p /home/$USER/.local/share/mycroft/intent_cache
-#cp -rv /mounted-github-repo/intent_cache/nl-NL /home/$USER/.local/share/mycroft/intent_cache/
+echo "Caching pre-trained padatious intents..."
+mkdir -p /home/$USER/.local/share/mycroft/intent_cache
+cp -rv /mounted-github-repo/intent_cache/nl-NL /home/$USER/.local/share/mycroft/intent_cache/
 
 echo "Installing Citrinet plugin..."
 uv pip install ovos-stt-plugin-citrinet
