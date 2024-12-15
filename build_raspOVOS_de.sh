@@ -24,6 +24,10 @@ python /mounted-github-repo/packages/download_citrinet_de.py
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--neongeckocom--stt_de_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_de_citrinet_512_gamma_0_25/
 
+echo "Copying german utterance regex corrections..."
+mkdir -p /home/$USER/.local/share/mycroft
+cp /mounted-github-repo/regex_corrections_de.json /home/$USER/.local/share/mycroft/regex_corrections.json
+
 echo "Downloading german vosk model..."
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
