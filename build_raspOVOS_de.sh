@@ -16,9 +16,9 @@ mkdir -p /home/$USER/.local/share/mycroft/intent_cache
 cp -rv /mounted-github-repo/intent_cache/de-DE /home/$USER/.local/share/mycroft/intent_cache/
 
 echo "Installing Citrinet plugin..."
-uv pip install ovos-stt-plugin-citrinet
+uv pip install --no-progress ovos-stt-plugin-citrinet
 
-echo "Downloading dutch citrinet model..."
+echo "Downloading german citrinet model..."
 python /mounted-github-repo/packages/download_citrinet_de.py
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
