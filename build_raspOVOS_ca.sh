@@ -18,6 +18,9 @@ echo "Caching pre-trained padatious intents..."
 mkdir -p /home/$USER/.local/share/mycroft/intent_cache
 cp -rv /mounted-github-repo/intent_cache/ca-ES /home/$USER/.local/share/mycroft/intent_cache/
 
+echo "Installing Catalan specific skills"
+uv pip install --no-progress ovos-skill-fuster-quotes
+
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet
 
