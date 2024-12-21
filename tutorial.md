@@ -179,13 +179,56 @@ If you see an **undervoltage detected** warning:
 ### System Boot Issues  
 - If the device does not complete its boot sequence:  
   1. Ensure the power supply is stable and sufficient for your Raspberry Pi model.  
-  2. Check logs with the `ologs` command for error messages.  
+  2. If the OS boots but OVOS doesn't work:
+    - See if all OVOS services started up correctly with `ovos-status` command
+    - Check log files in `~/.local/state/mycroft/` for OVOS error messages.
   3. Re-flash the image if necessary, ensuring all configuration options are set correctly.  
 
 ### OVOS Fails to Speak "I am Ready"  
-- Confirm the device has a working Internet connection.  
-- Check logs with `ologs` for any errors related to the OVOS initialization process.  
+- Confirm the device has a working Internet connection. otherwise OVOS won't consider itself ready 
+
+### STT tips and tricks
+
+#### Saving Transcriptions
+
+You can enable saving of recordings to file, this should be your first step to diagnose problems, is the audio inteligible? is it being cropped? too noisy? low volume?
+
+> set `"save_utterances": true` in your [listener config](https://github.com/OpenVoiceOS/ovos-config/blob/V0.0.13a19/ovos_config/mycroft.conf#L436), recordings will be saved to `~/.local/share/mycroft/listener/utterances`
+
+If the recorded audio looks good to you, maybe you need to use a different STT plugin, maybe the one you are using does not like your microphone, or just isn't very good for your language
+
+#### Wrong Transcriptions
+
+If you consistently get specific words or utterances transcribed wrong, you can remedy around this to some extent by using the [ovos-utterance-corrections-plugin](https://github.com/OpenVoiceOS/ovos-utterance-corrections-plugin)
+
+> You can define replacements at word level `~/.local/share/mycroft/word_corrections.json`
+
+for example whisper STT often gets artist names wrong, this allows you to correct them
+```json
+{
+    "Jimmy Hendricks": "Jimi Hendrix",
+    "Eric Klapptern": "Eric Clapton",
+    "Eric Klappton": "Eric Clapton"
+}
+```
+
+#### Silence Removal
+
+By default OVOS applies VAD (Voice Activity Detection) to crop silence from the audio sent to STT, this helps in performance and in accuracy (reduces hallucinations in plugins like FasterWhisper)
+
+Depending on your microphone/VAD plugin, this might be removing too much audio
+
+> set `"remove_silence": false` in your [listener config](https://github.com/OpenVoiceOS/ovos-config/blob/V0.0.13a19/ovos_config/mycroft.conf#L452), this will send the full audio recording to STT
+
+#### Listen Sound
+
+does your listen sound contain speech? some users replace the "ding" sound with words such as "yes?"
+
+In this case the listen sound will be sent to STT and might negatively affect the transcription
+
+> set `"instant_listen": false` in your [listener config](https://github.com/OpenVoiceOS/ovos-config/blob/V0.0.13a19/ovos_config/mycroft.conf#L519), this will drop the listen sound audio from the STT audio buffer. You will need to wait for the listen sound to finish before speaking your command in this case
+
 
 ---
 
-Enjoy your journey with RaspOVOS! With your Raspberry Pi set up, you can start exploring the powerful features of OpenVoiceOS.
+Enjoy your journey with RaspOVOS! With your Raspberry Pi set up, you can start exploring all the features of OpenVoiceOS.
