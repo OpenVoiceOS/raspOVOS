@@ -95,7 +95,7 @@ Raspberry Pi boards are notoriously **picky about power supplies**. Insufficient
 ### Option 1: Configure Wi-Fi Using Raspberry Pi Imager  
 The most straightforward method is to set up Wi-Fi during the imaging process.  
 
-1. Open Raspberry Pi Imager and select the ⚙️ (Advanced Options).  
+1. Open Raspberry Pi Imager and select Edit Settings Option.  
 2. Enter your **SSID (Wi-Fi network name)** and **password** in the Wi-Fi configuration fields.  
 3. Write the image to your SD card or USB drive, and your Wi-Fi will be pre-configured.  
 
@@ -107,7 +107,7 @@ The most straightforward method is to set up Wi-Fi during the imaging process.
 4. If successful, you’ll hear an acknowledgment tone.  
    - If decoding fails or credentials are incorrect, you’ll hear an error tone.  
 
-**Note:** ggwave is a **work-in-progress** feature and does not have any dialogs or provide on-screen feedback.  
+🚧 **Note:** ggwave is a **work-in-progress** feature and does not have any dialogs or provide on-screen feedback. 🚧 
 
 ![image](https://github.com/user-attachments/assets/ce2857b1-b93f-4092-99f3-43f555e04920)
 
@@ -227,7 +227,6 @@ does your listen sound contain speech? some users replace the "ding" sound with 
 In this case the listen sound will be sent to STT and might negatively affect the transcription
 
 > set `"instant_listen": false` in your [listener config](https://github.com/OpenVoiceOS/ovos-config/blob/V0.0.13a19/ovos_config/mycroft.conf#L519), this will drop the listen sound audio from the STT audio buffer. You will need to wait for the listen sound to finish before speaking your command in this case
-
 
 ---
 
