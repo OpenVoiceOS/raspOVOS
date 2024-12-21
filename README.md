@@ -37,19 +37,23 @@ Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/bl
 ### Language-Specific Builds:
 - **[build_raspOVOS_en.sh](build_raspOVOS_en.sh)**  
   Configures OVOS to English, installs the Vosk English model (`"wake up"` wake word), and adds PiperTTS (`voice-en-gb-alan-low`).  
-- **[build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)**  
-  Configures OVOS to Portuguese, adds the Vosk Portuguese model (`"acorda"` wake word), sets STT to MyNorthAI public servers, and adds PiperTTS (`tugao-medium`).  
-- **[build_raspOVOS_es.sh](build_raspOVOS_es.sh)**  
-  Configures OVOS to Spanish, adds the Vosk Spanish model (`"desperta"` wake word), and installs AhoTTS.  
-- **[build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)**  
-  Configures OVOS to Galician.  
-  > 🚧 **NOTE**: No dedicated Galician model exists for vosk! Using Portuguese model (🚧 **TODO**: Test if the Spanish model works better).
-  - Installs Remote Cotovia TTS (🚧 **TODO**: to be replaced with NOS TTS once ONNX support is available).  
 - **[build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)**  
-  Configures OVOS to Catalan,downloads AINA citrinet STT model, and installs MatxaTTS.  
-- **[build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)**  
+  Configures OVOS to Catalan, downloads AINA citrinet STT model, and installs MatxaTTS.
+  - ✔️ fully offline
+- 🚧 **[build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)**  
+  Configures OVOS to Portuguese, adds the Vosk Portuguese model (`"acorda"` wake word), sets STT to MyNorthAI public servers, and adds PiperTTS (`tugao-medium`).  
+  - 🚧 **TODO**: train a proper TTS model, piper is NOT good  
+- 🚧 **[build_raspOVOS_es.sh](build_raspOVOS_es.sh)**  
+  Configures OVOS to Spanish, adds the Vosk Spanish model (`"desperta"` wake word), and installs AhoTTS.  
+- 🚧 **[build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)**  
+  Configures OVOS to Galician, adds the Vosk Portuguese model (`"desperta"` wake word) and configures TTS to use NOS TTS Public servers.  
+  - **NOTE**: No dedicated Galician model exists for vosk! (🚧 **TODO**: Test if the Spanish model works better / train galician model).
+  - 🚧 **TODO**: local NOS TTS once ONNX support is available.  
+- 🚧  **[build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)**  
   Configures OVOS to Basque and installs AhoTTS.  
-  > 🚧 **TODO**: Add support for Remote HiTz servers, and a `"wake up"` hotword.
+  - 🚧 **TODO**: Add support for Remote HiTz STT servers
+  - ⚠️ No`"wake up"` hotword because no dedicated Basque model exists for vosk! (🚧 **TODO**: train basque model).
+  - ⚠️ wont be able to get out of sleep mode if you use naptime skill 
 
 The workflows account for each language/platform combination
 ![image](https://github.com/user-attachments/assets/22c4ce7e-478a-4ef5-96e8-6e2f7c55ffff)
