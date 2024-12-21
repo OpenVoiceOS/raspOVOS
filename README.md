@@ -1,97 +1,64 @@
 # RaspOVOS
 
-Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier) we download a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top
+Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier), we download a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top. The customized images are then uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases). 🎉
 
-The images are then uploaded to [github releases](https://github.com/TigreGotico/raspOVOS/releases)
+## 📋 Notes:
+- **Default user**: `ovos`  
+- **Default password**: `ovos`  
+- **Default hostname**: `raspOVOS`  
+- OVOS services run under the `ovos` user, with autologin enabled.
 
-Notes:
-- default user: ovos
-- default password: ovos
-- default hostname: raspOVOS
-- OVOS services run under the OVOS user, autologin is enabled
+> ⚠️ **WARNING**: This repository is a work in progress to replace the [old-raspOVOS](https://github.com/OpenVoiceOS/ZZZ-raspOVOS) built on top of `pigen`. If this warning is still here, the images do not yet have feature parity!
 
-Latest images:
+### 📂 Latest Images:
+Find the latest images on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page.  
 
-- [raspOVOS-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-lite-2024-11-27)
-- [raspOVOS-catalan-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2024-11-27)
-- [raspOVOS-GUI-bookworm-arm64-lite-2024-11-27](https://github.com/TigreGotico/raspOVOS/releases/tag/raspOVOS-GUI-bookworm-arm64-lite-2024-11-27)
+### 🛠️ Getting Started:
+Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/blob/master/tutorial.md) for instructions.
 
-> **TODO**: github workflow to keep these urls up to date automatically
+---
 
-Build Scripts:
+## 🛠️ Build Scripts
 
-- [build_base.sh](build_base.sh)
-  - tunes the base system (see below)
-  - installs pipewire
-  - changes user
-  - enables ssh
-  - ...
-- [build_raspOVOS.sh](build_raspOVOS.sh)
-  - installs OVOS on top of base system
-  - download `"hey mycroft"` wake word
-- [build_raspOVOS_gui.sh](build_raspOVOS_gui.sh)
-  - installs OVOS GUI on top of base system
-- [build_raspOVOS_en.sh](build_raspOVOS_en.sh)
-  - configures OVOS to english
-  - downloads Vosk english model (`"wake up"` wake word)
-  - PiperTTS (`voice-en-gb-alan-low`) model
-- [build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)
-  - configures OVOS to portuguese
-  -  sets STT to MyNorthAI public servers
-  -  downloads Vosk portuguese model (`"acorda"` wake word)
-  -  PiperTTS (`tugao-medium`) model
-- [build_raspOVOS_es.sh](build_raspOVOS_es.sh)
-  - configures OVOS to spanish
-  - downloads Vosk spanish model (`"desperta"` wake word)
-  - PiperTTS (`carlfm-x-low`) model
-- [build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)
-  - configures OVOS to galician
-  - downloads Vosk portuguese model (`"desperta"`  wake word)
-    - **NOTE**: galician model does not exist! test if spanish works better
-  - installs Remote Cotovia TTS
-  - **TODO** replace with NOS TTS once it supports onnx
-- [build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)
-  - configures OVOS to catalan
-  - sets STT to AINA public servers
-  - downloads Vosk catalan model (for `"desperta"` wake word)
-  - installs MatxaTTS
-- [build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)
-   - configures OVOS to basque
-   - (**TODO** AhoTTS)
-   - (**TODO** Remote HiTz)
-   - (**TODO** find `"wake up"` wake word alternative)
+### Base System:
+- **[build_base.sh](build_base.sh)**  
+  - Tunes the base system (see below).  
+  - Installs `pipewire`.  
+  - Changes user, enables SSH, and more.  
 
-## Github Actions:
+### OVOS Builds:
+- **[build_raspOVOS.sh](build_raspOVOS.sh)**  
+  Installs OVOS on the base system, including the `"hey mycroft"` wake word.  
+- 🚧 **[build_raspOVOS_gui.sh](build_raspOVOS_gui.sh)** 🚧    
+  Installs the OVOS GUI on top of the base system.  (**work in progress**)
 
-- [build_base.yml](.github%2Fworkflows%2Fbuild_base.yml)
-  creates `raspOVOS-NO-OVOS-bookworm-arm64-lite.img` 
-- [build_img.yml](.github%2Fworkflows%2Fbuild_img.yml)
-  creates `raspOVOS-bookworm-arm64-lite.img`  
-- [build_img_gui.yml](.github%2Fworkflows%2Fbuild_img_gui.yml)
-  creates `raspOVOS-GUI-bookworm-arm64-lite.img`  
-- [build_img_ca.yml](.github%2Fworkflows%2Fbuild_img_ca.yml)
-  creates `raspOVOS-catalan-bookworm-arm64-lite.img`  
-- [build_img_en.yml](.github%2Fworkflows%2Fbuild_img_en.yml)
-  creates `raspOVOS-english-bookworm-arm64-lite.img` 
-- [build_img_es.yml](.github%2Fworkflows%2Fbuild_img_es.yml)
-  creates `raspOVOS-spanish-bookworm-arm64-lite.img` 
-- [build_img_eu.yml](.github%2Fworkflows%2Fbuild_img_eu.yml)
-  creates `raspOVOS-basque-bookworm-arm64-lite.img` 
-- [build_img_pt.yml](.github%2Fworkflows%2Fbuild_img_pt.yml)
-  creates `raspOVOS-portuguese-bookworm-arm64-lite.img`  
-- [build_img_ca_gui.yml](.github%2Fworkflows%2Fbuild_img_ca_gui.yml)
-  creates `raspOVOS-GUI-catalan-bookworm-arm64-lite.img`  
-
-Whenever we update the base raspios image the workflows will be automatically updated to start from the newly built images
 ![image](https://github.com/user-attachments/assets/92bd2a6f-e2d1-47d4-8140-a5b5b4cb7140)
+
+### Language-Specific Builds:
+- **[build_raspOVOS_en.sh](build_raspOVOS_en.sh)**  
+  Configures OVOS to English, installs the Vosk English model (`"wake up"` wake word), and adds PiperTTS (`voice-en-gb-alan-low`).  
+- **[build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)**  
+  Configures OVOS to Portuguese, adds the Vosk Portuguese model (`"acorda"` wake word), sets STT to MyNorthAI public servers, and adds PiperTTS (`tugao-medium`).  
+- **[build_raspOVOS_es.sh](build_raspOVOS_es.sh)**  
+  Configures OVOS to Spanish, adds the Vosk Spanish model (`"desperta"` wake word), and installs AhoTTS.  
+- **[build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)**  
+  Configures OVOS to Galician.  
+  > 🚧 **NOTE**: No dedicated Galician model exists for vosk! Using Portuguese model (🚧 **TODO**: Test if the Spanish model works better).
+  - Installs Remote Cotovia TTS (🚧 **TODO**: to be replaced with NOS TTS once ONNX support is available).  
+- **[build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)**  
+  Configures OVOS to Catalan,downloads AINA citrinet STT model, and installs MatxaTTS.  
+- **[build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)**  
+  Configures OVOS to Basque and installs AhoTTS.  
+  > 🚧 **TODO**: Add support for Remote HiTz servers, and a `"wake up"` hotword.
 
 The workflows account for each language/platform combination
 ![image](https://github.com/user-attachments/assets/22c4ce7e-478a-4ef5-96e8-6e2f7c55ffff)
 
-## OVOS Raspberry Pi Image Optimizations
+---
 
-This repository contains scripts designed to optimize Raspberry Pi OS for running OVOS (Open Voice OS), improving
-overall system performance and stability.
+## 🚀 OVOS Raspberry Pi Optimizations
+
+This repository includes scripts to optimize Raspberry Pi OS for running OVOS, improving system performance and stability.
 
 Here is an overview of the changes to the base raspios-lite image
 
@@ -121,3 +88,11 @@ Here is an overview of the changes to the base raspios-lite image
 |                        | `vm.vfs_cache_pressure=500`                                                                                                                         | Reduces pressure on the VFS cache, ensuring more data stays in memory for faster file access, which is important for real-time applications.                                                                                                                                |
 |                        | `vm.dirty_background_ratio=1`                                                                                                                       | Reduces the amount of memory that can be used before data is written to disk, ensuring data is written more frequently and preventing memory overload.                                                                                                                      |
 |                        | `vm.dirty_ratio=50`                                                                                                                                 | Controls the threshold at which dirty pages (pages that need to be written to disk) trigger writes. A higher value means more data is kept in memory before writing to disk.                                                                                                |
+
+
+---
+
+## 📦 Additional Notes
+- 🎨 **Custom Builds**: Create your own language or feature-specific builds by extending the scripts!  
+- 🔗 **Contribute**: Found a bug or have an idea? Open an issue or submit a PR!  
+- 💬 **Community**: Join us on [Matrix](https://matrix.to/#/#openvoiceos:matrix.org) to discuss and get support.  
