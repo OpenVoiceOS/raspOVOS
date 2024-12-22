@@ -459,7 +459,7 @@ jobs:
                   author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
                   committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
                   token: ${{ secrets.PA_TOKEN }}
-                  branch: "update-base-image-url-de"
+                  branch: "update-base-image-url-da"
                   commit-message: "Update base-image-url in build_img_da.yml"
                   title: "Update base-image-url-da"
                   body: |
