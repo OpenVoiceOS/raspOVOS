@@ -156,7 +156,7 @@ uv pip install --no-progress --pre ovos-lingua-franca ovos-backend-client -c $CO
 echo "Caching nltk resources..."
 cp -rv /mounted-github-repo/packages/nltk_data /home/$USER/
 
-echo "Installing OVOS Spotifyd..."
+echo "Installing OVOS Spotify..."
 bash /mounted-github-repo/packages/setup_spotify.sh
 uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
 
