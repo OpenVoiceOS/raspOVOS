@@ -8,7 +8,7 @@ After=ovos-messagebus.service
 Type=notify
 Group=ovos
 UMask=002
-ExecStart%h/.local/bin/spotifyd --device-type "speaker" --initial-volume 100 --on-song-change-hook "~/.venvs/ovos/bin/python /usr/libexec/ovos-spotifyd" --no-daemon
+ExecStart%h/.cargo/bin/librespot --name raspOVOS --device-type "speaker" --initial-volume 100 --onevent "~/.venvs/ovos/bin/python /usr/libexec/ovos-librespot"
 TimeoutStartSec=1m
 TimeoutStopSec=1m
 Restart=on-failure

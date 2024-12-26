@@ -156,9 +156,9 @@ uv pip install --no-progress --pre ovos-lingua-franca ovos-backend-client -c $CO
 echo "Caching nltk resources..."
 cp -rv /mounted-github-repo/packages/nltk_data /home/$USER/
 
-# TODO - once it works properly
-#echo "Installing OVOS Spotifyd..."
-#bash /mounted-github-repo/packages/setup_spotify.sh
+echo "Installing OVOS Spotifyd..."
+bash /mounted-github-repo/packages/setup_spotify.sh
+uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
 
 # no balena for now, let's use ggwave instead
 #echo "Installing Balena wifi plugin..."
