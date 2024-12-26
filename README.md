@@ -35,50 +35,8 @@ Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/bl
 | **Galician**   | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-server`<br>NOS TTS public servers | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"acorda"                                | - STT and TTS rely on public servers<br>- NOS TTS planned for local use once ONNX support is available. <br>- ⚠️ "wake up" does not have dedicated galician vosk model <br> - ⚠️ might be hard to get out of sleep mode!  (using portuguese model)|  🛠️ **Work in Progress**        |
 | **Basque**     | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-ahotts`<br>basque                 | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | None                                | - STT relies on public servers<br>- HiTz STT remote servers support planned<br>- "wake up" does not have dedicated basque vosk model <br> - ⚠️ won't be able to get out of sleep mode!                                                    | 🛠️ **Work in Progress** |
 
----
-
-## 🛠️ Build Scripts
-
-### Base System:
-- **[build_base.sh](build_base.sh)**  
-  - Tunes the base system (see below).  
-  - Installs `pipewire`.  
-  - Changes user, enables SSH, and more.  
-
-### OVOS Builds:
-- **[build_raspOVOS.sh](build_raspOVOS.sh)**  
-  Installs OVOS on the base system, including the `"hey mycroft"` wake word.  
-- 🚧 **[build_raspOVOS_gui.sh](build_raspOVOS_gui.sh)** 🚧    
-  Installs the OVOS GUI on top of the base system.  (**work in progress**)
-
-![image](https://github.com/user-attachments/assets/92bd2a6f-e2d1-47d4-8140-a5b5b4cb7140)
-
-### Language-Specific Builds:
-- **[build_raspOVOS_en.sh](build_raspOVOS_en.sh)**  
-  Configures OVOS to English, installs the Vosk English model (`"wake up"` wake word), and adds PiperTTS (`voice-en-gb-alan-low`).  
-- **[build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)**  
-  Configures OVOS to Catalan, downloads AINA citrinet STT model, and installs MatxaTTS.
-  - ✔️ fully offline
-- 🚧 **[build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)**  
-  Configures OVOS to Portuguese, adds the Vosk Portuguese model (`"acorda"` wake word), sets STT to MyNorthAI public servers, and adds PiperTTS (`tugao-medium`).  
-  - 🚧 **TODO**: train a proper TTS model, piper is NOT good  
-- 🚧 **[build_raspOVOS_es.sh](build_raspOVOS_es.sh)**  
-  Configures OVOS to Spanish, adds the Vosk Spanish model (`"desperta"` wake word), and installs AhoTTS.  
-- 🚧 **[build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)**  
-  Configures OVOS to Galician, adds the Vosk Portuguese model (`"desperta"` wake word) and configures TTS to use NOS TTS Public servers.  
-  - **NOTE**: No dedicated Galician model exists for vosk! (🚧 **TODO**: Test if the Spanish model works better / train galician model).
-  - 🚧 **TODO**: local NOS TTS once ONNX support is available.  
-- 🚧  **[build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)**  
-  Configures OVOS to Basque and installs AhoTTS.  
-  - 🚧 **TODO**: Add support for Remote HiTz STT servers
-  - ⚠️ No`"wake up"` hotword because no dedicated Basque model exists for vosk! (🚧 **TODO**: train basque model).
-  - ⚠️ wont be able to get out of sleep mode if you use naptime skill 
-
-The workflows account for each language/platform combination
-![image](https://github.com/user-attachments/assets/22c4ce7e-478a-4ef5-96e8-6e2f7c55ffff)
 
 ---
-
 ## 🚀 OVOS Raspberry Pi Optimizations
 
 This repository includes scripts to optimize Raspberry Pi OS for running OVOS, improving system performance and stability.
@@ -114,6 +72,42 @@ Here is an overview of the changes to the base raspios-lite image
 
 
 ---
+
+## 🛠️ Build Scripts
+
+### Base System:
+- **[build_base.sh](build_base.sh)**  
+  - Tunes the base system (see below).  
+  - Installs `pipewire`.  
+  - Changes user, enables SSH, and more.  
+
+### OVOS Builds:
+- **[build_raspOVOS.sh](build_raspOVOS.sh)**  
+  Installs OVOS on the base system, including the `"hey mycroft"` wake word.  
+- 🚧 **[build_raspOVOS_gui.sh](build_raspOVOS_gui.sh)** 🚧    
+  Installs the OVOS GUI on top of the base system.  (**work in progress**)
+
+![image](https://github.com/user-attachments/assets/92bd2a6f-e2d1-47d4-8140-a5b5b4cb7140)
+
+### Language-Specific Builds:
+- **[build_raspOVOS_en.sh](build_raspOVOS_en.sh)**  
+  Configures OVOS to English, installs the Vosk English model (`"wake up"` wake word), and adds PiperTTS (`voice-en-gb-alan-low`).  
+- **[build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)**  
+  Configures OVOS to Catalan, downloads AINA citrinet STT model, and installs MatxaTTS.
+- 🚧 **[build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)**  
+  Configures OVOS to Portuguese, adds the Vosk Portuguese model (`"acorda"` wake word), sets STT to MyNorthAI public servers, and adds PiperTTS (`tugao-medium`).  
+- 🚧 **[build_raspOVOS_es.sh](build_raspOVOS_es.sh)**  
+  Configures OVOS to Spanish, adds the Vosk Spanish model (`"desperta"` wake word), and installs AhoTTS.  
+- 🚧 **[build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)**  
+  Configures OVOS to Galician, adds the Vosk Portuguese model (`"desperta"` wake word) and configures TTS to use NOS TTS Public servers.  
+- 🚧  **[build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)**  
+  Configures OVOS to Basque and installs AhoTTS.  
+
+The workflows account for each language/platform combination
+![image](https://github.com/user-attachments/assets/22c4ce7e-478a-4ef5-96e8-6e2f7c55ffff)
+
+---
+
 
 ## 📦 Additional Notes
 - 🎨 **Custom Builds**: Create your own language or feature-specific builds by extending the scripts!  
