@@ -11,7 +11,6 @@ chown -R ovos:ovos /home/ovos/.cargo
 CARGO_HOME=/home/ovos/.cargo cargo install librespot
 
 # Define variables
-SPOTIFYD_BIN="/home/$USER/.cargo/bin/spotifyd"
 SERVICE_PATH="/home/$USER/.config/systemd/user"
 SERVICE_FILE="ovos-spotify.service"
 HOOK_SCRIPT="/usr/libexec/ovos-librespot"
