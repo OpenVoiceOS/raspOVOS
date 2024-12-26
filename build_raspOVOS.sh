@@ -81,7 +81,8 @@ wget -O "$DEST" "$CONSTRAINTS"
 
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
-apt-get install i2c-tools avrude
+apt-get install i2c-tools
+# TODO install avrude for mk1 auto detection
 
 git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
 
@@ -149,7 +150,8 @@ echo "Installing skills..."
 uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skills-media,skills-internet,skills-extra]
 
 echo "Installing PHAL plugins..."
-uv pip install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar ovos-PHAL-plugin-mk1
+# TODO - mk1 plugin once its validator is fixed
+uv pip install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar
 
 # some skills import from these libs and dont have them as dependencies
 # just until that is fixed...
