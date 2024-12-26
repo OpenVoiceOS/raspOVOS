@@ -141,10 +141,15 @@ uv pip install --no-progress /mounted-github-repo/packages/ggwave-0.4.2-cp311-cp
 
 # install OVOS in venv
 echo "Installing OVOS..."
-uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
+uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-phal ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
 
 echo "Installing skills..."
 uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skills-media,skills-internet,skills-extra]
+
+echo "Installing PHAL plugins..."
+uv install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar ovos-PHAL-plugin-mk1
+# for mk1 platform detection
+apt-get install avrude
 
 # some skills import from these libs and dont have them as dependencies
 # just until that is fixed...
