@@ -74,10 +74,6 @@ echo "Configuring default skill settings.json..."
 mkdir -p /home/$USER/.config/mycroft/skills
 cp -rv /mounted-github-repo/settings/* /home/$USER/.config/mycroft/skills/
 
-echo "Downloading constraints.txt from $CONSTRAINTS..."
-# TODO - this path will change soon, currently used by ggwave installer to not allow skills to downgrade packages
-DEST="/etc/mycroft/constraints.txt"
-wget -O "$DEST" "$CONSTRAINTS"
 
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
