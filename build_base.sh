@@ -95,6 +95,9 @@ apt-get install -y --no-install-recommends jq git unzip curl build-essential fak
 # what else can be removed to make the system even lighter?
 apt purge -y cups ppp
 
+echo "Setting up libcamera..."
+apt install -y python3-libcamera python3-kms++ libcap-dev
+
 echo "Setting rfkill default value..."
 cp -v /mounted-github-repo/tuning/rfkill_default.conf /etc/modprobe.d/rfkill_default.conf
 
