@@ -16,6 +16,25 @@ Find the latest images on the [Releases](https://github.com/OpenVoiceOS/raspOVOS
 ### 🛠️ Getting Started:
 Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/blob/master/tutorial.md) for instructions.
 
+
+---
+
+## Language Specific Image Comparison
+
+- 🌟 **Best**: Fully offline (STT, TTS, wake words).
+- ✅ **Good**: Online STT + Offline TTS.
+- ⚡ **Usable**: Online STT + Online TTS.
+- 🛠️ **Work in Progress**: Missing key functionality or early-stage development.
+
+| **Language**   | **STT**                                                  | **TTS**                                            | **Wake Word**                                  | **"Wake Up" Hotword**               | **Notes**                                                                                                                                                            | **Rating**               |
+|----------------|----------------------------------------------------------|----------------------------------------------------|------------------------------------------------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
+| **English**    | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-piper`<br>voice-en-gb-alan-low    | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"wake up"  | - STT relies on public servers                                                                                                                                       | ✅  **Good**              |
+| **Catalan**    | `ovos-stt-plugin-citrinet`<br>AINA Citrinet model        | `ovos-tts-plugin-matxa`<br>MatxaTTS                | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"desperta" | - Fully offline; supports Catalan-specific models for STT and TTS.                                                                                                   | 🌟  **Best**             |
+| **Portuguese** | `ovos-stt-plugin-server`<br>MyNorthAI public servers     | `ovos-tts-plugin-piper`<br>tugao-medium            | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"acorda"   | - STT relies on public servers<br>- Piper TTS is temporary (poor quality).                                                                                           | ⚡ **Usable**             |
+| **Spanish**    | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-ahotts`<br>spanish                | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"desperta" | - STT relies on public servers                                                                                                                                       | ✅  **Good**              |
+| **Galician**   | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-server`<br>NOS TTS public servers | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"acorda"                                | - STT and TTS rely on public servers<br>- NOS TTS planned for local use once ONNX support is available. <br>- "wake up" model does not have dedicated galician model | ⚡ **Usable**             |
+| **Basque**     | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-ahotts`<br>basque                 | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | None                                | - STT relies on public servers<br>- HiTz STT remote servers support planned<br>- "wake up" model training needed.                                                    | 🛠️ **Work in Progress** |
+
 ---
 
 ## 🛠️ Build Scripts
