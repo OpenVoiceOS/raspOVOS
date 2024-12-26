@@ -134,6 +134,10 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 uv pip install --no-progress wheel cython -c $CONSTRAINTS
 
+echo "Installing OVOS Spotify..."
+bash /mounted-github-repo/packages/setup_spotify.sh
+uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
+
 echo "Installing ggwave..."
 uv pip install --no-progress /mounted-github-repo/packages/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
 
@@ -155,10 +159,6 @@ uv pip install --no-progress --pre ovos-lingua-franca ovos-backend-client -c $CO
 
 echo "Caching nltk resources..."
 cp -rv /mounted-github-repo/packages/nltk_data /home/$USER/
-
-# TODO - once it works properly
-#echo "Installing OVOS Spotifyd..."
-#bash /mounted-github-repo/packages/setup_spotify.sh
 
 # no balena for now, let's use ggwave instead
 #echo "Installing Balena wifi plugin..."

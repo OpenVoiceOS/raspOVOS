@@ -3,12 +3,14 @@ Description=OVOS Spotify OCP Hooks
 PartOf=ovos.service
 After=ovos.service
 After=ovos-messagebus.service
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=notify
 Group=ovos
 UMask=002
-ExecStart%h/.local/bin/spotifyd --device-type "speaker" --initial-volume 100 --on-song-change-hook "~/.venvs/ovos/bin/python /usr/libexec/ovos-spotifyd" --no-daemon
+ExecStart=%h/.cargo/bin/librespot --name raspOVOS --device-type "speaker" --initial-volume 100 --onevent "~/.venvs/ovos/bin/python /usr/libexec/ovos-librespot"
 TimeoutStartSec=1m
 TimeoutStopSec=1m
 Restart=on-failure
@@ -17,4 +19,3 @@ StartLimitBurst=4
 
 [Install]
 WantedBy=ovos.service
-
