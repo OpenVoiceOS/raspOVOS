@@ -32,7 +32,7 @@ echo "The UID for '$USER' is: $TUID"
 
 # Update package list and install necessary tools
 echo "Installing system packages..."
-apt-get install -y --no-install-recommends i2c-tools mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev
+apt-get install -y --no-install-recommends mpv libssl-dev libfann-dev portaudio19-dev libpulse-dev
 
 # splashscreen
 echo "Creating OVOS splashscreen..."
@@ -81,6 +81,8 @@ wget -O "$DEST" "$CONSTRAINTS"
 
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
+apt-get install i2c-tools avrude
+
 git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
 
 cp /tmp/ovos-i2csound/i2c.conf /etc/modules-load.d/i2c.conf
@@ -147,9 +149,7 @@ echo "Installing skills..."
 uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skills-media,skills-internet,skills-extra]
 
 echo "Installing PHAL plugins..."
-uv install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar ovos-PHAL-plugin-mk1
-# for mk1 platform detection
-apt-get install avrude
+uv pip install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar ovos-PHAL-plugin-mk1
 
 # some skills import from these libs and dont have them as dependencies
 # just until that is fixed...
