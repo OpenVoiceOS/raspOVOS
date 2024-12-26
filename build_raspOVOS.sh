@@ -77,8 +77,7 @@ cp -rv /mounted-github-repo/settings/* /home/$USER/.config/mycroft/skills/
 
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
-apt-get install i2c-tools
-# TODO install avrude for mk1 auto detection
+apt-get install -y --no-install-recommends avrdude i2c-tools
 
 git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
 
