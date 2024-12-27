@@ -11,6 +11,7 @@ export CARGO_HOME="/home/$USER/.cargo"
 mkdir -p $CARGO_HOME
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile minimal --no-modify-path
+. "$CARGO_HOME/env"
 
 echo "Installing librespot..."
 usr/bin/cargo install librespot
