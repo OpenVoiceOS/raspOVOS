@@ -16,18 +16,32 @@
 ##########################################################################
 import sdnotify
 from ovos_PHAL.admin import main
+from ovos_utils.log import LOG
 
 n = sdnotify.SystemdNotifier()
 
 
+def notify_started():
+    n.notify('STARTED=1')
+    LOG.info("OVOS Admin PHAL service started!")
+
+
 def notify_ready():
     n.notify('READY=1')
-    print('Startup of admin PHAL service complete')
+    LOG.info('Startup of Admin PHAL service complete')
 
 
 def notify_stopping():
     n.notify('STOPPING=1')
-    print('Stopping the admin PHAL service')
+    LOG.info('Stopping the Admin PHAL service')
 
 
-main(ready_hook=notify_ready, stopping_hook=notify_stopping)
+if __name__ == "__main__":
+    try:
+        main(started_hook=notify_started,
+             ready_hook=notify_ready,
+             stopping_hook=notify_stopping)
+    except Exception as e:
+        LOG.error(f"OVOS Admin PHAL Service encountered an error: {e}")
+        n.notify(f'ERRNO=1')
+        exit(1)

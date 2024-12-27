@@ -151,6 +151,10 @@ uv pip install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dots
 echo "Installing OVOS Spotify..."
 uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
 
+echo "Installing HiveMind..."
+# TODO deltachat/matrix bridhes + hivemind help alias
+uv pip install --no-progress --pre hivemind-core
+
 # some skills import from these libs and dont have them as dependencies
 # just until that is fixed...
 echo "Installing deprecated OVOS packages for compat..."
@@ -175,6 +179,7 @@ cp -v /mounted-github-repo/services/ovos-systemd-audio /usr/libexec/ovos-systemd
 cp -v /mounted-github-repo/services/ovos-systemd-listener /usr/libexec/ovos-systemd-listener
 cp -v /mounted-github-repo/services/ovos-systemd-phal /usr/libexec/ovos-systemd-phal
 cp -v /mounted-github-repo/services/ovos-systemd-gui /usr/libexec/ovos-systemd-gui
+cp -v /mounted-github-repo/services/ovos-systemd-hivemind /usr/libexec/ovos-systemd-hivemind
 cp -v /mounted-github-repo/services/ovos-librespot /usr/libexec/ovos-librespot
 
 mkdir -p /home/$USER/.config/systemd/user/
@@ -185,6 +190,7 @@ cp -v /mounted-github-repo/services/ovos-audio.service /home/$USER/.config/syste
 cp -v /mounted-github-repo/services/ovos-listener.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-phal.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-gui.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/hivemind-core.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-ggwave.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-spotify.service /home/$USER/.config/systemd/user/
 
@@ -201,6 +207,7 @@ ln -s /home/$USER/.config/systemd/user/ovos-audio.service /home/$USER/.config/sy
 ln -s /home/$USER/.config/systemd/user/ovos-listener.service /home/$USER/.config/systemd/user/default.target.wants/ovos-listener.service
 ln -s /home/$USER/.config/systemd/user/ovos-phal.service /home/$USER/.config/systemd/user/default.target.wants/ovos-phal.service
 ln -s /home/$USER/.config/systemd/user/ovos-gui.service /home/$USER/.config/systemd/user/default.target.wants/ovos-gui.service
+ln -s /home/$USER/.config/systemd/user/hivemind-core.service /home/$USER/.config/systemd/user/default.target.wants/hivemind-core.service
 ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
 ln -s /home/$USER/.config/systemd/user/ovos-spotify.service /home/$USER/.config/systemd/user/default.target.wants/ovos-spotify.service
 

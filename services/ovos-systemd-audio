@@ -14,20 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ##########################################################################
+import sys
+
 import sdnotify
 from ovos_audio.__main__ import main
+from ovos_utils.log import LOG
 
 n = sdnotify.SystemdNotifier()
 
 
+def notify_started():
+    n.notify('STARTED=1')
+    LOG.info("OVOS Audio service started!")
+
+
 def notify_ready():
     n.notify('READY=1')
-    print('Startup of OVOS Audio service complete')
+    LOG.info('Startup of OVOS Audio service complete')
 
 
 def notify_stopping():
     n.notify('STOPPING=1')
-    print('Stopping the OVOS Audio service')
+    LOG.info('Stopping the OVOS Audio service')
 
 
-main(ready_hook=notify_ready, stopping_hook=notify_stopping)
+if __name__ == "__main__":
+    try:
+        main(started_hook=notify_started,
+             ready_hook=notify_ready,
+             stopping_hook=notify_stopping)
+    except Exception as e:
+        LOG.error(f"Service encountered an error: {e}")
+        n.notify(f'ERRNO=1')
+        sys.exit(1)
