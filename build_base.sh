@@ -91,7 +91,7 @@ touch /var/lib/userconf-pi/autologin
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
-apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip fbi
+apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip fbi libasound2-dev
 # what else can be removed to make the system even lighter?
 apt purge -y cups ppp
 
