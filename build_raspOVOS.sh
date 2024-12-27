@@ -134,10 +134,6 @@ source /home/$USER/.venvs/ovos/bin/activate
 
 uv pip install --no-progress wheel cython -c $CONSTRAINTS
 
-echo "Installing OVOS Spotify..."
-bash /mounted-github-repo/packages/setup_spotify.sh
-uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
-
 echo "Installing ggwave..."
 uv pip install --no-progress /mounted-github-repo/packages/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
 
@@ -151,6 +147,9 @@ uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skill
 echo "Installing PHAL plugins..."
 # TODO - mk1 plugin once its validator is fixed
 uv pip install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar
+
+echo "Installing OVOS Spotify..."
+uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
 
 # some skills import from these libs and dont have them as dependencies
 # just until that is fixed...
@@ -176,6 +175,7 @@ cp -v /mounted-github-repo/services/ovos-systemd-audio /usr/libexec/ovos-systemd
 cp -v /mounted-github-repo/services/ovos-systemd-listener /usr/libexec/ovos-systemd-listener
 cp -v /mounted-github-repo/services/ovos-systemd-phal /usr/libexec/ovos-systemd-phal
 cp -v /mounted-github-repo/services/ovos-systemd-gui /usr/libexec/ovos-systemd-gui
+cp -v /mounted-github-repo/services/ovos-librespot /usr/libexec/ovos-librespot
 
 mkdir -p /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos.service /home/$USER/.config/systemd/user/
@@ -186,6 +186,7 @@ cp -v /mounted-github-repo/services/ovos-listener.service /home/$USER/.config/sy
 cp -v /mounted-github-repo/services/ovos-phal.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-gui.service /home/$USER/.config/systemd/user/
 cp -v /mounted-github-repo/services/ovos-ggwave.service /home/$USER/.config/systemd/user/
+cp -v /mounted-github-repo/services/ovos-spotify.service /home/$USER/.config/systemd/user/
 
 # Set permissions for services
 chmod 644 /home/$USER/.config/systemd/user/*.service
@@ -201,11 +202,11 @@ ln -s /home/$USER/.config/systemd/user/ovos-listener.service /home/$USER/.config
 ln -s /home/$USER/.config/systemd/user/ovos-phal.service /home/$USER/.config/systemd/user/default.target.wants/ovos-phal.service
 ln -s /home/$USER/.config/systemd/user/ovos-gui.service /home/$USER/.config/systemd/user/default.target.wants/ovos-gui.service
 ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
+ln -s /home/$USER/.config/systemd/user/ovos-spotify.service /home/$USER/.config/systemd/user/default.target.wants/ovos-spotify.service
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R $TUID:$TGID /home/$USER
-
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean
