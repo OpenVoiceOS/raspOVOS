@@ -9,7 +9,7 @@ After=network-online.target
 [Service]
 Group=ovos
 UMask=002
-ExecStart=%h/.cargo/bin/librespot --name raspOVOS --device-type "speaker" --initial-volume 100 --onevent "/usr/libexec/ovos-librespot"
+ExecStart=/usr/bin/librespot --name raspOVOS --device-type "speaker" --initial-volume 100 --onevent "/usr/libexec/ovos-librespot"
 Restart=on-failure
 
 [Install]
