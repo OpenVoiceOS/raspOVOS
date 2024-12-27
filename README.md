@@ -17,13 +17,35 @@ on top. The customized images are then uploaded to [GitHub Releases](https://git
 > here,
 > the images do not yet have feature parity!
 
-### 📂 Latest Images:
-
-Find the latest images on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page.
 
 ### 🛠️ Getting Started:
 
 Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/blob/master/tutorial.md) for instructions.
+
+---
+
+### 📂 Latest Images:
+
+The image versions below are considered the latest stable versions
+
+- [raspOVOS-english-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-english-bookworm-arm64-lite-2024-12-19)
+- [raspOVOS-dutch-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-dutch-bookworm-arm64-lite-2024-12-19)
+- [raspOVOS-catalan-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2024-12-19)
+- [raspOVOS-german-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-german-bookworm-arm64-lite-2024-12-19)
+- [raspOVOS-spanish-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-spanish-bookworm-arm64-lite-2024-12-19)
+- [raspOVOS-portuguese-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-portuguese-bookworm-arm64-lite-2024-12-19)
+- [raspOVOS-galician-bookworm-arm64-lite-2024-12-19](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-galician-bookworm-arm64-lite-2024-12-19)
+
+Are you a developer?
+
+Find the latest developer builds on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page. 
+
+> ⚠️ These builds are semi-automated and might not be well tested in comparison to the versions listed above
+
+The intermediate images might also be of interest
+
+- [raspOVOS-NO-OVOS-bookworm-arm64-lite-2024-12-27](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-NO-OVOS-bookworm-arm64-lite-2024-12-27) - base optimized bookworm image, without OVOS installed
+- [raspOVOS-bookworm-arm64-lite-2024-12-27](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-bookworm-arm64-lite-2024-12-27) - OVOS installed, but no language specific optimizations applied
 
 
 ---
