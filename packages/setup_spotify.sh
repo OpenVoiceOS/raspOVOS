@@ -25,3 +25,6 @@ fi
 echo "Installing librespot..."
 cargo install librespot
 
+# Uninstall Rust
+echo "Uninstalling Rust..."
+rustup self uninstall -y
