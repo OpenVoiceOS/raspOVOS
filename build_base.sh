@@ -91,7 +91,7 @@ touch /var/lib/userconf-pi/autologin
 # Update package list and install necessary tools
 echo "Updating base system..."
 apt-get update
-apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip fbi libasound2-dev
+apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi swig python3-dev python3-pip fbi libasound2-dev mosh
 # what else can be removed to make the system even lighter?
 apt purge -y cups ppp
 
@@ -112,6 +112,18 @@ bash /mounted-github-repo/packages/setup_kdeconnect.sh
 
 echo "Installing Librespot..."
 bash /mounted-github-repo/packages/setup_spotify.sh
+
+echo "Installing upmpdcli for DLNA playback"
+curl -o /etc/apt/sources.list.d/upmpdcli.list https://www.lesbonscomptes.com/upmpdcli/pages/upmpdcli-rbookworm.list
+gpg --no-default-keyring --keyring /usr/share/keyrings/lesbonscomptes.gpg --keyserver keyserver.ubuntu.com --recv-key F8E3347256922A8AE767605B7808CE96D38B9201
+
+apt update && apt install -y upmpdcli mpd
+
+cp -v /mounted-github-repo/tuning/mpd.conf /etc/mpd.conf
+cp -v /mounted-github-repo/tuning/upmpdcli.conf /etc/upmpdcli.conf
+
+ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
+ln -s /usr/lib/systemd/system/upmpdcli.service /etc/systemd/system/multi-user.target.wants/upmpdcli.service
 
 #echo "Installing Balena Wifi-connect..."
 #bash /mounted-github-repo/packages/setup_balena_wifi.sh

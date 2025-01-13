@@ -112,14 +112,18 @@ cp -v /mounted-github-repo/services/ovos-ssh-signal.service /etc/systemd/system/
 cp -v /mounted-github-repo/services/ovos-ssh-disabled-signal /usr/libexec/ovos-ssh-disabled-signal
 cp -v /mounted-github-repo/services/ovos-ssh-enabled-signal /usr/libexec/ovos-ssh-enabled-signal
 
-echo "Adding shutdown/reboot signals..."
+echo "Adding messagebus signals..."
 cp -v /mounted-github-repo/services/ovos-reboot-signal.service /etc/systemd/system/ovos-reboot-signal.service
 cp -v /mounted-github-repo/services/ovos-shutdown-signal.service /etc/systemd/system/ovos-shutdown-signal.service
 ln -s /etc/systemd/system/ovos-reboot-signal.service /etc/systemd/system/multi-user.target.wants/ovos-reboot-signal.service
 ln -s /etc/systemd/system/ovos-shutdown-signal.service /etc/systemd/system/multi-user.target.wants/ovos-shutdown-signal.service
+cp -v /mounted-github-repo/services/ovos-stop /usr/libexec/ovos-stop
 cp -v /mounted-github-repo/services/ovos-restart-signal /usr/libexec/ovos-restart-signal
 cp -v /mounted-github-repo/services/ovos-reboot-signal /usr/libexec/ovos-reboot-signal
 cp -v /mounted-github-repo/services/ovos-shutdown-signal /usr/libexec/ovos-shutdown-signal
+cp -v /mounted-github-repo/services/ovos-ocp-pause-signal /usr/libexec/ovos-ocp-pause-signal
+cp -v /mounted-github-repo/services/ovos-ocp-play-signal /usr/libexec/ovos-ocp-play-signal
+cp -v /mounted-github-repo/services/ovos-ocp-stop-signal /usr/libexec/ovos-ocp-stop-signal
 
 echo "Installing OVOS Rust Messagebus..."
 bash /mounted-github-repo/packages/setup_rustbus.sh
