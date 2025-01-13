@@ -45,6 +45,7 @@ disable_splash=1
 # Reduce GPU memory allocation for headless setup
 gpu_mem=16
 
+
 [cm4]
 # Enable host mode on the 2711 built-in XHCI USB controller.
 # This line should be removed if the legacy DWC2 controller is required
