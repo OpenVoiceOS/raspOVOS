@@ -125,6 +125,14 @@ cp -v /mounted-github-repo/services/ovos-ocp-pause-signal /usr/libexec/ovos-ocp-
 cp -v /mounted-github-repo/services/ovos-ocp-play-signal /usr/libexec/ovos-ocp-play-signal
 cp -v /mounted-github-repo/services/ovos-ocp-stop-signal /usr/libexec/ovos-ocp-stop-signal
 
+chmod +x /usr/libexec/ovos-stop \
+         /usr/libexec/ovos-restart-signal \
+         /usr/libexec/ovos-reboot-signal \
+         /usr/libexec/ovos-shutdown-signal \
+         /usr/libexec/ovos-ocp-pause-signal \
+         /usr/libexec/ovos-ocp-play-signal \
+         /usr/libexec/ovos-ocp-stop-signal
+
 echo "Installing OVOS Rust Messagebus..."
 bash /mounted-github-repo/packages/setup_rustbus.sh
 
@@ -149,7 +157,7 @@ echo "Installing skills..."
 uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skills-media,skills-internet,skills-extra]
 
 echo "Installing PHAL plugins..."
-uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-PHAL-plugin-dotstar
+uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-PHAL-plugin-dotstar ovos-phal-plugin-camera
 
 echo "Installing OVOS Spotify..."
 uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify

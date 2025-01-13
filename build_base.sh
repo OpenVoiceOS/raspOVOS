@@ -123,8 +123,6 @@ apt update && apt install -y upmpdcli mpd
 cp -v /mounted-github-repo/tuning/mpd.conf /etc/mpd.conf
 cp -v /mounted-github-repo/tuning/upmpdcli.conf /etc/upmpdcli.conf
 
-ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
-ln -s /usr/lib/systemd/system/upmpdcli.service /etc/systemd/system/multi-user.target.wants/upmpdcli.service
 
 #echo "Installing Balena Wifi-connect..."
 #bash /mounted-github-repo/packages/setup_balena_wifi.sh
