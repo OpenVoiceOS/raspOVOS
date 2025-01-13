@@ -77,7 +77,7 @@ cp -rv /mounted-github-repo/settings/* /home/$USER/.config/mycroft/skills/
 
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
-apt-get install -y --no-install-recommends avrdude i2c-tools
+apt-get install -y --no-install-recommends i2c-tools
 
 git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
 
@@ -145,8 +145,7 @@ echo "Installing skills..."
 uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skills-media,skills-internet,skills-extra]
 
 echo "Installing PHAL plugins..."
-# TODO - mk1 plugin once its validator is fixed
-uv pip install --no-progress --pre ovos-phal[extras,linux] ovos-PHAL-plugin-dotstar
+uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-PHAL-plugin-dotstar
 
 echo "Installing OVOS Spotify..."
 uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify
