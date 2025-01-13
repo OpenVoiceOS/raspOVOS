@@ -140,6 +140,9 @@ bash /mounted-github-repo/tuning/setup_nmanager.sh
 # make boot faster by printing less stuff and skipping file system checks
 grep -q "quiet fastboot" /boot/firmware/cmdline.txt || sed -i 's/$/ quiet fastboot/' /boot/firmware/cmdline.txt
 
+# support for mk1
+sed -i 's/console=serial0,115200//g' /boot/firmware/cmdline.txt
+
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$USER
