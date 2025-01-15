@@ -19,7 +19,7 @@ echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
 echo "Installing Mimic TTS (for G2P)"
-apt-get install autoconf automake libtool
+apt-get install -y --no-install-recommends autoconf automake libtool
 MIMIC_VERSION=1.2.0.2
 MIMIC_DIR=/tmp/mimic
 git clone --branch ${MIMIC_VERSION} https://github.com/MycroftAI/mimic.git --depth=1 $MIMIC_DIR
