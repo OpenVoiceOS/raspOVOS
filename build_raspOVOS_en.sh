@@ -19,16 +19,17 @@ echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
 echo "Installing Mimic TTS (for G2P)"
-apt-get install -y --no-install-recommends autoconf automake libtool libicu-dev
-MIMIC_VERSION=1.2.0.2
-MIMIC_DIR=/tmp/mimic
-git clone --branch ${MIMIC_VERSION} https://github.com/MycroftAI/mimic.git --depth=1 $MIMIC_DIR
-cd ${MIMIC_DIR}
-./autogen.sh
-./configure --with-audio=alsa --enable-shared --prefix=/usr/local --disable-cmu_us_kal --disable-cmu_time_awb --disable-cmu_us_kal16 --disable-cmu_us_awb --disable-cmu_us_rms --disable-cmu_us_slt_hts
-make -j${CORES}
-make install
-rm -rf $MIMIC_DIR
+# TODO - figure out how to only compile once
+#apt-get install -y --no-install-recommends autoconf automake libtool libicu-dev
+#MIMIC_VERSION=1.2.0.2
+#MIMIC_DIR=/tmp/mimic
+#git clone --branch ${MIMIC_VERSION} https://github.com/MycroftAI/mimic.git --depth=1 $MIMIC_DIR
+#cd ${MIMIC_DIR}
+#./autogen.sh
+#./configure --with-audio=alsa --enable-shared --prefix=/usr/local
+#make -j${CORES}
+#make install
+#rm -rf $MIMIC_DIR
 uv pip install --no-progress ovos-tts-plugin-mimic -c $CONSTRAINTS
 
 # Download and extract VOSK model
