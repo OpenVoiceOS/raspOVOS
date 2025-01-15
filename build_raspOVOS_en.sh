@@ -19,9 +19,16 @@ echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
 echo "Installing Mimic TTS (for G2P)"
-cp /mounted-github-repo/packages/mimic.list /etc/apt/sources.list.d/mimic.list
-cat /mounted-github-repo/packages/mimic.gpg.key | gpg --dearmor -o /usr/share/keyrings/mimic.gpg
-apt update && apt install -y mimic
+MIMIC_VERSION=1.2.0.2
+MIMIC_DIR=/tmp/mimic
+git clone --branch ${MIMIC_VERSION} https://github.com/MycroftAI/mimic.git --depth=1 $MIMIC_DIR
+cd ${MIMIC_DIR}
+./autogen.sh
+./configure --with-audio=alsa --enable-shared --prefix=/usr/local
+make -j${CORES}
+make install
+rm -rf $MIMIC_DIR
+uv pip install --no-progress ovos-tts-plugin-mimic -c $CONSTRAINTS
 
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
