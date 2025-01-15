@@ -18,6 +18,11 @@ cp -rv /mounted-github-repo/intent_cache/en-US /home/$USER/.local/share/mycroft/
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
+echo "Installing Mimic TTS (for G2P)"
+cp /mounted-github-repo/packages/mimic.list /etc/apt/sources.list.d/mimic.list
+cat /mounted-github-repo/packages/mimic.gpg.key | gpg --dearmor -o /usr/share/keyrings/mimic.gpg
+apt update && apt install -y mimic
+
 # Download and extract VOSK model
 VOSK_DIR="/home/$USER/.local/share/vosk"
 mkdir -p $VOSK_DIR
