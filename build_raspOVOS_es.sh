@@ -11,6 +11,15 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
+echo "Installing Citrinet plugin..."
+uv pip install --no-progress ovos-stt-plugin-citrinet
+
+echo "Downloading spanish citrinet model..."
+python /mounted-github-repo/packages/download_citrinet_es.py
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/ /home/ovos/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/
+
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
 git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
@@ -28,7 +37,6 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-es-0.42.zip -P $VOSK_D
 unzip -o $VOSK_DIR/vosk-model-small-es-0.42.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-es-0.42.zip
 
-
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
 
@@ -40,7 +48,6 @@ for file in "${config_files[@]}"; do
 done
 # Execute the jq command and merge the files into mycroft.conf
 jq -s 'reduce .[] as $item ({}; . * $item)' $CONFIG_ARGS > /etc/mycroft/mycroft.conf
-
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
