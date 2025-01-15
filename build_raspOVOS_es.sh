@@ -11,6 +11,13 @@ source /home/$USER/.venvs/ovos/bin/activate
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
+echo "Updating splashscreen..."
+cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
+
+echo "Caching pre-trained padatious intents..."
+mkdir -p /home/$USER/.local/share/mycroft/intent_cache
+cp -rv /mounted-github-repo/intent_cache/es-ES /home/$USER/.local/share/mycroft/intent_cache/
+
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet
 
