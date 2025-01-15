@@ -13,6 +13,13 @@ apt-get install -y cmake
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
+echo "Updating splashscreen..."
+cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
+
+echo "Caching pre-trained padatious intents..."
+mkdir -p /home/$USER/.local/share/mycroft/intent_cache
+cp -rv /mounted-github-repo/intent_cache/eu-ES /home/$USER/.local/share/mycroft/intent_cache/
+
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
 git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
