@@ -25,9 +25,8 @@ python /mounted-github-repo/packages/download_citrinet_pt.py
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_0_25/
 
-
 echo "Installing Piper TTS..."
-uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
+uv pip install --no-progress ovos-tts-plugin-piper ovos-tts-plugin-edge-tts -c $CONSTRAINTS
 
 echo "Downloading portuguese vosk model..."
 # Download and extract VOSK model
