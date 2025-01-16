@@ -1,1 +1,1 @@
-ACTION=="add|remove", SUBSYSTEM=="sound", ENV{ID_BUS}=="usb", RUN+="/usr/libexec/usb-autovolume.sh add $env{ID_MODEL}"
+ACTION=="add|remove", SUBSYSTEM=="sound", ENV{ID_BUS}=="usb", RUN+="/usr/bin/sudo -u $(getent passwd 1000 | cut -d: -f1) /usr/libexec/usb-autovolume.sh add $env{ID_MODEL}"
