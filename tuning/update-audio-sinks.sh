@@ -73,15 +73,6 @@ if [ "$NUM_SINKS" -gt 1 ]; then
         pactl unload-module module-combine-sink || log_message "Failed to unload existing combine-sink module"
     fi
 
-    # Set volume of all USB sinks to 100% (or adjust to another level as needed)
-    # TODO - figure out how to do this only for the newly connected device
-    #for sink in $(echo "$SINKS" | tr ',' '\n'); do
-    #    if [[ "$sink" == *"usb"* ]]; then
-    #        pactl set-sink-volume "$sink" 85%
-    #        log_message "Set volume for USB sink: $sink to 100%"
-    #    fi
-    #done
-
     # Create a new combined sink with all available sinks
     if ! MODULE_ID=$(pactl load-module module-combine-sink slaves="$SINKS" sink_name=auto_combined); then
         log_message "Failed to create combined sink"

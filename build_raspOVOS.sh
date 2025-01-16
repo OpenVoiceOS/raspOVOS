@@ -94,8 +94,10 @@ ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target
 
 cp -v /mounted-github-repo/tuning/99-usb-audio.rules  /etc/udev/rules.d/99-usb-audio.rules
 cp -v /mounted-github-repo/tuning/update-audio-sinks.sh  /usr/libexec/update-audio-sinks.sh
-cp /mounted-github-repo/tuning/combine_sinks.service /etc/systemd/system/combine_sinks.service
+cp -v /mounted-github-repo/tuning/usb-autovolume.sh  /usr/libexec/usb-autovolume.sh
 chmod +x /usr/libexec/update-audio-sinks.sh
+chmod +x /usr/libexec/usb-autovolume.sh
+cp /mounted-github-repo/tuning/combine_sinks.service /etc/systemd/system/combine_sinks.service
 ln -s /etc/systemd/system/combine_sinks.service /etc/systemd/system/multi-user.target.wants/combine_sinks.service
 
 echo "Installing admin phal..."
