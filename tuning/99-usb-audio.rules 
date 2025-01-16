@@ -1,1 +1,1 @@
-ACTION=="add|remove", SUBSYSTEM=="sound", KERNEL=="card*", ENV{DEVTYPE}=="sound", RUN+='/usr/libexec/usb-autovolume.sh "$ACTION" "$ID_MODEL"'
+ACTION=="add|remove", SUBSYSTEM=="sound", ENV{ID_BUS}=="usb", RUN+="/usr/libexec/usb-autovolume.sh add $env{ID_MODEL}"
