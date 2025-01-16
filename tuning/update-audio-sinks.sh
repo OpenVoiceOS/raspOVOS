@@ -6,6 +6,7 @@
 #
 # Usage: /usr/libexec/update-audio-sinks.sh
 
+# Set error handling
 set -euo pipefail
 
 # Function to handle errors
@@ -26,27 +27,29 @@ log_message() {
 }
 
 # Set the necessary environment variables for PipeWire (or PulseAudio)
+# needed if running as root
 export PULSE_RUNTIME_PATH="/run/user/1000/pulse/"
 export XDG_RUNTIME_DIR="/run/user/1000/"
 
 log_message "Setting up audio output as combined sinks"
 
-# Check if auto_null is present
+# Sleep for 5 seconds if no sinks are found
+SINKS=$(pactl list short sinks 2>/dev/null) || { log_message "No sinks found. Sleeping for 2 seconds..."; sleep 2; }
+
+# Check if auto_null is present, might happen early on boot
 if pactl list short sinks | grep -q "auto_null"; then
-    log_message "auto_null sink exists, still booting? Sleeping for 5 seconds..."
-    sleep 5
+    log_message "auto_null sink exists, still booting? Sleeping for 3 seconds..."
+    sleep 3
 fi
 
 # Log the current sinks before any action
 log_message "Sinks before action: $(pactl list short sinks)"
 
 # Get all sinks, excluding 'auto_combined' if it's already loaded
-SINKS=$(pactl list short sinks 2>/dev/null) || { log_message "Failed to list sinks"; exit 1; }
 SINKS=$(echo "$SINKS" | awk '{print $2}' | grep -v 'auto_combined'  | grep -v 'auto_null' | tr '\n' ',' | sed 's/,$//')
-
-# Sleep for 5 seconds if no sinks are found or if only the auto_null sink is present
 NUM_SINKS=$(echo "$SINKS" | tr ',' '\n' | wc -l)
 
+# Sleep for 5 seconds if no sinks are found or if only the auto_null sink is present
 if [ "$NUM_SINKS" -eq 0 ]; then
     log_message "No sinks or only auto_null found. Sleeping for 5 seconds..."
     sleep 5
