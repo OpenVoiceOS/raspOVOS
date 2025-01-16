@@ -1,6 +1,26 @@
 #!/bin/bash
 
+# Script: update-audio-sinks.sh
+# Description: Manages PulseAudio/PipeWire sinks by creating a combined sink
+# for multiple audio outputs.
+#
+# Usage: /usr/libexec/update-audio-sinks.sh
+
+set -euo pipefail
+
+# Function to handle errors
+error_handler() {
+    local line_no=$1
+    local error_code=$2
+    log_message "Error (code: ${error_code}) occurred on line ${line_no}"
+    exit ${error_code}
+}
+
+trap 'error_handler ${LINENO} $?' ERR
+
 # Log function to write to a log file
+# Args:
+#   $1: Message to log
 log_message() {
     echo "$(date) - $1" >> /tmp/autosink.log
 }
