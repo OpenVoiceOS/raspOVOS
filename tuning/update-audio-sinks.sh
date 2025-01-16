@@ -41,7 +41,8 @@ fi
 log_message "Sinks before action: $(pactl list short sinks)"
 
 # Get all sinks, excluding 'auto_combined' if it's already loaded
-SINKS=$(pactl list short sinks | awk '{print $2}' | grep -v 'auto_combined'  | grep -v 'auto_null' | tr '\n' ',' | sed 's/,$//')
+SINKS=$(pactl list short sinks 2>/dev/null) || { log_message "Failed to list sinks"; exit 1; }
+SINKS=$(echo "$SINKS" | awk '{print $2}' | grep -v 'auto_combined'  | grep -v 'auto_null' | tr '\n' ',' | sed 's/,$//')
 
 # Sleep for 5 seconds if no sinks are found or if only the auto_null sink is present
 NUM_SINKS=$(echo "$SINKS" | tr ',' '\n' | wc -l)
@@ -65,7 +66,9 @@ log_message "Total sinks: $NUM_SINKS"
 # Only create a combined sink if there is more than one sink
 if [ "$NUM_SINKS" -gt 1 ]; then
     # Unload any existing combined sink module
-    pactl unload-module module-combine-sink 2>/dev/null
+    if pactl list-modules | grep -q "module-combine-sink"; then
+        pactl unload-module module-combine-sink || log_message "Failed to unload existing combine-sink module"
+    fi
 
     # Set volume of all USB sinks to 100% (or adjust to another level as needed)
     # TODO - figure out how to do this only for the newly connected device
@@ -77,11 +80,19 @@ if [ "$NUM_SINKS" -gt 1 ]; then
     #done
 
     # Create a new combined sink with all available sinks
-    pactl load-module module-combine-sink slaves="$SINKS" sink_name=auto_combined
+    if ! MODULE_ID=$(pactl load-module module-combine-sink slaves="$SINKS" sink_name=auto_combined); then
+        log_message "Failed to create combined sink"
+        exit 1
+    fi
 
-    # Set the combined sink as default
-    pactl set-default-sink auto_combined
-    log_message "Combined sink created with outputs: $SINKS"
+    # Verify the sink exists before setting as default
+    if pactl list short sinks | grep -q "auto_combined"; then
+        pactl set-default-sink auto_combined
+        log_message "Combined sink created with outputs: $SINKS (module ID: $MODULE_ID)"
+    else
+        log_message "Combined sink creation failed"
+        exit 1
+    fi
 else
     log_message "No sinks found to combine"
 fi
