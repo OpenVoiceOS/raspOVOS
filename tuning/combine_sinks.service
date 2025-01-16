@@ -1,13 +1,16 @@
 [Unit]
 Description=Sound output configuration service
-PartOf=ovos-audio.service
-After=ovos.service
+PartOf=ovos.service
+After=ovos-audio.service
 
 [Service]
 Type=oneshot
 Group=ovos
 UMask=002
 ExecStart=/usr/libexec/update-audio-sinks.sh
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=ovos.service
