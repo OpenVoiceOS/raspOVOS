@@ -1,7 +1,6 @@
 [Unit]
-Description=Sound output configuration service
-PartOf=ovos.service
-After=ovos-audio.service
+Description=Sound Sink auto-combiner service
+PartOf=ovos-i2csound.service
 
 [Service]
 Type=oneshot
@@ -13,4 +12,4 @@ Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=ovos.service
+WantedBy=ovos-i2csound.service
