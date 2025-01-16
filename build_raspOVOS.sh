@@ -77,7 +77,7 @@ cp -rv /mounted-github-repo/settings/* /home/$USER/.config/mycroft/skills/
 
 # setup ovos-i2csound
 echo "Installing ovos-i2csound..."
-apt-get install -y --no-install-recommends i2c-tools
+apt-get install -y --no-install-recommends i2c-tools pulseaudio-utils
 
 git clone https://github.com/OpenVoiceOS/ovos-i2csound /tmp/ovos-i2csound
 
@@ -91,6 +91,11 @@ chmod 644 /etc/systemd/system/i2csound.service
 chmod +x /usr/libexec/ovos-i2csound
 
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
+
+cp -v /mounted-github-repo/tuning/99-usb-audio.rules  /etc/udev/rules.d/99-usb-audio.rules
+cp -v /mounted-github-repo/tuning/update-audio-sinks.sh  /usr/libexec/update-audio-sinks.sh
+cp /mounted-github-repo/tuning/combine_sinks.service/etc/systemd/system/combine_sinks.service
+chmod +x /usr/libexec/update-audio-sinks.sh
 
 echo "Installing admin phal..."
 pip install sdnotify ovos-bus-client ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --break-system-packages

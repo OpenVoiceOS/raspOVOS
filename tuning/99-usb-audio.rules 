@@ -1,0 +1,1 @@
+ACTION=="add|remove", SUBSYSTEM=="sound", KERNEL=="card*", ENV{DEVTYPE}=="sound", RUN+="/bin/bash -c 'sleep 1; /usr/libexec/update-audio-sinks.sh'"

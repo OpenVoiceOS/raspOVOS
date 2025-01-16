@@ -6,7 +6,7 @@
 set -e
 
 # Install packages
-apt install -y pipewire pipewire-alsa alsa-utils
+apt install -y --no-install-recommends pipewire pipewire-alsa alsa-utils pulseaudio-utils
 
 SOUND_SERVER="pipewire"
 
