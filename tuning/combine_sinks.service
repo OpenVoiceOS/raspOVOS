@@ -1,8 +1,13 @@
 [Unit]
 Description=Sound output configuration service
-After=ovos-i2csound.service
-Requires=ovos-i2csound.service
+PartOf=ovos-audio.service
+After=ovos.service
 
 [Service]
 Type=oneshot
+Group=ovos
+UMask=002
 ExecStart=/usr/libexec/update-audio-sinks.sh
+
+[Install]
+WantedBy=ovos.service
