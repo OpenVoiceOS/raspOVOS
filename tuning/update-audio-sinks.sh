@@ -31,11 +31,27 @@ export XDG_RUNTIME_DIR="/run/user/1000/"
 
 log_message "Setting up audio output as combined sinks"
 
+# Check if auto_null is present
+if pactl list short sinks | grep -q "auto_null"; then
+    log_message "auto_null sink exists, still booting? Sleeping for 5 seconds..."
+    sleep 5
+fi
+
 # Log the current sinks before any action
 log_message "Sinks before action: $(pactl list short sinks)"
 
 # Get all sinks, excluding 'auto_combined' if it's already loaded
-SINKS=$(pactl list short sinks | awk '{print $2}' | grep -v 'auto_combined' | tr '\n' ',' | sed 's/,$//')
+SINKS=$(pactl list short sinks | awk '{print $2}' | grep -v 'auto_combined'  | grep -v 'auto_null' | tr '\n' ',' | sed 's/,$//')
+
+# Sleep for 5 seconds if no sinks are found or if only the auto_null sink is present
+NUM_SINKS=$(echo "$SINKS" | tr ',' '\n' | wc -l)
+
+if [ "$NUM_SINKS" -eq 0 ]; then
+    log_message "No sinks or only auto_null found. Sleeping for 5 seconds..."
+    sleep 5
+    SINKS=$(pactl list short sinks | awk '{print $2}' | grep -v 'auto_combined'  | grep -v 'auto_null' | tr '\n' ',' | sed 's/,$//')
+    NUM_SINKS=$(echo "$SINKS" | tr ',' '\n' | wc -l)
+fi
 
 # Check if auto_combined is present
 if pactl list short sinks | grep -q "auto_combined"; then
@@ -43,9 +59,6 @@ if pactl list short sinks | grep -q "auto_combined"; then
 else
     log_message "auto_combined sink missing"
 fi
-
-# Count the number of sinks
-NUM_SINKS=$(echo "$SINKS" | tr ',' '\n' | wc -l)
 
 log_message "Total sinks: $NUM_SINKS"
 
