@@ -159,7 +159,7 @@ If you see an **undervoltage detected** warning:
 
 1. **Check Input Devices:**  
    - Run `arecord -l` to list all detected audio capture devices (microphones).  
-   **Example output**:    
+   - **Example output**:    
      ```
      **** List of CAPTURE Hardware Devices ****
      card 2: sndrpiproto [snd_rpi_proto], device 0: WM8731 HiFi wm8731-hifi-0 [WM8731 HiFi wm8731-hifi-0]
@@ -171,8 +171,8 @@ If you see an **undervoltage detected** warning:
      ```  
 
 2. **Check Output Devices:**  
-   - Run `aplay -l` to list all detected audio playback devices (speakers).  
-   **Example output**:  
+   - Run `aplay -l` to list all detected audio playback devices (speakers).  Verify your card is being detected correctly
+   - **Example output**:  
      ```
      **** List of PLAYBACK Hardware Devices ****
      card 0: Headphones [bcm2835 Headphones], device 0: bcm2835 Headphones [bcm2835 Headphones]
@@ -192,27 +192,75 @@ If you see an **undervoltage detected** warning:
       Subdevices: 1/1
       Subdevice #0: subdevice #0
      ```
-   - Run `cat ~/.asoundrc` to check the default soundcard in use and compare with previous output, audio might be coming out of a different output (such as onboard audio jack or HDMI).  
-     **Example output**:  
-     ```
-     defaults.pcm.card 2
-     defaults.ctl.card 2
-     ```
-     
 3. **Verify Volume and Mute status:**  
    - Run `alsamixer` and verify that volume isn't too low or audio muted.  
-   
-4. **Verify Audio:**  
-   - Record a short test file with `arecord -f test.wav`.  
-   - Play it back with `aplay test.wav`.  
 
-5. **Check audio setup logs:**
+4. **Check audio setup logs:**
    - During boot the audio setup generates logs, which are saved to the `/tmp` directory:
-     - **/tmp/autosoundcard.log** (for soundcard autoconfiguration)
-     - **/tmp/autovolume-usb.log** (for USB soundcard udev events)
-     - **/tmp/autosink.log** (for sink creation and merging events)
-
-6. **Rerun audio setup script:**
+     - `/tmp/autosoundcard.log` (for soundcard autoconfiguration)
+     - `/tmp/autovolume-usb.log` (for USB soundcard udev events)
+     - `/tmp/autosink.log` (for sink creation and merging events)
+     - **Example output**:   
+     ```
+     ==> /tmp/autosoundcard.log <==
+     Fri 17 Jan 11:42:46 WET 2025 - **** List of PLAYBACK Hardware Devices ****
+     card 0: Headphones [bcm2835 Headphones], device 0: bcm2835 Headphones [bcm2835 Headphones]
+      Subdevices: 8/8
+      Subdevice #0: subdevice #0
+      Subdevice #1: subdevice #1
+      Subdevice #2: subdevice #2
+      Subdevice #3: subdevice #3
+      Subdevice #4: subdevice #4
+      Subdevice #5: subdevice #5
+      Subdevice #6: subdevice #6
+      Subdevice #7: subdevice #7
+     card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     card 2: vc4hdmi [vc4-hdmi], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     card 3: sndrpiproto [snd_rpi_proto], device 0: WM8731 HiFi wm8731-hifi-0 [WM8731 HiFi wm8731-hifi-0]
+      Subdevices: 0/1
+      Subdevice #0: subdevice #0
+     Fri 17 Jan 11:42:48 WET 2025 - Mark 1 soundcard detected by ovos-i2csound.
+     Fri 17 Jan 11:42:48 WET 2025 - Detected CARD_NUMBER for Mark 1 soundcard: 3
+     Fri 17 Jan 11:42:48 WET 2025 - Configuring ALSA default card
+     Fri 17 Jan 11:42:48 WET 2025 - Running as user, modifying ~/.asoundrc
+     Fri 17 Jan 11:42:48 WET 2025 - ALSA default card set to: 3
+     ```
+     ```  
+     ==> /tmp/autovolume-usb.log <==
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     card 2: vc4hdmi [vc4-hdmi], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     card 3: sndrpiproto [snd_rpi_proto], device 0: WM8731 HiFi wm8731-hifi-0 [WM8731 HiFi wm8731-hifi-0]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     Fri Jan 17 11:42:43 WET 2025 - USB audio device detected. Soundcard index: 1
+     Fri Jan 17 11:42:43 WET 2025 - Volume set to 85% on card 1, control 'Speaker'
+     ```   
+     ```
+     ==> /tmp/autosink.log  <==
+     Setting up audio output as combined sinks
+     Running as user
+     Sinks before action: 52	alsa_output.platform-bcm2835_audio.stereo-fallback	PipeWire	s16le 2ch 48000Hz	SUSPENDED
+     53	alsa_output.platform-3f902000.hdmi.hdmi-stereo	PipeWire	s32le 2ch 48000Hz	SUSPENDED
+     54	alsa_output.platform-soc_sound.stereo-fallback	PipeWire	s32le 2ch 48000Hz	RUNNING
+     56	alsa_output.usb-GeneralPlus_USB_Audio_Device-00.analog-stereo	PipeWire	s16le 2ch 48000Hz	SUSPENDED
+     auto_combined sink missing
+     Total sinks: 4
+     Combined sink created with outputs: alsa_output.platform-bcm2835_audio.stereo-fallback,alsa_output.platform-3f902000.hdmi.hdmi-stereo,alsa_output.platform-soc_sound.stereo-fallback,alsa_output.usb-GeneralPlus_USB_Audio_Device-00.analog-stereo (module ID: 536870916)
+     Sinks after action: 52	alsa_output.platform-bcm2835_audio.stereo-fallback	PipeWire	s16le 2ch 48000Hz	SUSPENDED
+     53	alsa_output.platform-3f902000.hdmi.hdmi-stereo	PipeWire	s32le 2ch 48000Hz	SUSPENDED
+     54	alsa_output.platform-soc_sound.stereo-fallback	PipeWire	s32le 2ch 48000Hz	RUNNING
+     56	alsa_output.usb-GeneralPlus_USB_Audio_Device-00.analog-stereo	PipeWire	s16le 2ch 48000Hz	SUSPENDED
+     108	auto_combined	PipeWire	float32le 2ch 48000Hz	SUSPENDED
+     ```
+     
+5. **Rerun audio setup script:**
    - Run `ovos-audio-setup` and go through audio setup
     ```bash
        Audio Setup Options:
@@ -222,7 +270,23 @@ If you see an **undervoltage detected** warning:
        4) Revert changes
        5) Exit 
     ```
+6. **Confirm default output sink:**  
+   - Run `cat ~/.asoundrc` to check the default soundcard in use, audio might be coming out of a different output (such as onboard audio jack or HDMI).  
+     - **Example output** *if combining audio sinks* (option 3 in `ovos-audio-setup`)`:   
+     ```
+     pcm.!default pipewire
+     ctl.!default pipewire
+     ```
+     - **Example output** *if explicitly selecting soundcard* (option 1+2 in `ovos-audio-setup`)`:  
+     ```
+     defaults.pcm.card 2
+     defaults.ctl.card 2
+     ```     
    
+7. **Test Audio:**  
+   - Record a short test file with `arecord -f test.wav`.  
+   - Play it back with `aplay test.wav`.  
+
 ### System Boot Issues  
 - If the device does not complete its boot sequence:  
   1. Ensure the power supply is stable and sufficient for your Raspberry Pi model.  
