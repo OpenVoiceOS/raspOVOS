@@ -200,7 +200,7 @@ If you see an **undervoltage detected** warning:
      - `/tmp/autosoundcard.log` (for soundcard autoconfiguration)
      - `/tmp/autovolume-usb.log` (for USB soundcard udev events)
      - `/tmp/autosink.log` (for sink creation and merging events)
-     - **Example output**:   
+   - **Example output**:   
      ```
      ==> /tmp/autosoundcard.log <==
      Fri 17 Jan 11:42:46 WET 2025 - **** List of PLAYBACK Hardware Devices ****

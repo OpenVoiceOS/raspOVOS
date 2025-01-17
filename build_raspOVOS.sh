@@ -94,7 +94,7 @@ ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target
 
 echo "Installing raspovos-audio-setup..."
 apt-get install -y --no-install-recommends pulseaudio-utils
-git clone https://github.com/TigreGotico/raspovos-audio-setup /tmp/raspovos-audio-setup
+git clone https://github.com/OpenVoiceOS/raspovos-audio-setup /tmp/raspovos-audio-setup
 cp "/tmp/raspovos-audio-setup/autoconfigure_soundcard.service" "/etc/systemd/system/autoconfigure_soundcard.service"
 cp "/tmp/raspovos-audio-setup/combine_sinks.service" "/etc/systemd/system/combine_sinks.service"
 cp "/tmp/raspovos-audio-setup/ovos-audio-setup" "/usr/local/bin/ovos-audio-setup"
@@ -106,7 +106,7 @@ chmod +x "/usr/libexec/update-audio-sinks"
 chmod +x "/usr/libexec/soundcard_autoconfigure"
 chmod +x "/usr/libexec/usb-autovolume"
 
-ln -s /etc/systemd/system/autoconfigure_soundcard.service /etc/systemd/system/multi-user.target.wants/autoconfigure_soundcard.service
+ln -s /etc/systemd/system/combine_sinks.service /etc/systemd/system/multi-user.target.wants/combine_sinks.service
 
 echo "Installing admin phal..."
 pip install sdnotify ovos-bus-client ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --break-system-packages
