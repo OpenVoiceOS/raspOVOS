@@ -270,17 +270,36 @@ If you see an **undervoltage detected** warning:
        4) Revert changes
        5) Exit 
     ```
-6. **Confirm default soundcard:**  
-   - Run `cat ~/.asoundrc` to check the default soundcard in use, audio might be coming out of a different output (such as onboard audio jack or HDMI).  
-   - **Example output** *if combining audio sinks* (option 3 in `ovos-audio-setup`)`:   
+6. **Confirm default sink:**  
+   - Run `cat ~/.asoundrc` to verify `pipewire` is being used
+   - **Example output**:   
      ```
      pcm.!default pipewire
      ctl.!default pipewire
      ```
-   - **Example output** *if explicitly selecting soundcard* (option 1+2 in `ovos-audio-setup`)`:  
+   - Confirm default sink with `pactl info | grep "Default Sink"`, audio might be coming out of a different output (such as onboard audio jack or HDMI).  
+   - **Example output**:  
      ```
-     defaults.pcm.card 2
-     defaults.ctl.card 2
+     Default Sink: alsa_output.platform-soc_sound.stereo-fallback
+     ```     
+   - Check pipewire full info with `pactl info` for further diagnosis.  
+   - **Example output**:  
+     ```
+     Server String: /run/user/1000/pulse/native
+     Library Protocol Version: 35
+     Server Protocol Version: 35
+     Is Local: yes
+     Client Index: 247
+     Tile Size: 65472
+     User Name: ovos
+     Host Name: raspOVOS
+     Server Name: PulseAudio (on PipeWire 1.2.4)
+     Server Version: 15.0.0
+     Default Sample Specification: float32le 2ch 48000Hz
+     Default Channel Map: front-left,front-right
+     Default Sink: alsa_output.platform-soc_sound.stereo-fallback
+     Default Source: alsa_input.platform-soc_sound.stereo-fallback
+     Cookie: da8a:b099
      ```     
    
 7. **Check available output sinks:**  

@@ -106,7 +106,7 @@ chmod +x "/usr/libexec/update-audio-sinks"
 chmod +x "/usr/libexec/soundcard_autoconfigure"
 chmod +x "/usr/libexec/usb-autovolume"
 
-ln -s /etc/systemd/system/combine_sinks.service /etc/systemd/system/multi-user.target.wants/combine_sinks.service
+ln -s /etc/systemd/system/autoconfigure_soundcard.service /etc/systemd/system/multi-user.target.wants/autoconfigure_soundcard.service
 
 echo "Installing admin phal..."
 pip install sdnotify ovos-bus-client ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --break-system-packages
