@@ -38,5 +38,6 @@ echo "  ovos-restart            Restart all OVOS-related systemd services"
 echo "  ovos-server-status      Check live status of OVOS public servers"
 echo "  ovos-manual             OVOS technical manual in your terminal"
 echo "  ovos-skills-info        Skills documentation in your terminal"
+echo "  ovos-audio-setup        Utility to configure audio"
 echo "  ovos-help               Show this message"
 echo
