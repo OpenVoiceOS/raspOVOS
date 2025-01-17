@@ -149,6 +149,7 @@ You use the command `ovos-help` to print the message with all commands again at 
 ## Troubleshooting  
 
 ### Undervoltage Detected Warning  
+
 If you see an **undervoltage detected** warning:  
 - Check your power adapter and cable.  
 - Ensure the adapter can supply enough current (e.g., 5A for Raspberry Pi 5).  
@@ -158,24 +159,70 @@ If you see an **undervoltage detected** warning:
 
 1. **Check Input Devices:**  
    - Run `arecord -l` to list all detected audio capture devices (microphones).  
-   - Example output:  
+   **Example output**:    
      ```
      **** List of CAPTURE Hardware Devices ****
-     card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+     card 2: sndrpiproto [snd_rpi_proto], device 0: WM8731 HiFi wm8731-hifi-0 [WM8731 HiFi wm8731-hifi-0]
+      Subdevices: 0/1
+      Subdevice #0: subdevice #0
+     card 3: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
      ```  
 
 2. **Check Output Devices:**  
    - Run `aplay -l` to list all detected audio playback devices (speakers).  
-   - Example output:  
+   **Example output**:  
      ```
      **** List of PLAYBACK Hardware Devices ****
-     card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
-     ```  
-
-3. **Verify Audio:**  
-   - Record a short test file with `arecord -D plughw:1,0 -f cd test.wav`.  
+     card 0: Headphones [bcm2835 Headphones], device 0: bcm2835 Headphones [bcm2835 Headphones]
+      Subdevices: 7/8
+      Subdevice #0: subdevice #0
+      Subdevice #1: subdevice #1
+      Subdevice #2: subdevice #2
+      Subdevice #3: subdevice #3
+      Subdevice #4: subdevice #4
+      Subdevice #5: subdevice #5
+      Subdevice #6: subdevice #6
+      Subdevice #7: subdevice #7
+     card 1: vc4hdmi [vc4-hdmi], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     card 2: sndrpiproto [snd_rpi_proto], device 0: WM8731 HiFi wm8731-hifi-0 [WM8731 HiFi wm8731-hifi-0]
+      Subdevices: 1/1
+      Subdevice #0: subdevice #0
+     ```
+   - Run `cat ~/.asoundrc` to check the default soundcard in use and compare with previous output, audio might be coming out of a different output (such as onboard audio jack or HDMI).  
+     **Example output**:  
+     ```
+     defaults.pcm.card 2
+     defaults.ctl.card 2
+     ```
+     
+3. **Verify Volume and Mute status:**  
+   - Run `alsamixer` and verify that volume isn't too low or audio muted.  
+   
+4. **Verify Audio:**  
+   - Record a short test file with `arecord -f test.wav`.  
    - Play it back with `aplay test.wav`.  
 
+5. **Check audio setup logs:**
+   - During boot the audio setup generates logs, which are saved to the `/tmp` directory:
+     - **/tmp/autosoundcard.log** (for soundcard autoconfiguration)
+     - **/tmp/autovolume-usb.log** (for USB soundcard udev events)
+     - **/tmp/autosink.log** (for sink creation and merging events)
+
+6. **Rerun audio setup script:**
+   - Run `ovos-audio-setup` and go through audio setup
+    ```bash
+       Audio Setup Options:
+       1) Manually select default soundcard
+       2) Autoconfigure default soundcard
+       3) Enable combined audio sinks
+       4) Revert changes
+       5) Exit 
+    ```
+   
 ### System Boot Issues  
 - If the device does not complete its boot sequence:  
   1. Ensure the power supply is stable and sufficient for your Raspberry Pi model.  
