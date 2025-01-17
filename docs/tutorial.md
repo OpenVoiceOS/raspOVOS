@@ -270,20 +270,31 @@ If you see an **undervoltage detected** warning:
        4) Revert changes
        5) Exit 
     ```
-6. **Confirm default output sink:**  
+6. **Confirm default soundcard:**  
    - Run `cat ~/.asoundrc` to check the default soundcard in use, audio might be coming out of a different output (such as onboard audio jack or HDMI).  
-     - **Example output** *if combining audio sinks* (option 3 in `ovos-audio-setup`)`:   
+   - **Example output** *if combining audio sinks* (option 3 in `ovos-audio-setup`)`:   
      ```
      pcm.!default pipewire
      ctl.!default pipewire
      ```
-     - **Example output** *if explicitly selecting soundcard* (option 1+2 in `ovos-audio-setup`)`:  
+   - **Example output** *if explicitly selecting soundcard* (option 1+2 in `ovos-audio-setup`)`:  
      ```
      defaults.pcm.card 2
      defaults.ctl.card 2
      ```     
    
-7. **Test Audio:**  
+7. **Check available output sinks:**  
+   - Run `pactl list sinks short` to check the available outputs as seen by `pipewire`.  
+   - **Example output**:   
+     ```
+     51	alsa_output.platform-bcm2835_audio.stereo-fallback	PipeWire	s16le 2ch 48000Hz	RUNNING
+     52	alsa_output.platform-3f902000.hdmi.hdmi-stereo	PipeWire	s32le 2ch 48000Hz	RUNNING
+     53	alsa_output.platform-soc_sound.stereo-fallback	PipeWire	s32le 2ch 48000Hz	RUNNING
+     114	alsa_output.usb-GeneralPlus_USB_Audio_Device-00.analog-stereo	PipeWire	s16le 2ch 48000Hz	RUNNING
+     162	auto_combined	PipeWire	float32le 2ch 48000Hz	RUNNING
+     ```
+     
+8. **Test Audio:**  
    - Record a short test file with `arecord -f test.wav`.  
    - Play it back with `aplay test.wav`.  
 
