@@ -8,7 +8,7 @@ on:
     paths:
       - '.github/workflows/build_img_gl.yml'
       - 'build_raspOVOS_gl.sh'
-      - 'intent_cache/gl-ES/**'
+      - 'overlays/gl/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
@@ -51,15 +51,14 @@ jobs:
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
-          MYCROFT_CONFIG_FILES: "mycroft.conf,mycroft_gl.conf"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-bookworm-arm64-lite-2025-01-15/raspOVOS-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-01-23/raspOVOS-DEV-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-galician-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
           cache: false
           mount-repository: true
-          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS,MYCROFT_CONFIG_FILES
+          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
           script-path: build_raspOVOS_gl.sh
       - name: Print outputs
         shell: bash

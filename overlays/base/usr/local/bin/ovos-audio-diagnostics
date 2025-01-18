@@ -1,0 +1,178 @@
+#!/bin/bash
+
+detect_sound_server() {
+    # Check if PipeWire is installed
+    if command -v pipewire > /dev/null; then
+        echo "pipewire"
+    # Check if PulseAudio is installed
+    elif command -v pulseaudio > /dev/null; then
+        echo "pulse"
+    # Check if ALSA is available
+    elif command -v aplay > /dev/null && command -v amixer > /dev/null; then
+        echo "alsa"
+    else
+        echo "No sound server detected"
+        exit 1
+    fi
+}
+
+SOUND_SERVER=$(detect_sound_server)
+
+# Function: ls_sinks
+# Description: Extracts and lists audio output sinks from `wpctl status` output.
+ls_sinks() {
+    if [ "$SOUND_SERVER" == "alsa" ]; then
+        aplay -l
+        return 1
+    # Check if PulseAudio is installed
+    elif [ "$SOUND_SERVER" == "pulseaudio" ]; then
+        echo "pulseaudio support not implemented"
+        exit 1
+    fi
+
+    # Run wpctl status and filter the "Sinks" section
+    wpctl status | awk '
+        /├─ Sinks:/ {capture = 1; next}
+        /^ ├─|^ └─|^$/ {capture = 0}
+        capture {
+            if ($2 == "*") {
+                gsub(/\.$/, "", $3)
+                print $3 " - " substr($0, index($0,$4))
+            }
+            if ($2 ~ /^[0-9]+\.$/) {
+                gsub(/\.$/, "", $2)
+                print $2 " - " substr($0, index($0,$3))
+            }
+        }
+    '
+}
+
+# Function: default_sink_id
+# Description: Extracts the ID of the default audio output sink.
+default_sink_id() {
+    wpctl status | awk '
+        /├─ Sinks:/ {capture = 1; next}
+        /^ ├─|^ └─|^$/ {capture = 0}
+        capture {
+            if ($2 == "*") {
+                gsub(/\.$/, "", $3)
+                print $3
+            }
+        }
+    '
+}
+
+get_sink_card() {
+    wpctl inspect $1 | grep "api.alsa.pcm.card" | awk -F'"' '{print $2}'
+}
+
+get_sink_name() {
+    wpctl inspect $1 | grep "alsa.name" | awk -F'"' '{print $2}'
+}
+
+get_sink_card_name() {
+    wpctl inspect $1 | grep "api.alsa.card.name" | awk -F'"' '{print $2}'
+}
+
+# Function: ls_cards
+# Description: Lists audio cards, excluding video devices.
+ls_cards() {
+    if [ "$SOUND_SERVER" == "alsa" ]; then
+        aplay -l
+        return 1
+    elif [ "$SOUND_SERVER" == "pulseaudio" ]; then
+        echo "pulseaudio support not implemented"
+        exit 1
+    fi
+
+    wpctl status |  awk '/Video/ {exit} {print}' | awk '
+        /├─ Devices:/ {capture = 1; next}
+        /^ ├─|^ └─|^$/ {capture = 0}
+        capture {
+            if ($2 == "*") {
+                gsub(/\.$/, "", $3)
+                print $3 " - " substr($0, index($0,$4))
+            }
+            if ($2 ~ /^[0-9]+\.$/) {
+                gsub(/\.$/, "", $2)
+                print $2 " - " substr($0, index($0,$3))
+            }
+        }
+    '
+}
+
+# Function: get_card_sink
+# Description: Compares sinks with the card ID and outputs matching card/sink pairs.
+get_card_sink() {
+    local CARD_IDX=$1
+
+    if [ "$SOUND_SERVER" == "alsa" ]; then
+        echo "alsa does not support individual sinks"
+        exit 1
+    elif [ "$SOUND_SERVER" == "pulseaudio" ]; then
+        echo "pulseaudio support not implemented"
+        exit 1
+    elif [ "$SOUND_SERVER" == "pipewire" ]; then
+       # Extract sink IDs
+        SINK_IDS=$(wpctl status | awk -v card_idx="$CARD_IDX" '
+            /├─ Sinks:/ {capture = 1; next}
+            /^ ├─|^ └─|^$/ {capture = 0}
+            capture {
+                if ($2 == "*") {
+                    gsub(/\.$/, "", $3)
+                    print $3
+                }
+                if ($2 ~ /^[0-9]+\.$/) {
+                    gsub(/\.$/, "", $2)
+                    print $2
+                }
+            }
+        ')
+
+        # Loop through each sink ID and inspect it
+        for SINK in $SINK_IDS; do
+            CIDX=$(wpctl inspect $SINK | grep -i "api.alsa.pcm.card" | awk -F'"' '{print $2}')
+            if [ "$CIDX" == "$CARD_IDX" ]; then
+              echo "$SINK"
+            fi
+        done
+    else
+        echo "Unsupported sound server: $SOUND_SERVER"
+        exit 1
+    fi
+}
+
+
+
+echo "==========================="
+echo "raspOVOS Audio Diagnostics"
+echo "==========================="
+echo ""
+
+echo "# Detected sound server:"
+echo "$SOUND_SERVER"
+echo ""
+
+echo "# Available audio outputs:"
+ls_sinks
+
+if $SOUND_SERVER == "alsa"; then
+    # no sinks, guess we |  awk '/Video/ {exit} {print}' | could print asound.rc
+    exit 0
+fi
+
+if $SOUND_SERVER == "pulseaudio"; then
+    echo "pulseaudio support not implemented"
+    exit 1
+fi
+
+echo ""
+echo "# Default audio output:"
+SINK_ID=$(default_sink_id)
+SINK_NAME=$(get_sink_name $SINK_ID)
+CARD_INDEX=$(get_sink_card $SINK_ID)
+CARD_NAME=$(get_sink_card_name $SINK_ID)
+echo "ID: $SINK_ID"
+echo "NAME: $SINK_NAME"
+echo "CARD NUMBER: $CARD_INDEX"
+echo "CARD NAME: $CARD_NAME"

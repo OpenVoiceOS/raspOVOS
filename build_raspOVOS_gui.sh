@@ -8,6 +8,9 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
+echo "Copying overlays..."
+sudo cp -rv /mounted-github-repo/overlays/base_gui/* /
+
 # Function to add user to group in /etc/group
 add_user_to_group() {
     local user=$1
@@ -23,9 +26,6 @@ add_user_to_group() {
         echo "$user is already in $group"
     fi
 }
-echo "Customizing boot/firmware/config.txt..."
-cp -v /mounted-github-repo/patches/boot_config_gui.txt /boot/firmware/config.txt
-
 echo "Adding user to video and render groups..."
 # Adding user to video group
 add_user_to_group $USER video
@@ -37,19 +37,6 @@ apt-get install -y jq cmake extra-cmake-modules kio kio-extras plasma-framework 
 
 echo "Installing GUI plugins and skills..."
 uv pip install --no-progress ovos-core[skills-gui] ovos-gui[extras] -c $CONSTRAINTS
-
-echo "Creating system level mycroft.conf..."
-mkdir -p /etc/mycroft
-
-CONFIG_ARGS=""
-# Loop through the MYCROFT_CONFIG_FILES variable and append each file to the jq command
-IFS=',' read -r -a config_files <<< "$MYCROFT_CONFIG_FILES"
-for file in "${config_files[@]}"; do
-  CONFIG_ARGS="$CONFIG_ARGS /mounted-github-repo/$file"
-done
-# Execute the jq command and merge the files into mycroft.conf
-jq -s 'reduce .[] as $item ({}; . * $item)' $CONFIG_ARGS > /etc/mycroft/mycroft.conf
-
 
 # Mycroft-gui-qt5
 cd /home/$USER
@@ -90,10 +77,7 @@ rm -rf ovos-shell
 /usr/bin/kbuildsycoca5
 
 echo "Setting up systemd..."
-mkdir -p /home/$USER/.config/systemd/user/
-cp -v /mounted-github-repo/services/ovos-shell.service /home/$USER/.config/systemd/user/
 chmod 644 /home/$USER/.config/systemd/user/ovos-shell.service
-
 # Enable services manually by creating symbolic links
 mkdir -p /home/$USER/.config/systemd/user/default.target.wants/
 ln -s /home/$USER/.config/systemd/user/ovos-shell.service /home/$USER/.config/systemd/user/default.target.wants/ovos-shell.service

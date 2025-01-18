@@ -1,0 +1,6 @@
+Small Dutch model for Vosk
+
+WER
+
+%WER 22.45 [ 21327 / 94996, 3479 ins, 4994 del, 12854 sub ] exp/chain/tdnn/decode_test_cv_look_fast/wer_10_0.0
+%WER 26.80 [ 23944 / 89329, 3539 ins, 8137 del, 12268 sub ] exp/chain/tdnn/decode_test_tv_reseg_look_fast/wer_9_0.0
