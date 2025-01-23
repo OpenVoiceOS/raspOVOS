@@ -101,26 +101,26 @@ choosing a wake word that will work well in various environments:
 0. **Run Diagnostics script:**
     - raspOVOS includes a helper script `ovos-audio-diagnostics` that will print basic info about your sound system
     - **Example output:**
-    ```bash
-    (ovos) ovos@raspOVOS:~ $ ovos-audio-diagnostics
-    ===========================
-    raspOVOS Audio Diagnostics
-    ===========================
+      ```bash
+      (ovos) ovos@raspOVOS:~ $ ovos-audio-diagnostics
+      =========================== 
+      raspOVOS Audio Diagnostics
+      ===========================
     
-    # Detected sound server:
-    pipewire
+      # Detected sound server:
+      pipewire
     
-    # Available audio outputs:
-    36 - Built-in Audio Stereo [vol: 0.40]
-    45 - Built-in Audio Stereo [vol: 0.85]
-    46 - Built-in Audio Digital Stereo (HDMI) [vol: 0.40]
+      # Available audio outputs:
+      36 - Built-in Audio Stereo [vol: 0.40]
+      45 - Built-in Audio Stereo [vol: 0.85]
+      46 - Built-in Audio Digital Stereo (HDMI) [vol: 0.40]
 
-    # Default audio output:
-    ID: 36
-    NAME: WM8731 HiFi wm8731-hifi-0
-    CARD NUMBER: 2
-    CARD NAME: snd_rpi_proto
-    ```
+      # Default audio output:
+      ID: 36
+      NAME: WM8731 HiFi wm8731-hifi-0
+      CARD NUMBER: 2
+      CARD NAME: snd_rpi_proto
+      ```
 1. **Check Input Devices:**
     - Run `arecord -l` to list all detected audio capture devices (microphones).
     - **Example output**:
