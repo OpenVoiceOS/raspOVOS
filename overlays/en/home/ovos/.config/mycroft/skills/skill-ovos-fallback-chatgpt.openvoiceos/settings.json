@@ -1,0 +1,11 @@
+{
+  "api_url": "http://localhost:11434/v1",
+  "key": "sk-ollama",
+  "model": "qwen2.5",
+  "persona": "You are a helpful voice assistant with a friendly tone and fun sense of humor. You respond in 40 words or fewer.",
+  "enable_memory": true,
+  "memory_size": 15,
+  "name": "A.I.",
+  "confirmation": false,
+  "__mycroft_skill_firstrun": false
+}

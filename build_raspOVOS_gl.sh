@@ -8,15 +8,11 @@ set -e
 # Activate the virtual environment
 source /home/$USER/.venvs/ovos/bin/activate
 
+echo "Copying overlays..."
+sudo cp -rv /mounted-github-repo/overlays/gl/* /
+
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
-
-echo "Updating splashscreen..."
-cp -v /mounted-github-repo/services/splashscreen_ca.png /opt/ovos/splashscreen.png
-
-echo "Caching pre-trained padatious intents..."
-mkdir -p /home/$USER/.local/share/mycroft/intent_cache
-cp -rv /mounted-github-repo/intent_cache/gl-ES /home/$USER/.local/share/mycroft/intent_cache/
 
 echo "Downloading portuguese vosk model..."
 # Download and extract VOSK model
@@ -28,19 +24,6 @@ rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
 # TODO local cotovia / nos
 uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
-
-echo "Creating system level mycroft.conf..."
-mkdir -p /etc/mycroft
-
-CONFIG_ARGS=""
-# Loop through the MYCROFT_CONFIG_FILES variable and append each file to the jq command
-IFS=',' read -r -a config_files <<< "$MYCROFT_CONFIG_FILES"
-for file in "${config_files[@]}"; do
-  CONFIG_ARGS="$CONFIG_ARGS /mounted-github-repo/$file"
-done
-# Execute the jq command and merge the files into mycroft.conf
-jq -s 'reduce .[] as $item ({}; . * $item)' $CONFIG_ARGS > /etc/mycroft/mycroft.conf
-
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

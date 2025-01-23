@@ -1,0 +1,11 @@
+[Unit]
+Description=Emit OVOS shutdown signal
+DefaultDependencies=no
+Before=halt.target shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python /usr/libexec/ovos-shutdown-signal
+
+[Install]
+WantedBy=halt.target shutdown.target

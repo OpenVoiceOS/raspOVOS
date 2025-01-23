@@ -1,0 +1,116 @@
+#!/bin/bash
+
+# Colors for styling the output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+RESET='\033[0m'
+
+
+echo -e "\n${CYAN}Preparing a support package${RESET}"
+echo -e "${CYAN}Follow the prompts and by the end you will have a URL you can share for help${RESET}\n"
+
+# Function to copy the specified files or directories to a destination with debugging output.
+# Arguments:
+#   $1 - The source file or directory to copy.
+#   $2 - The destination where the source should be copied.
+copy_data() {
+    local source=$1
+    local dest=$2
+
+    # Check if the source exists
+    echo -e "${YELLOW}Checking if $source exists...${RESET}"
+    if [ -e "$source" ]; then
+        echo -e "    ${GREEN}Copying $source to $dest...${RESET}"
+        cp -r "$source" "$dest"
+    else
+        echo -e "    ${RED}Source $source does not exist, skipping...${RESET}"
+    fi
+}
+
+# Create a directory for the troubleshooting package.
+# The package will store logs, configuration files, and other useful data for troubleshooting.
+package_dir="troubleshooting_package"
+mkdir -p "$package_dir"
+
+# Audio setup logs: Prompt user for inclusion and copy relevant log files if selected.
+echo -e "\n${CYAN}Audio Setup Logs:${RESET}"
+read -p "Include audio setup logs? (yes/y/no):" include_audio
+if [[ "$include_audio" == "yes" || "$include_audio" == "y" ]]; then
+    echo -e "    ${CYAN}Including audio setup logs...${RESET}"
+    # Copy audio setup logs to the troubleshooting package
+    copy_data "/tmp/autosoundcard.log" "$package_dir/"
+    copy_data "/tmp/autovolume-usb.log" "$package_dir/"
+    copy_data "/tmp/autosink.log" "$package_dir/"
+    copy_data "/etc/OpenVoiceOS/i2c_platform" "$package_dir/"
+fi
+
+# OVOS logs: Prompt user for inclusion and copy the Mycroft logs if selected.
+echo -e "\n${YELLOW}OVOS Logs (may include sensitive info):${RESET}"
+read -p "Include OVOS logs? (yes/y/no):" include_ovos
+if [[ "$include_ovos" == "yes" || "$include_ovos" == "y" ]]; then
+    echo -e "    ${CYAN}Including OVOS logs...${RESET}"
+    # Copy OVOS-related logs to the troubleshooting package
+    # TODO - add a redact step to remove logs and location, regex?
+    copy_data "$HOME/.local/state/mycroft/" "$package_dir/mycroft_logs/"
+    ls "$package_dir/mycroft_logs/"
+fi
+
+# Mycroft configuration files: Prompt user for inclusion and copy the configuration files if selected.
+echo -e "\n${YELLOW}Mycroft Configuration (may include sensitive info):${RESET}"
+read -p "Include mycroft.conf files? (yes/y/no):" include_mycroft_conf
+if [[ "$include_mycroft_conf" == "yes" || "$include_mycroft_conf" == "y" ]]; then
+    echo -e "    ${CYAN}Including mycroft.conf files...${RESET}"
+    # Copy Mycroft configuration files to the troubleshooting package
+    # TODO - add a redact step to optionally remove location, jq?
+    copy_data "/etc/mycroft/mycroft.conf" "$package_dir/mycroft.conf_system"
+    copy_data "$HOME/.config/mycroft/mycroft.conf" "$package_dir/mycroft.conf_user"
+fi
+
+# Skill settings: Prompt user for inclusion and copy the skill settings if selected.
+echo -e "\n${YELLOW}Skill Settings (may include sensitive info):${RESET}"
+read -p "Include skill settings? (yes/y/no):" include_skills
+if [[ "$include_skills" == "yes" || "$include_skills" == "y" ]]; then
+    echo -e "    ${CYAN}Including skill settings...${RESET}"
+    # Copy skill settings to the troubleshooting package
+    copy_data "$HOME/.config/mycroft/skills/" "$package_dir/skills/"
+    ls "$package_dir/skills/"
+fi
+
+# Package versions: Prompt user for inclusion and create a requirements.txt file with package versions.
+echo -e "\n${CYAN}Package Versions:${RESET}"
+read -p "Include package versions? (yes/y/no):" include_packages
+if [[ "$include_packages" == "yes" || "$include_packages" == "y" ]]; then
+    echo -e "    ${CYAN}Including package versions...${RESET}"
+    # Save package versions to requirements.txt
+    pip list --format=freeze | grep -E 'ovos-|skill-' > "$package_dir/requirements.txt"
+    echo -e "    ${GREEN}Package versions saved to $package_dir/requirements.txt${RESET}"
+fi
+
+# Final message indicating the troubleshooting package has been created.
+echo -e "\n${GREEN}Troubleshooting package has been created in $package_dir.${RESET}"
+
+# Create a tar.gz archive of the troubleshooting package
+file_path="$package_dir.tar.gz"
+tar -czf "$file_path" -C "$package_dir" .
+echo -e "${GREEN}Package has been tarred and saved as $file_path${RESET}"
+
+# TODO prompt before upload, in case user wants to inspect data before continuing
+
+# URL for file upload
+url="https://temp.sh/upload"
+# Check if the tarball exists before uploading
+if [[ ! -f "$file_path" ]]; then
+  echo -e "${RED}Error: File not found at $file_path${RESET}"
+  return 1
+fi
+
+echo -e "${CYAN}Uploading support package ....${RESET}"
+response=$(curl -v -F "file=@$file_path" "$url")
+
+echo -e "\n"
+echo -e "${GREEN}Share this URL in OVOS chats or forums for help${RESET}"
+echo -e "${GREEN}===============================================${RESET}"
+echo -e "$response"
+echo -e "${GREEN}===============================================${RESET}"

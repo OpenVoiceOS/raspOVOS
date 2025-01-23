@@ -1,0 +1,61 @@
+#!/bin/bash
+# This script uninstalls all skills from the OpenVoiceOS environment.
+
+# Function to print messages with different severity levels
+print_message() {
+    local message=$1
+    local type=$2
+
+    case $type in
+        info)
+            echo -e "\033[1;34m[INFO]\033[0m $message"
+            ;;
+        success)
+            echo -e "\033[1;32m[SUCCESS]\033[0m $message"
+            ;;
+        warning)
+            echo -e "\033[1;33m[WARNING]\033[0m $message"
+            ;;
+        error)
+            echo -e "\033[1;31m[ERROR]\033[0m $message"
+            ;;
+        *)
+            echo "$message"
+            ;;
+    esac
+}
+
+# Print a header
+print_message "Starting OpenVoiceOS skill uninstallation process..." "info"
+
+# Prompt user to confirm skill deletion
+read -p "$(echo -e "\033[1;33mWARNING:\033[0m This will uninstall all installed skills. Do you want to continue? (y/n): ")" confirm
+
+if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+    print_message "Skill uninstallation aborted." "info"
+    exit 0
+fi
+
+# Get the list of installed skills
+SKILLS=$(uv pip list | grep skill | awk '{print $1}')
+
+# Check if any skills are installed
+if [[ -z "$SKILLS" ]]; then
+    print_message "No skills found to uninstall." "warning"
+    exit 0
+else
+    print_message "The following skills will be uninstalled:" "info"
+    echo "$SKILLS" | while read -r skill; do
+        echo -e "\033[1;36m- $skill\033[0m"
+    done
+fi
+
+# Uninstall the skills
+print_message "Uninstalling skills..." "info"
+echo "$SKILLS" | xargs uv pip uninstall
+
+# Success message
+print_message "All skills have been uninstalled successfully." "success"
+
+# Reminder about configuration and pipeline plugins
+print_message "Note: This operation only deletes the skills. Configuration files and pipeline plugins (which still influence intent matching) are NOT affected by this action." "warning"
