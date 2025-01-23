@@ -95,7 +95,7 @@ uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dink
 
 # Install essential skills for OVOS.
 echo "Installing skills..."
-uv pip install --no-progress --pre ovos-core[skills-essential,skills-audio,skills-media,skills-internet,skills-extra] -c $CONSTRAINTS
+uv pip install --no-progress --pre -r ./mounted-github-repo/skills.list
 
 # Install PHAL plugins for OVOS.
 echo "Installing PHAL plugins..."
@@ -103,7 +103,7 @@ uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-PHAL-plugin-
 
 # Install Spotify-related plugins for OVOS.
 echo "Installing OVOS Spotify..."
-uv pip install --no-progress --pre ovos-media-plugin-spotify ovos-skill-spotify -c $CONSTRAINTS
+uv pip install --no-progress --pre ovos-media-plugin-spotify -c $CONSTRAINTS
 
 # Install deprecated OVOS packages for compatibility with older skills.
 echo "Installing deprecated OVOS packages for compat..."
