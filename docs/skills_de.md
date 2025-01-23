@@ -1,19 +1,20 @@
 
-### skill-ovos-weather.openvoiceos
+### ovos-skill-alerts.openvoiceos
 
-Erhalte Wetterbedingungen, Prognosen, erwartete Niederschläge und mehr! Du kannst auch nach anderen Städten auf der ganzen Welt fragen. Aktuelle Bedingungen und Wettervorhersagen stammen von OpenMeteo
+Ein Skill zum Verwalten von Alarmen, Timern, Erinnerungen, Ereignissen und Aufgaben und optional zum Synchronisieren dieser mit einem CalDAV-Dienst.
 
 **Usage examples:**
-- Wie wird das Wetter am Dienstag?
-- Wann wird es das nächste Mal regnen?
-- Wird es in Baltimore schneien?
-- Wie wird das Wetter in den nächsten drei Tagen?
-- regnet es?
-- Wann ist Sonnenuntergang?
-- Wird es schneien?
-- Wie hoch ist die Luftfeuchtigkeit?
-- Wie ist die Prognose für morgen in London?
-- Wie ist die Vorhersage für morgen?
+- Starte einen Brottimer für 30 Minuten.
+- Alle Alarme abbrechen.
+Breche alle Alarme ab
+- weck mich um 8 Uhr mit Musik.
+- Stelle täglich einen Wecker auf 8 Uhr.
+- Habe ich etwas verpasst?
+- erinnere mich jeden Donnerstag und Sonntag um 19 Uhr daran, den Müll rauszubringen.
+- Alle Erinnerungen abbrechen.
+- Stelle den Wecker auf 8 Uhr.
+- Alle Timer abbrechen.
+- Wann ist mein nächster Alarm?
 
 -------
 
@@ -29,35 +30,15 @@ No description available
 -------
 
 
-### skill-ovos-volume.openvoiceos
+### ovos-skill-confucius-quotes.openvoiceos
 
-Steuere die Lautstärke von OVOS mit verbalen Befehlen
-
-**Usage examples:**
-- Lautstärke niedrig
-- Lautstärke auf Standard einstellen
-- Maximale Lautstärke
-- Lautstärke auf hohen Pegel einstellen
-- Standardlautstärke
-- Mute Lautstärke
-Schalte Lautstärke stumm
-- geringe Lautstärke
-- Lautstärke zu hoch
-- Audio umschalten
-- Stummschaltung aufheben
-
--------
-
-
-### skill-ovos-naptime.openvoiceos
-
-Versetze den Assistenten in den Ruhezustand, wenn Du nicht gestört werden möchtest
+Zitate von Konfuzius
 
 **Usage examples:**
-- Aufwachen
-Wache auf
-- Mittagsschlaf
-- Geh schlafen
+- Wann wurde Konfuzius geboren
+- Wer ist Konfuzius
+- Wann starb Konfuzius
+- Zitat von Konfuzius
 
 -------
 
@@ -67,28 +48,8 @@ Wache auf
 transkribiert Sprache kontinuierlich in eine Textdatei, solange diese aktiviert ist
 
 **Usage examples:**
-- Diktat starten
 - Diktat beenden
-
--------
-
-
-### ovos-skill-alerts.openvoiceos
-
-Ein Skill zum Verwalten von Alarmen, Timern, Erinnerungen, Ereignissen und Aufgaben und optional zum Synchronisieren dieser mit einem CalDAV-Dienst.
-
-**Usage examples:**
-- weck mich um 8 Uhr mit Musik.
-- Habe ich etwas verpasst?
-- Wann ist mein nächster Alarm?
-- erinnere mich jeden Donnerstag und Sonntag um 19 Uhr daran, den Müll rauszubringen.
-- Alle Alarme abbrechen.
-Breche alle Alarme ab
-- Stelle den Wecker auf 8 Uhr.
-- Stelle täglich einen Wecker auf 8 Uhr.
-- Stelle den Wecker samstags auf 8:00 Uhr.
-- Starte einen Brottimer für 30 Minuten.
-- Alle Timer abbrechen.
+- Diktat starten
 
 -------
 
@@ -98,38 +59,25 @@ Breche alle Alarme ab
 Netzwerkverbindungsinformationen
 
 **Usage examples:**
-- Wie lautet Deine IP-Adresse?
-- Wie lautet Deine Netzwerkadresse?
-- Mit welchem Netzwerk bist Du verbunden?
 - Sag mir deine Netzwerkadresse
+- Wie lautet Deine IP-Adresse?
+- Mit welchem Netzwerk bist Du verbunden?
 - Sag mir deine IP-Adresse
+- Wie lautet Deine Netzwerkadresse?
 
 -------
 
 
-### ovos-skill-personal.openvoiceos
+### ovos-skill-iss-location.openvoiceos
 
-Erfahre mehr über die Geschichte und Persönlichkeit des Assistenten. Frage nach der „Geburt“ und Herkunft des Sprachassistenten und erhalte einen Einblick in die Community, die diese Open-Source-künstliche Intelligenz fördert.
-
-**Usage examples:**
-- Wann wurdest du erschaffen?
-- Wer hat dich erschaffen?
-- Wo wurdest Du geboren?
-- Was bist du?
-
--------
-
-
-### skill-ovos-audio-recording.openvoiceos
-
-No description available
+Verfolge den Standort der ISS
 
 **Usage examples:**
-- Aufnahme starten
-- Aufnahme starten
-- Starte eine neue Audioaufnahme mit dem Namen {name}
-- starte eine Aufnahme mit dem Namen {name}
-- neue Aufnahme mit dem Namen {name}
+- Wer ist an Bord der Raumstation?
+- Wo ist die ISS
+- Wann fliegt die ISS über
+- wie viele Personen sind an Bord der Raumstation
+- Erzähl mir vom ISS
 
 -------
 
@@ -139,13 +87,49 @@ No description available
 Fakten über Zahlen
 
 **Usage examples:**
-- Fakt über gestern
-- Fakt über die Zahl 666
-- Wissenswertes über Zufallszahlen
-- Wissenswertes über morgen
-- Neugier auf das Jahr 1992
-- mathematischer Fakt über die Zahl 7
 - Wissenswertes über nächste Woche
+- Wissenswertes über morgen
+- Fakt über die Zahl 666
+- Fakt über gestern
+- mathematischer Fakt über die Zahl 7
+- Neugier auf das Jahr 1992
+- Wissenswertes über Zufallszahlen
+
+-------
+
+
+### ovos-skill-personal.openvoiceos
+
+Erfahre mehr über die Geschichte und Persönlichkeit des Assistenten. Frage nach der „Geburt“ und Herkunft des Sprachassistenten und erhalte einen Einblick in die Community, die diese Open-Source-künstliche Intelligenz fördert.
+
+**Usage examples:**
+- Wo wurdest Du geboren?
+- Wann wurdest du erschaffen?
+- Wer hat dich erschaffen?
+- Was bist du?
+
+-------
+
+
+### ovos-skill-wikihow.openvoiceos
+
+Wie man fast alles macht.
+
+**Usage examples:**
+- wie bringe ich meinen Hund dazu, mit dem Bellen aufzuhören
+- Wie man ein Ei kocht
+
+-------
+
+
+### skill-ovos-boot-finished.openvoiceos
+
+Die Fertig-Boot-Funktion gibt Benachrichtigungen aus, wenn OpenVoiceOS vollständig gestartet ist und alle Kerndienste bereit sind
+
+**Usage examples:**
+- Aktiviere die Bereitschaftsbenachrichtigungen.
+- Ist das System bereit?
+- Deaktiviere Bereitschaftsbenachrichtigungen.
 
 -------
 
@@ -155,13 +139,13 @@ Fakten über Zahlen
 Erfrage die Uhrzeit, das Datum, den Wochentag
 
 **Usage examples:**
-- Sag mir den Wochentag
-- Wie viele Tage bis zum 4. Juli
 - Wie spät ist es in Paris?
-- Wie spät ist es?
-- Welches Datum haben wir?
+- Wie viele Tage bis zum 4. Juli
 - Welcher Tag ist der Memorial Day 2020?
 - Zeig mir die Zeit
+- Welches Datum haben wir?
+- Sag mir den Wochentag
+- Wie spät ist es?
 
 -------
 
@@ -172,32 +156,145 @@ Verwende DuckDuckGo, um Fragen zu beantworten.
 
 **Usage examples:**
 - wann wurde Stephen Hawking geboren
-- Frag die Ente nach dem Urknall
 - Wer ist Elon Musk?
+- Frag die Ente nach dem Urknall
 
 -------
 
 
-### ovos-skill-confucius-quotes.openvoiceos
+### skill-ovos-fallback-chatgpt.openvoiceos
 
-Zitate von Konfuzius
+Im Zweifelsfall frage ChatGPT
 
 **Usage examples:**
-- Zitat von Konfuzius
-- Wann starb Konfuzius
-- Wann wurde Konfuzius geboren
-- Wer ist Konfuzius
+- Hast Du kreative Ideen für den Geburtstag eines 10-Jährigen?
+- Erkläre einfach Quantencomputing
 
 -------
 
 
-### ovos-skill-wikihow.openvoiceos
+### skill-ovos-icanhazdadjokes.openvoiceos
 
-Wie man fast alles macht.
+Verschönere Deinen Tag mit Humor. Lachen ist nicht garantiert, aber Augenrollen ist wahrscheinlich.
 
 **Usage examples:**
-- Wie man ein Ei kocht
-- wie bringe ich meinen Hund dazu, mit dem Bellen aufzuhören
+- Kennst Du Witze über Chuck Norris?
+- Kannst du Witze erzählen?
+- Erzähl einen Witz.
+- Erzähl mir einen Witz.
+- Erzähl mir einen Witz über Zahnärzte.
+- Bring mich zum Lachen.
+- Kennst du irgendwelche Witze?
+
+-------
+
+
+### skill-ovos-local-media.openvoiceos
+
+Lokaler Mediendateibrowser für Open Voice OS
+
+**Usage examples:**
+- Dateibrowser starten
+- USB-Browser öffnen
+- USB-Laufwerk öffnen
+- Dateibrowser-App anzeigen
+- USB öffnen
+- öffne mein Dateibrowser-Laufwerk
+- meinen Dateibrowser anzeigen
+- Öffnen Sie die USB-Browser-App
+- Dateibrowser-Laufwerk anzeigen
+- öffne meinen Dateibrowser
+
+-------
+
+
+### skill-ovos-naptime.openvoiceos
+
+Versetze den Assistenten in den Ruhezustand, wenn Du nicht gestört werden möchtest
+
+**Usage examples:**
+- Geh schlafen
+- Aufwachen
+Wache auf
+- Mittagsschlaf
+
+-------
+
+
+### skill-ovos-news.openvoiceos
+
+Nachrichten-Streams aus der ganzen Welt.
+
+**Usage examples:**
+- portugiesische Nachrichten abspielen
+- euronews abspielen
+spiele euronews 
+- NPR Nachrichten abspielen
+spiele NPR Nachrichten
+- Nachrichten abspielen
+spiele die Nachrichten 
+- Nachrichten auf Spanisch abspielen
+- spiele katalanische Nachrichten
+
+-------
+
+
+### skill-ovos-parrot.openvoiceos
+
+Mache OpenVoiceOS zu einem Echo-Papagei! Lasse OVOS alles wiederholen, was Du willst
+
+**Usage examples:**
+- Was habe ich gerade gesagt?
+- Kannst Du das wiederholen?
+- Wiederhole einmal eine trostlose Mitternacht, während ich, schwach und müde, über viele kuriose und merkwürdige Bände vergessener Überlieferungen nachdachte
+- Papagei stoppen
+stoppe Papagei
+- sage gute Nacht, Gracie
+- Papagei starten
+starte Papagei
+- Wiederhole, was Du gerade gesagt hast
+- Sag mir, was ich gerade gesagt habe.
+- Wiederhole das
+- spreche Ich kann alles sagen, was Du möchtest!
+
+-------
+
+
+### skill-ovos-volume.openvoiceos
+
+Steuere die Lautstärke von OVOS mit verbalen Befehlen
+
+**Usage examples:**
+- Ton stummschalten
+- Lautstärke niedrig
+- höchste Lautstärke
+- Lautstärke auf Maximum stellen
+Stelle Lautstärke auf Maximum
+- Lautstärke auf Standardwert einstellen
+- Lautstärke auf mittel stellen
+- Lautstärke auf Maximum einstellen
+- Stummschaltung aufheben
+- Ton einschalten
+- Lautstärke hoch
+
+-------
+
+
+### skill-ovos-weather.openvoiceos
+
+Erhalte Wetterbedingungen, Prognosen, erwartete Niederschläge und mehr! Du kannst auch nach anderen Städten auf der ganzen Welt fragen. Aktuelle Bedingungen und Wettervorhersagen stammen von OpenMeteo
+
+**Usage examples:**
+- Wie wird das Wetter am Dienstag?
+- Wie hoch ist die Temperatur in Celsius morgen in Paris?
+- regnet es?
+- Wird es schneien?
+- Wie ist die Vorhersage für morgen?
+- Wie hoch ist die Luftfeuchtigkeit?
+- Wie wird das Wetter in den nächsten drei Tagen?
+- Wie ist das Wetter in Houston?
+- Wie ist die Temperatur?
+- Wann wird es das nächste Mal regnen?
 
 -------
 
@@ -208,11 +305,11 @@ Suche in Wikipedia nach Antworten auf all Deine Fragen. Erhalte nur eine Zusamme
 
 **Usage examples:**
 - Suche nach Schokolade
-- Erzähl mir mehr
-- Erzähl mir von Elon Musk
-- Erzähl mir von Bohnen
 - Weitere Informationen
+- Erzähl mir von Elon Musk
+- Erzähl mir mehr
 - Erzähle mir etwas über den Pembroke Welsh Corgi
+- Erzähl mir von Bohnen
 - Checke Wikipedia zu Bohnen
 
 -------
@@ -224,144 +321,22 @@ Verwende Wolfram Alpha für Fragen zum Allgemeinwissen.
 
 **Usage examples:**
 - Was ist 18 mal 4?
-- frage den Wolf wie hoch die Lichtgeschwindigkeit ist
 - Wie viele Zoll sind ein Meter?
-- Wie ist Madonnas richtiger Name?
-- Wie hoch ist der Mount Everest?
 - Wann kam die Rocky Horror Picture Show in die Kinos?
+- Wie hoch ist der Mount Everest?
+- Wie ist Madonnas richtiger Name?
+- frage den Wolf wie hoch die Lichtgeschwindigkeit ist
 
 -------
 
 
-### skill-ovos-local-media.openvoiceos
+### skill-ovos-wordnet.openvoiceos
 
-Lokaler Mediendateibrowser für Open Voice OS
-
-**Usage examples:**
-- Dateibrowser starten
-- USB-Browser anzeigen
-- USB-Browser-App anzeigen
-- USB-Laufwerk öffnen
-- Öffnen Sie die USB-Browser-App
-- öffne mein USB-Laufwerk
-- meinen Dateibrowser anzeigen
-- Dateibrowser-Laufwerk anzeigen
-- USB-Laufwerk anzeigen
-- öffne meinen USB
-
--------
-
-
-### skill-ovos-hello-world.openvoiceos
-
-Einführungs-Skill, damit Skill-Autoren sehen können, wie ein OVOS-Skill zusammengestellt wird
+Verwende Wordnet, um wörterbuchähnliche Fragen zu beantworten.
 
 **Usage examples:**
-- Danke
-- Hello world
-- Wie geht es dir?
-
--------
-
-
-### ovos-skill-speedtest.openvoiceos
-
-führt einen Internet-Bandbreitentest mit speedtest.net durch
-
-**Usage examples:**
-- Mache einen Geschwindigkeitstest
-
--------
-
-
-### skill-ovos-boot-finished.openvoiceos
-
-Die Fertig-Boot-Funktion gibt Benachrichtigungen aus, wenn OpenVoiceOS vollständig gestartet ist und alle Kerndienste bereit sind
-
-**Usage examples:**
-- Ist das System bereit?
-- Deaktiviere Bereitschaftsbenachrichtigungen.
-- Aktiviere die Bereitschaftsbenachrichtigungen.
-
--------
-
-
-### skill-ovos-news.openvoiceos
-
-Nachrichten-Streams aus der ganzen Welt.
-
-**Usage examples:**
-- spiele katalanische Nachrichten
-- portugiesische Nachrichten abspielen
-- euronews abspielen
-spiele euronews 
-- Nachrichten abspielen
-spiele die Nachrichten 
-- NPR Nachrichten abspielen
-spiele NPR Nachrichten
-- Nachrichten auf Spanisch abspielen
-
--------
-
-
-### skill-ovos-parrot.openvoiceos
-
-Mache OpenVoiceOS zu einem Echo-Papagei! Lasse OVOS alles wiederholen, was Du willst
-
-**Usage examples:**
-- Was habe ich gerade gesagt?
-- Sag mir, was ich gerade gesagt habe.
-- Wiederhole einmal eine trostlose Mitternacht, während ich, schwach und müde, über viele kuriose und merkwürdige Bände vergessener Überlieferungen nachdachte
-- Papagei stoppen
-stoppe Papagei
-- spreche Ich kann alles sagen, was Du möchtest!
-- Papagei starten
-starte Papagei
-- Wiederhole das
-- sage gute Nacht, Gracie
-- Kannst Du das wiederholen?
-- Wiederhole, was Du gerade gesagt hast
-
--------
-
-
-### skill-ovos-icanhazdadjokes.openvoiceos
-
-Verschönere Deinen Tag mit Humor. Lachen ist nicht garantiert, aber Augenrollen ist wahrscheinlich.
-
-**Usage examples:**
-- Kennst Du Witze über Chuck Norris?
-- Kennst du irgendwelche Witze?
-- Kannst du Witze erzählen?
-- Erzähl mir einen Witz.
-- Bring mich zum Lachen.
-- Erzähl einen Witz.
-- Erzähl mir einen Witz über Zahnärzte.
-
--------
-
-
-### skill-ovos-fallback-chatgpt.openvoiceos
-
-Im Zweifelsfall frage ChatGPT
-
-**Usage examples:**
-- Erkläre einfach Quantencomputing
-- Hast Du kreative Ideen für den Geburtstag eines 10-Jährigen?
-
--------
-
-
-### ovos-skill-iss-location.openvoiceos
-
-Verfolge den Standort der ISS
-
-**Usage examples:**
-- Wann fliegt die ISS über
-- Wo ist die ISS
-- wie viele Personen sind an Bord der Raumstation
-- Erzähl mir vom ISS
-- Wer ist an Bord der Raumstation?
+- was ist das Antonym von ...
+- was ist die Definition von ...
 
 -------
 

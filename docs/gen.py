@@ -16,7 +16,8 @@ for lang in ["ca", "de", "en", "pt", "fr", "it", "da", "gl", "eu", "es", "nl"]:
         continue
 
     with open(path, "w") as f:
-        for skill_id, plug in plugins.items():
+        for skill_id in sorted(skills):
+            plug = plugins[skill_id]
             p = importlib.import_module(plug.__module__)
             base_dir = os.path.join(os.path.dirname(p.__file__), "locale")
 
@@ -28,8 +29,7 @@ for lang in ["ca", "de", "en", "pt", "fr", "it", "da", "gl", "eu", "es", "nl"]:
                 continue
 
             for root, folders, files in os.walk(os.path.join(base_dir, locale)):
-                for intent in [_ for _ in files if _.endswith(".intent")]:
-                    print(intent)
+
                 if "skill.json" in files:
                     with open(os.path.join(root, "skill.json")) as fi:
                         data = json.load(fi)
