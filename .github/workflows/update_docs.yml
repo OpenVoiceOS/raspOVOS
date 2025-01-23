@@ -21,7 +21,7 @@ jobs:
       - name: Install skills
         run: |
           pip install --pre ovos-plugin-manager
-          pip install --pre -r skills.list
+          pip install --pre -r ./skills.list
 
       - name: Generate skill examples per language
         run: |
