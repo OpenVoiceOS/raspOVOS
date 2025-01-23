@@ -30,8 +30,242 @@ If you see an **undervoltage detected** warning:
 - Confirm the device has a working Internet connection. otherwise OVOS won't consider itself ready
 
 ---
+## Intent Issues
 
-## Troubleshooting Wake Word Issues
+### How to debug intent matching
+
+To easily debug intent parsing open a terminal and run `ologs | grep intent` , this will show you live logs related only to intent parsing
+
+then in another terminal send commands with `ovos-say-to "sentence to test"`  (or use your voice)
+
+example output
+```bash
+(ovos) ovos@raspOVOS:~ $ ologs | grep intent
+2025-01-23 16:29:54.299 - skills - ovos_core.intent_services:handle_utterance:416 - INFO - common_qa match: IntentHandlerMatch(match_type='question:action.skill-ovos-wikipedia.openvoiceos', match_data={'phrase': 'Qui és Elon Musk', 'skill_id': 'skill-ovos-wikipedia.openvoiceos', 'answer': "Elon Reeve Musk FRS és un empresari, inversor i magnat conegut pels seus papers clau a l'empresa espacial SpaceX i l'automobilística Tesla, Inc. Les accions i les opinions expressades per Musk l'han convertit en una figura polaritzadora. Després de guanyar al novembre, Trump va anunciar que havia triat Musk per codirigir la junta assessora del nou Departament d'Eficiència Governamental .", 'callback_data': {'answer': "Elon Reeve Musk FRS és un empresari, inversor i magnat conegut pels seus papers clau a l'empresa espacial SpaceX i l'automobilística Tesla, Inc. Les accions i les opinions expressades per Musk l'han convertit en una figura polaritzadora. Després de guanyar al novembre, Trump va anunciar que havia triat Musk per codirigir la junta assessora del nou Departament d'Eficiència Governamental ."}, 'conf': 0.6}, skill_id='skill-ovos-wikipedia.openvoiceos', utterance='Qui és Elon Musk', updated_session=None)
+2025-01-23 16:29:54.300 - skills - ovos_core.intent_services:handle_utterance:436 - DEBUG - intent matching took: 1.5732948780059814
+2025-01-23 16:34:07.672 - skills - ovos_core.intent_services:handle_utterance:399 - INFO - Parsing utterance: ['quina hora és']
+2025-01-23 16:34:07.675 - skills - ovos_core.intent_services:get_pipeline:234 - DEBUG - Session pipeline: ['stop_high', 'converse', 'ocp_high', 'padatious_high', 'adapt_high', 'ocp_medium', 'fallback_high', 'stop_medium', 'adapt_medium', 'padatious_medium', 'adapt_low', 'common_qa', 'fallback_medium', 'fallback_low']
+2025-01-23 16:34:07.678 - skills - ovos_core.intent_services:handle_utterance:430 - DEBUG - no match from <bound method StopService.match_stop_high of <ovos_core.intent_services.stop_service.StopService object at 0x7fff2b036310>>
+2025-01-23 16:34:07.686 - skills - ovos_core.intent_services:handle_utterance:430 - DEBUG - no match from <bound method ConverseService.converse_with_skills of <ovos_core.intent_services.converse_service.ConverseService object at 0x7fff7159ae50>>
+2025-01-23 16:34:07.691 - skills - ovos_core.intent_services:handle_utterance:430 - DEBUG - no match from <bound method OCPPipelineMatcher.match_high of <ocp_pipeline.opm.OCPPipelineMatcher object at 0x7fff26ac3910>>
+2025-01-23 16:34:07.696 - skills - ovos_core.intent_services:handle_utterance:416 - INFO - padatious_high match: IntentHandlerMatch(match_type='skill-ovos-date-time.openvoiceos:what.time.is.it.intent', match_data={}, skill_id='skill-ovos-date-time.openvoiceos', utterance='quina hora és', updated_session=None)
+2025-01-23 16:34:07.698 - skills - ovos_core.intent_services:handle_utterance:436 - DEBUG - intent matching took: 0.022924184799194336
+```
+
+### How to check installed skills
+
+use the `ls-skills` command
+
+example output
+```bash
+(ovos) ovos@raspOVOS:~ $ ls-skills
+[INFO] Listing installed skills for OpenVoiceOS...
+[WARNING] Scanning for installed skills. This may take a few moments, depending on the number of installed skills...
+
+The following skills are installed:
+
+['skill-ovos-weather.openvoiceos',
+ 'ovos-skill-dictation.openvoiceos',
+ 'skill-ovos-parrot.openvoiceos',
+ 'ovos-skill-speedtest.openvoiceos',
+ 'ovos-skill-ip.openvoiceos',
+ 'skill-ovos-spelling.openvoiceos',
+ 'ovos-skill-iss-location.openvoiceos',
+ 'skill-ovos-audio-recording.openvoiceos',
+ 'skill-ovos-wordnet.openvoiceos',
+ 'ovos-skill-days-in-history.openvoiceos',
+ 'ovos-skill-confucius-quotes.openvoiceos',
+ 'skill-ovos-fallback-chatgpt.openvoiceos',
+ 'ovos-skill-alerts.openvoiceos',
+ 'skill-ovos-local-media.openvoiceos',
+ 'skill-ovos-volume.openvoiceos',
+ 'ovos-skill-wikihow.openvoiceos',
+ 'ovos-skill-personal.OpenVoiceOS',
+ 'ovos-skill-number-facts.openvoiceos',
+ 'skill-ovos-hello-world.openvoiceos',
+ 'ovos-skill-moviemaster.openvoiceos',
+ 'skill-ovos-date-time.openvoiceos',
+ 'skill-ovos-fallback-unknown.openvoiceos',
+ 'ovos-skill-pyradios.openvoiceos',
+ 'skill-ovos-icanhazdadjokes.openvoiceos',
+ 'ovos-skill-cmd.forslund',
+ 'ovos-skill-spotify.openvoiceos',
+ 'skill-ovos-randomness.openvoiceos',
+ 'skill-ovos-naptime.openvoiceos',
+ 'skill-ovos-wikipedia.openvoiceos',
+ 'skill-ovos-boot-finished.openvoiceos',
+ 'ovos-skill-camera.openvoiceos',
+ 'skill-ovos-ddg.openvoiceos',
+ 'ovos-skill-laugh.openvoiceos',
+ 'skill-ovos-somafm.openvoiceos',
+ 'skill-ovos-news.openvoiceos',
+ 'skill-ovos-wolfie.openvoiceos',
+ 'ovos-skill-fuster-quotes.openvoiceos']
+[SUCCESS] Skill listing completed.
+```
+
+### How to check available intents
+
+Skills can optionally provide metadata, if they do instructions will be available under `ovos-commands`
+
+Example output (in catalan)
+```bash
+(ovos) ovos@raspOVOS:~ $ ovos-commands 
+##########################
+OpenVoiceOS - Skills help
+##########################
+
+Scanning skills...
+Found 37 installed skills
+Skill ids:
+0) - skill-ovos-weather.openvoiceos
+1) - ovos-skill-dictation.openvoiceos
+2) - skill-ovos-parrot.openvoiceos
+3) - ovos-skill-speedtest.openvoiceos
+4) - ovos-skill-ip.openvoiceos
+5) - skill-ovos-spelling.openvoiceos
+6) - ovos-skill-iss-location.openvoiceos
+7) - skill-ovos-audio-recording.openvoiceos
+8) - skill-ovos-wordnet.openvoiceos
+9) - ovos-skill-days-in-history.openvoiceos
+10) - ovos-skill-confucius-quotes.openvoiceos
+11) - skill-ovos-fallback-chatgpt.openvoiceos
+12) - ovos-skill-alerts.openvoiceos
+13) - skill-ovos-local-media.openvoiceos
+14) - skill-ovos-volume.openvoiceos
+15) - ovos-skill-wikihow.openvoiceos
+16) - ovos-skill-personal.OpenVoiceOS
+17) - ovos-skill-number-facts.openvoiceos
+18) - skill-ovos-hello-world.openvoiceos
+19) - ovos-skill-moviemaster.openvoiceos
+20) - skill-ovos-date-time.openvoiceos
+21) - skill-ovos-fallback-unknown.openvoiceos
+22) - ovos-skill-pyradios.openvoiceos
+23) - skill-ovos-icanhazdadjokes.openvoiceos
+24) - ovos-skill-cmd.forslund
+25) - ovos-skill-spotify.openvoiceos
+26) - skill-ovos-randomness.openvoiceos
+27) - skill-ovos-naptime.openvoiceos
+28) - skill-ovos-wikipedia.openvoiceos
+29) - skill-ovos-boot-finished.openvoiceos
+30) - ovos-skill-camera.openvoiceos
+31) - skill-ovos-ddg.openvoiceos
+32) - ovos-skill-laugh.openvoiceos
+33) - skill-ovos-somafm.openvoiceos
+34) - skill-ovos-news.openvoiceos
+35) - skill-ovos-wolfie.openvoiceos
+36) - ovos-skill-fuster-quotes.openvoiceos
+Select skill number: 36
+
+Skill name: ovos-skill-fuster-quotes.openvoiceos
+Description: La cita del dia de Fuster
+Usage examples:
+    - La frase del Fuster del dia
+    - Necessito alguna idea fusteriana
+    - Algun pensament fusterià?
+    - Digue’m un aforisme del Fuster
+    - Què diria Joan Fuster, aquí?
+    - Vull sentir un aforisme fusterià
+    - Què diu en Fuster?
+    - Què pensen els fusterians?
+    - Digues-me alguna cosa fusteriana
+```
+
+---
+
+### How to remove all skills
+
+If you want to revert OVOS to a blank state you can use `ovos-reset-brain` to remove ALL skills
+
+example output
+```bash
+(ovos) ovos@raspOVOS:~ $ ovos-reset-brain 
+[INFO] Starting OpenVoiceOS skill uninstallation process...
+WARNING: This will uninstall all installed skills. Do you want to continue? (y/n): y
+Using Python 3.11.2 environment at: .venvs/ovos
+[INFO] The following skills will be uninstalled:
+- ovos-skill-alerts
+- ovos-skill-audio-recording
+- ovos-skill-boot-finished
+- ovos-skill-camera
+- ovos-skill-cmd
+- ovos-skill-confucius-quotes
+- ovos-skill-date-time
+- ovos-skill-days-in-history
+- ovos-skill-dictation
+- ovos-skill-fallback-unknown
+- ovos-skill-fuster-quotes
+- ovos-skill-hello-world
+- ovos-skill-icanhazdadjokes
+- ovos-skill-ip
+- ovos-skill-iss-location
+- ovos-skill-laugh
+- ovos-skill-local-media
+- ovos-skill-moviemaster
+- ovos-skill-naptime
+- ovos-skill-number-facts
+- ovos-skill-parrot
+- ovos-skill-personal
+- ovos-skill-pyradios
+- ovos-skill-randomness
+- ovos-skill-somafm
+- ovos-skill-speedtest
+- ovos-skill-spelling
+- ovos-skill-spotify
+- ovos-skill-volume
+- ovos-skill-weather
+- ovos-skill-wikihow
+- ovos-skill-wikipedia
+- skill-ddg
+- skill-news
+- skill-ovos-fallback-chatgpt
+- skill-wolfie
+- skill-wordnet
+[INFO] Uninstalling skills...
+Using Python 3.11.2 environment at: .venvs/ovos
+Uninstalled 37 packages in 513ms
+ - ovos-skill-alerts==0.1.15
+ - ovos-skill-audio-recording==0.2.5a5
+ - ovos-skill-boot-finished==0.4.9
+ - ovos-skill-camera==1.0.3a4
+ - ovos-skill-cmd==0.2.8
+ - ovos-skill-confucius-quotes==0.1.11a1
+ - ovos-skill-date-time==0.4.6
+ - ovos-skill-days-in-history==0.3.9
+ - ovos-skill-dictation==0.2.10
+ - ovos-skill-fallback-unknown==0.1.6a2
+ - ovos-skill-fuster-quotes==0.0.1
+ - ovos-skill-hello-world==0.1.11a4
+ - ovos-skill-icanhazdadjokes==0.3.2
+ - ovos-skill-ip==0.2.7a1
+ - ovos-skill-iss-location==0.2.10
+ - ovos-skill-laugh==0.2.1a3
+ - ovos-skill-local-media==0.2.9
+ - ovos-skill-moviemaster==0.0.8a4
+ - ovos-skill-naptime==0.3.12a1
+ - ovos-skill-number-facts==0.1.10
+ - ovos-skill-parrot==0.1.14
+ - ovos-skill-personal==0.1.9
+ - ovos-skill-pyradios==0.1.5a1
+ - ovos-skill-randomness==0.1.2a1
+ - ovos-skill-somafm==0.1.5
+ - ovos-skill-speedtest==0.3.3a4
+ - ovos-skill-spelling==0.2.6a3
+ - ovos-skill-spotify==0.1.9
+ - ovos-skill-volume==0.1.13a2
+ - ovos-skill-weather==0.1.14
+ - ovos-skill-wikihow==0.2.14
+ - ovos-skill-wikipedia==0.6.0a1
+ - skill-ddg==0.1.15
+ - skill-news==0.1.12
+ - skill-ovos-fallback-chatgpt==0.1.12
+ - skill-wolfie==0.3.0
+ - skill-wordnet==0.1.1
+[SUCCESS] All skills have been uninstalled successfully.
+[WARNING] Note: This operation only deletes the skills. Configuration files and pipeline plugins (which still influence intent matching) are NOT affected by this action.
+```
+
+## Wake Word Issues
 
 Wake word detection in raspOVOS offers several options, each with its advantages and limitations. Understanding these
 can help resolve potential issues and improve performance.
