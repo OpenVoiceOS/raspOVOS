@@ -303,8 +303,45 @@ One of the main advantages of using the **Vosk Wake Word Plugin** is that it doe
 Instead, it uses Kaldi with a limited language model, which means it can work out-of-the-box with certain wake words
 without needing to collect and train custom data.
 
-However, the performance of Vosk may vary depending on the wake word you choose. Some wake words may work better than
+The performance of Vosk may vary depending on the wake word you choose. Some wake words may work better than
 others, so it’s essential to test and evaluate the plugin with your chosen word.
+
+Some wake words are hard to trigger, especially if missing from the language model vocabulary
+
+> e.g. `hey mycroft` is usually transcribed as `hey microsoft`,
+
+example for "hey  computer"
+```json
+  "listener": {
+    "wake_word": "hey_computer"
+  },
+  "hotwords": {
+    "hey_computer": {
+        "module": "ovos-ww-plugin-vosk",
+        "lang": "en",
+        "listen": true,
+        "debug": true,
+        "samples": ["hey computer", "a computer", "hey computed"],
+        "rule": "equals",
+        "full_vocab": false,
+    }
+  }
+```
+
+- `lang` - lang code for model, optional, will use global value if not set. only used to download models
+- `debug` - if true will print extra info, like the transcription contents, useful for adjusting "samples"
+- `rule` - how to process the transcript for detections
+    - `contains` - if the transcript contains any of provided samples 
+    - `equals` - if the transcript exactly matches any of provided samples 
+    - `starts` - if the transcript starts with any of provided samples 
+    - `ends` - if the transcript ends with any of provided samples 
+    - `fuzzy` - fuzzy match transcript against samples
+- `samples` - list of samples to match the rules against, optional, by default uses keyword name
+- `full_vocab` - use the full language model vocabulary for transcriptions, if false (default) will run in keyword mode
+
+> 💡 `"lang"` does not need to match the main language, if there is no vosk model for your language you can try faking it with similar sounding words from a different one
+
+
 
 ### Tips for Choosing a Good Wake Word
 
