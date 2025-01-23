@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-import json
-import random
-import os
 import importlib
+import json
+import os
+import random
+
 from langcodes import closest_supported_match
 from ovos_plugin_manager.skills import find_skill_plugins
-
+from ovos_utils.bracket_expansion import expand_template
 
 for lang in ["ca", "de", "en", "pt", "fr", "it", "da", "gl", "eu", "es", "nl"]:
     path = f"{os.path.dirname(__file__)}/skills_{lang}.md"
     plugins = find_skill_plugins()
     skills = list(plugins.keys())
-
+    CSV = "domain,intent,utterance"
     if not skills:
         continue
 
@@ -29,7 +30,17 @@ for lang in ["ca", "de", "en", "pt", "fr", "it", "da", "gl", "eu", "es", "nl"]:
                 continue
 
             for root, folders, files in os.walk(os.path.join(base_dir, locale)):
-
+                for intent in [_ for _ in files if _.endswith(".intent")]:
+                    p = f"{root}/{intent}"
+                    with open(p) as ifile:
+                        lines = ifile.read().split("\n")
+                    for l in lines:
+                        if not l or l.startswith("#"):
+                            continue
+                        for l2 in expand_template(l):
+                            if not l2:
+                                continue
+                            CSV += f"\n{skill_id},\"{intent}\",\"{l2}\""
                 if "skill.json" in files:
                     with open(os.path.join(root, "skill.json")) as fi:
                         data = json.load(fi)
@@ -43,3 +54,6 @@ for lang in ["ca", "de", "en", "pt", "fr", "it", "da", "gl", "eu", "es", "nl"]:
                         for example in data["examples"][:10]:
                             f.write(f"\n- {example}")
                         f.write("\n\n-------\n\n")
+
+    with open(f"{os.path.dirname(__file__)}/intents_{lang}.csv", "w") as f:
+        f.write(CSV)

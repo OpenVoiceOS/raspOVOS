@@ -4,9 +4,9 @@
 Usa DuckDuckGo per rispondere alle tue domande
 
 **Usage examples:**
-- cerca con duck duck go big bang
 - cerca su duck duck quando è nato stephen hawking
 - cerca su duck duck chi è elon musk
+- cerca con duck duck go big bang
 
 -------
 
@@ -16,8 +16,8 @@ Usa DuckDuckGo per rispondere alle tue domande
 Se non sai qualcosa puoi sempre chiedere a ChatGPT
 
 **Usage examples:**
-- Spiegami quantum computing in parole semplici
 - Devo preparare la festa di compleanno per un bambino di 10 anni, hai qualche idea da darmi?
+- Spiegami quantum computing in parole semplici
 
 -------
 
@@ -28,11 +28,11 @@ Riproduttore di flussi radio da tutto il mondo
 
 **Usage examples:**
 - metti il radiogiornale spagnolo
-- metti il giornale radio portoghese
 - metti il giornale radio
-- metti euronews
 - metti il radiogiornale italiano
 - metti npr news
+- metti il giornale radio portoghese
+- metti euronews
 
 -------
 
@@ -42,16 +42,16 @@ Riproduttore di flussi radio da tutto il mondo
 Controlla il volume con la voce!
 
 **Usage examples:**
-- [UNUSED]
-- [UNUSED]
-- [UNUSED]
-- Abbassa il volume
-- [UNUSED]
-- Ripristina il volume
-- [UNUSED]
-- [UNUSED]
-- [UNUSED]
+- Alza il volume al massimo
 - Stai zitto
+- Sussurra
+- Alza il volume
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- Metti il volume basso
+- Alza il volume
+- [UNUSED]
 
 -------
 
