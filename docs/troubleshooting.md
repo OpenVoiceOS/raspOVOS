@@ -98,6 +98,29 @@ choosing a wake word that will work well in various environments:
 
 ### Audio Issues
 
+0. **Run Diagnostics script:**
+    - raspOVOS includes a helper script `ovos-audio-diagnostics` that will print basic info about your sound system
+    - **Example output:**
+    ```bash
+    (ovos) ovos@raspOVOS:~ $ ovos-audio-diagnostics
+    ===========================
+    raspOVOS Audio Diagnostics
+    ===========================
+    
+    # Detected sound server:
+    pipewire
+    
+    # Available audio outputs:
+    36 - Built-in Audio Stereo [vol: 0.40]
+    45 - Built-in Audio Stereo [vol: 0.85]
+    46 - Built-in Audio Digital Stereo (HDMI) [vol: 0.40]
+
+    # Default audio output:
+    ID: 36
+    NAME: WM8731 HiFi wm8731-hifi-0
+    CARD NUMBER: 2
+    CARD NAME: snd_rpi_proto
+    ```
 1. **Check Input Devices:**
     - Run `arecord -l` to list all detected audio capture devices (microphones).
     - **Example output**:
@@ -170,7 +193,7 @@ choosing a wake word that will work well in various environments:
       Fri 17 Jan 11:42:48 WET 2025 - ALSA default card set to: 3
       ```
 
-5. **Confirm default sink:**
+5. **Confirm available audio sinks:**
     - Run `wpctl status` to check the available outputs as seen by `pipewire`.
     - The default sinks will be marked with `*`
     - You can inspect a sink by its number with `wpctl inspect $SINK_ID`
