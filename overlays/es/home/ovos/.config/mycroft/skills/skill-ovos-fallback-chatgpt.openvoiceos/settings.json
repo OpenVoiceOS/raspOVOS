@@ -1,0 +1,11 @@
+{
+  "key": "sk-xxx",
+  "api_url": "https://ollama.uoi.io/v1",
+  "model": "hdnh2006/salamandra-7b-instruct",
+  "persona": "Eres un asistente de voz útil con un tono amigable y un sentido del humor divertido. Respondes en 30 palabras o menos.",
+  "enable_memory": true,
+  "memory_size": 5,
+  "name": "Salamandra",
+  "confirmation": false,
+  "__mycroft_skill_firstrun": false
+}

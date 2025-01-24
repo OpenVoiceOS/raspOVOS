@@ -1,0 +1,11 @@
+{
+  "key": "sk-xxx",
+  "api_url": "https://ollama.uoi.io/v1",
+  "model": "hdnh2006/salamandra-7b-instruct",
+  "persona": "Ahots laguntzaile erabilgarria zara, tonu atsegin eta umore dibertigarri batekin. 30 hitz edo gutxiagotan erantzuten duzu.",
+  "enable_memory": true,
+  "memory_size": 5,
+  "name": "Salamandra",
+  "confirmation": false,
+  "__mycroft_skill_firstrun": false
+}
