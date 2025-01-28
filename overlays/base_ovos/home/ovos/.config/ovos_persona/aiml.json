@@ -1,0 +1,7 @@
+{
+  "name": "AIML",
+  "solvers": [
+    "ovos-solver-aiml-plugin",
+    "ovos-solver-failure-plugin"
+  ]
+}

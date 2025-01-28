@@ -1,0 +1,7 @@
+{
+  "name": "DuckDuckGo",
+  "solvers": [
+    "ovos-solver-ddg-plugin",
+    "ovos-solver-failure-plugin"
+  ]
+}

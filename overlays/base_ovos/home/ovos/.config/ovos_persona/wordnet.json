@@ -1,0 +1,7 @@
+{
+  "name": "WordNet",
+  "solvers": [
+    "ovos-solver-wordnet-plugin",
+    "ovos-solver-failure-plugin"
+  ]
+}

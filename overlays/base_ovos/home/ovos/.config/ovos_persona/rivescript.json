@@ -1,0 +1,7 @@
+{
+  "name": "Rivescript",
+  "solvers": [
+    "ovos-solver-rivescript-plugin",
+    "ovos-solver-failure-plugin"
+  ]
+}

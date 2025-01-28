@@ -1,0 +1,8 @@
+{
+  "name": "WolframAlpha",
+  "solvers": [
+    "ovos-solver-plugin-wolfram-alpha",
+    "ovos-solver-failure-plugin"
+  ],
+  "ovos-solver-plugin-wolfram-alpha": {"appid": "Y7353-9HQAAL8KKA"}
+}
