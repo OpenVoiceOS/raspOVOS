@@ -1,0 +1,11 @@
+{
+  "name": "TinyLLama",
+  "solvers": [
+    "ovos-solver-gguf-plugin",
+    "ovos-solver-failure-plugin"
+  ],
+  "ovos-solver-gguf-plugin": {
+    "model": "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF",
+    "remote_filename": "*Q4_K_M.gguf"
+  }
+}
