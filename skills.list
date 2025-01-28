@@ -34,3 +34,4 @@ skill-news>=0.1.8,<1.0.0
 ovos-skill-pyradios>=0.1.4,<1.0.0
 ovos-skill-local-media>=0.2.4,<1.0.0
 ovos-skill-spotify
+ovos-skill-youtube-music

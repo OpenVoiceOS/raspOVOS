@@ -106,7 +106,7 @@ apt-get update
 apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi mosh systemd-zram-generator i2c-tools
 
 echo "Installing audio packages..."
-apt-get install -y --no-install-recommends pipewire wireplumber pipewire-alsa alsa-utils portaudio19-dev libpulse-dev libasound2-dev mpd mpv kdeconnect
+apt-get install -y --no-install-recommends pipewire wireplumber pipewire-alsa alsa-utils portaudio19-dev libpulse-dev libasound2-dev mpd mpv ffmpeg kdeconnect
 
 echo "Installing camera packages..."
 apt install -y --no-install-recommends python3-libcamera python3-kms++ libcap-dev
