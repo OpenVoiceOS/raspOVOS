@@ -18,7 +18,7 @@ echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet
 
 echo "Downloading spanish citrinet model..."
-python /mounted-github-repo/scripts/download_citrinet_es.py
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/stt_es_citrinet_512_onnx'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/ /home/ovos/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/
