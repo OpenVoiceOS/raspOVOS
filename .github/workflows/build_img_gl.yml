@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - dev
     paths:
       - '.github/workflows/build_img_gl.yml'
       - 'build_raspOVOS_gl.sh'

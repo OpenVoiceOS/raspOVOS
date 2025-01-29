@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - dev
     paths:
       - '.github/workflows/build_base.yml'
       - 'build_base.sh'
