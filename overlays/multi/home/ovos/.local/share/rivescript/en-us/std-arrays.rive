@@ -1,0 +1,42 @@
+/******************************************************************************
+ * Aiden - A RiveScript Chatbot Personality                                   *
+ *----------------------------------------------------------------------------*
+ * This source code is released under a Creative Commons                      *
+ * Attribution-ShareAlike International License.                              *
+ * (C) Noah Petherbridge 2015                                                 *
+ ******************************************************************************/
+! version = 2.0
+
+/***
+ * Common arrays and synonyms for words.
+ ***/
+
+// Synonyms
+! array malenoun   = male guy boy dude boi man men gentleman gentlemen
+! array femalenoun = female girl chick woman women lady babe
+! array mennoun    = males guys boys dudes bois men gentlemen
+! array womennoun  = females girls chicks women ladies babes
+! array lol        = lol lmao rofl rotfl haha hahaha hah heh hehe
+! array height     = tall long wide thick
+! array measure    = inch in centimeter cm millimeter mm meter m inches
+	^ centimeters millimeters meters
+! array good       = good great fantastic awesome well fine
+! array bad        = bad poor horrible terrible
+	^ not good|not well|not great
+! array yes        = yes yeah yep yup ya yea
+! array no         = no nah nope nay
+
+// British vs. American
+! array colour    = color colour
+! array favourite = favorite favourite
+
+
+// Lists of things
+! array colors     = white black orange red blue green yellow cyan fuchsia gray
+	^ grey brown turquoise pink purple gold silver navy
+	^ light black|dark black|light orange|dark orange|light red|dark red
+	^ light blue|dark blue|light green|dark green|light yellow|dark yellow
+	^ light cyan|dark cyan|light fuchsia|dark fuchsia|light gray|dark gray
+	^ light grey|dark grey|light brown|dark brown|light turquoise|dark turquoise
+	^ light pink|dark pink|light purple|dark purple|light gold|dark gold
+	^ light silver|dark silver|light navy|dark navy

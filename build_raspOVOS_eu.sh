@@ -16,6 +16,12 @@ sudo cp -rv /mounted-github-repo/overlays/eu/* /
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
+echo "Downloading whisper model..."
+python -c "from huggingface_hub import snapshot_download; repo_id = 'Jarbas/faster-whisper-tiny-eu-cv16'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}'); print(file_path)"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--faster-whisper-tiny-eu-cv16/ /home/ovos/.cache/huggingface/hub/models--Jarbas--faster-whisper-tiny-eu-cv16/
+
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
 git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS

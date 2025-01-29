@@ -26,6 +26,13 @@ mv /root/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_
 echo "Installing Edge TTS..." # TODO: no decent offline pt voices :(
 uv pip install --no-progress ovos-tts-plugin-edge-tts -c $CONSTRAINTS
 
+echo "Downloading whisper model..."
+python -c "from huggingface_hub import snapshot_download; repo_id = 'Jarbas/faster-whisper-tiny-pt-cv13'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}'); print(file_path)"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--faster-whisper-tiny-pt-cv13/ /home/ovos/.cache/huggingface/hub/models--Jarbas--faster-whisper-tiny-pt-cv13/
+
+
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$USER
