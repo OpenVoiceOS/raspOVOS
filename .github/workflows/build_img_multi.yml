@@ -1,4 +1,4 @@
-name: build spanish headless image
+name: build multilingual headless image
 
 on:
   workflow_dispatch:
@@ -6,9 +6,9 @@ on:
     branches:
       - master
     paths:
-      - '.github/workflows/build_img_es.yml'
-      - 'build_raspOVOS_es.sh'
-      - 'overlays/es/**'
+      - '.github/workflows/build_img_multi.yml'
+      - 'build_raspOVOS_multilingual.sh'
+      - 'overlays/multi/**'
 
 jobs:
   # Stage 1: Get Current Date and Release Name
@@ -22,7 +22,7 @@ jobs:
         id: current-date
         run: |
           current_date=$(date +'%Y-%m-%d')
-          release_name="raspOVOS-spanish-bookworm-arm64-lite-${current_date}"
+          release_name="raspOVOS-multilingual-bookworm-arm64-lite-${current_date}"
           cache_key="raspOVOS-${{ github.run_id }}"
           echo "release_name=$release_name" >> $GITHUB_OUTPUT
           echo "cache_key=$cache_key" >> $GITHUB_OUTPUT
@@ -43,7 +43,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configuring OVOS for spanish
+      - name: Configuring Multilingual OVOS
         uses: TigreGotico/rpi-image-modifier@main
         id: create-image
         env:
@@ -53,13 +53,13 @@ jobs:
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
           base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-01-29/raspOVOS-DEV-bookworm-arm64-lite.img.xz
-          image-path: raspOVOS-spanish-bookworm-arm64-lite.img
+          image-path: raspOVOS-multilingual-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
           cache: false
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
-          script-path: build_raspOVOS_es.sh
+          script-path: build_raspOVOS_multilingual.sh
       - name: Print outputs
         shell: bash
         run: |
@@ -90,7 +90,7 @@ jobs:
           if [[ "$release_id" == "null" ]]; then
             release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS pre-configured for spanish\"}" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS pre-configured for Catalan\"}" \
               "https://api.github.com/repos/${{ github.repository }}/releases")
             release_id=$(echo $release | jq -r .id)
           fi
