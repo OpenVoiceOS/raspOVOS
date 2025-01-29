@@ -91,7 +91,10 @@ uv pip install --no-progress https://whl.smartgic.io/ggwave-0.4.2-cp311-cp311-li
 
 # Install OVOS dependencies in the virtual environment.
 echo "Installing OVOS..."
-uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-phal ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
+uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener ovos-phal ovos-audio ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
+
+echo "Installing STT/TTS plugins..."
+uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
 # Install essential skills for OVOS.
 echo "Installing skills..."
