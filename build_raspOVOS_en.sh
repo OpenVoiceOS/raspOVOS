@@ -17,6 +17,12 @@ echo "Setting up default wifi country..."
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
+echo "Downloading whisper model..."
+python /mounted-github-repo/scripts/download_fasterwhisper_base_en.py
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-base.en/ /home/ovos/.cache/huggingface/hub/models--Systran--faster-whisper-base.en/
+
 # TODO - compile minimal without bundled voices
 #echo "Installing Mimic TTS (for G2P)"
 #apt-get -y --no-install-recommends install gcc make pkg-config automake libtool libasound2-dev libicu-dev

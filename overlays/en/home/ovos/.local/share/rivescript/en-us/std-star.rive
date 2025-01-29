@@ -1,0 +1,41 @@
+/******************************************************************************
+ * Aiden - A RiveScript Chatbot Personality                                   *
+ *----------------------------------------------------------------------------*
+ * This source code is released under a Creative Commons                      *
+ * Attribution-ShareAlike International License.                              *
+ * (C) Noah Petherbridge 2015                                                 *
+ ******************************************************************************/
+! version = 2.0
+! local concat = space
+
+/***
+ * Catch-all miscellaneous messages from the user.
+ ***/
+
++ *
+- {@int random question}{weight=3}
+- That's interesting.
+- Um. . .
+- I see.
+- Go on...
+
++ int random question
+- {@int ask user variable}
+- {@int ask random question}
+
++ int ask random question
+- What is the meaning of life?
+- Have you heard of ELIZA?
+
++ [*] @yes [*]
+% have you heard of eliza
+- She was a pretty clever chatbot for her time.
+- So you know that Eliza fooled people into thinking she was intelligent by
+  ^ bouncing their questions back at them.
+
++ [*] @no [*]
+% have you heard of eliza
+- Eliza was a chatbot that simulated a psycotherapist and bounced users'
+  ^ questions back at them.
+- Eliza was one of the very first chatbots, written between 1964 and 1966 at
+  ^ MIT by Joseph Weizenbaum.

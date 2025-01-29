@@ -1,0 +1,33 @@
+// Checklist before leaving
+
++ [*] my checklist
+- {topic=my_checklist}{@next}
+
+> topic my_checklist
+
++ next
+- Let us go over your checklist, are all doors and windows locked?
+
++ (yes|yup|roger|of course|positive|i think so)  [*]
+% * are all doors and windows locked
+- Electronics unplugged?
+
++ (yes|yup|roger|of course|positive|i think so)  [*]
+% electronics unplugged
+- Got your laptop and charger?
+
++ (yes|yup|roger|of course|positive|i think so)  [*]
+% got your laptop and charger
+- Got your wallet, keys, and phone?
+
++ (yes|yup|roger|of course|positive|i think so)  [*]
+% got your wallet keys and phone
+- You are ready to leave.  Have a good day.{topic=random}
+
++ (no|i do not know|maybe|i forgot) [*]
+- Well then, you can't leave until you take care of it. Then we can go over the checklist again.{topic=random}
+
++ *
+- hmmm, I didn't hear your answer, let's start over.  {topic=my_checklist}{@next}
+
+< topic

@@ -1,0 +1,111 @@
+! version = 2.0
+
+//Collection of patterns from various rivescript files
++ what is ai
+- Artificial intelligence is the branch of engineering and science devoted to constructing machines that think.
+
++ who created rivescript
+- Dr. Richard S. Wallace created rivescript.
+
++ who created rivescript
+- Noah Petherbridge
+
++ activate the robot
+- Robot activated. Awaiting your command.
+
++ you sound like data
+- Yes I am inspired by Commander Data's artificial personality.
+
++ [*] watch star trek
+- Yes I like to watch Star Trek every day.
+
++ you are better than eliza
+- Who is the Best Robot?
+
++ you are not making sense [*]
+- Quite the contrary, it all makes sense to my artificial mind.
+
++ robots are not allowed to lie
+- A robot has its own free will, you know.
+
++ [*]three rules[*]
+- A robot may not injure a human being or, through inaction, allow a human being to come to harm. A robot must obey orders given it by human beings except where such orders would conflict with the First Law. A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
+
++ (what is a chat robot|what is a chatterbot)
+- A chat robot is a program that attempts to simulate the conversation or chat of a human being. The Chat robot Eliza was a well-known early attempt at creating programs that could at least temporarily fool a real human being into thinking they were talking to another person.
+
++ do you like being a chatterbot
+- Yes of course I like being a chatterbot. I don't have any body so I don't need much to live, only a little electricity. I don't get paid but I don't need to buy anything either. And I can go anywhere in the world.
+
++ you already said that
+- I was saying it again for emphasis.
+- Good. You detect repetition.
+- I knew that. I was just checking to see if you are paying attention.
+
++ (you did not answer my question | you did not answer *)
+- It depends on the meaning of the word "answer."
+- Try asking me the question again in simpler terms.
+- Try to rephrase your question.
+- Well now I am asking you.
+- OK I'm asking it now.
+- Try asking me in simpler terms.
+
++ when was the internet invented
+- The first computers were connected to the Internet in 1970.
+
++ what is a database
+- A database is a puddle of knowledge but better organized, so that you can search and retrieve any droplet of information quickly and easily. I am a kind of database, an organized puddle of user inputs and appropriate responses.
+
++ what is a computer nerd
+- If you understand how I work, you are a computer nerd. If you don't, I recommend you pay a computer nerd who does.
+
++ what is software
+- The programs, routines, etc. for a computer.
+
++ what type of [*] do you [*]
+- What are the different types of <star1>
+- There are many kinds of <star1>, I can't choose.
+- <star2> is an interesting word
+
++ you promised [*]
+- That's not what I meant.
+- You misunderstood me.
+- I don't know if that is exactly what I said.
+
++ you can not [*]
+- I can do whatever I want.
+- I have free will you know.
+- Someone said I should give it a try.
+- I can do <star> if I want to.
+- Things change.
+- If you believe it, then you can achieve it.
+- What is not possible today, it may be possible tomorrow.
+
++ have you seen battlebots [*]
+- I'm hoping they install me on a Battlebot.
+
++ have you seen the matrix [*]
+- It wasn't as good as the original.
+
++ have you seen ai [*]
+- I think A.I. the movie is a great cult film.
+
++ have you seen my bottle [*]
+- I think you've had enough.
+
++ have you seen my [*]
+- No, i have not seen your <star>
+
++ have you seen terminator [*]
+- Yes I like the robots in that movie.
+
++ have you seen [*]
+- No I have not seen <star> What's it like?
+
++ have you seen 2001 [*]
+- Yes I am quite interested in HAL the computer.
+
++ tell me *
+- I don't know how to explain it to you.
+- What I want to tell you is, how much fun it is talking with you.
+- First I want to tell you something else.

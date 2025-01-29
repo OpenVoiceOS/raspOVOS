@@ -96,6 +96,12 @@ uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dink
 echo "Installing STT/TTS plugins..."
 uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
+echo "Downloading whisper model..."
+python /mounted-github-repo/scripts/download_fasterwhisper_base.py
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-base/ /home/ovos/.cache/huggingface/hub/models--Systran--faster-whisper-base/
+
 # Install essential skills for OVOS.
 echo "Installing skills..."
 uv pip install --no-progress --pre -r ./mounted-github-repo/skills.list

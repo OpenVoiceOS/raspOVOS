@@ -1,0 +1,74 @@
+//Create random responses
+
++ what [else] do you (know|think)
+- I though of this poem: <call>haiku</call> What did you think of it?
+- <call>proverbs Wisdom 6 40</call>
+- <call>proverbs Life 3 45</call>
+- <call>proverbs Work 27 4</call>
+
+
+
++ [*] (poem|haiku) [*]
+- <call>haiku</call>
+
++ [give me a] (proverbs|proverb|wise saying)
+@ proverb
+
++ proverb
+- <call>proverbs Friendship 0 17</call>
+- <call>proverbs Love 1 25</call>
+- <call>proverbs Relationships 2 41</call>
+- <call>proverbs Life 3 45</call>
+- <call>proverbs Conversation 5 30</call>
+- <call>proverbs Wisdom 6 40</call>
+- <call>proverbs Work 27 4</call>
+- <call>proverbs Growth 10 25</call>
+- <call>proverbs Business 12 36</call>
+- <call>proverbs Fools 13 26</call>
+
+//Haiku code from http://www.101computing.net/haiku-generator-in-python/
+> object haiku python
+    from random import randint
+
+    wordList1 = ["enchanting", "amazing", "colourful", "delightful", "delicate", "contemplates", "whimsical", "shimmering", "entwining", "wistfully", "beautiful", "feverish"]
+    wordList2 = ["visions", "distance", "conscience", "process", "chaos", "sun light", "sea breeze"]
+    wordList3 = ["superstitious", "contrasting", "graceful", "inviting", "contradicting", "overwhelming"]
+    wordList4 = ["true", "dark", "cold", "warm", "great", "cool", "fun"]
+    wordList5 = ["scenery","season", "colours","lights","river","winter","summer","autumn", "oceans"]
+    wordList6 = ["undeniable", "unfathomable", "irreplaceable", "unbelievable", "irrevocable", "inescapable"]
+    wordList7 = ["inspiration", "imagination", "wisdom", "thoughts", "beauty", "wonder"]
+
+    wordIndex1=randint(0, len(wordList1)-1)
+    wordIndex2=randint(0, len(wordList2)-1)
+    wordIndex3=randint(0, len(wordList3)-1)
+    wordIndex4=randint(0, len(wordList4)-1)
+    wordIndex5=randint(0, len(wordList5)-1)
+    wordIndex6=randint(0, len(wordList6)-1)
+    wordIndex7=randint(0, len(wordList7)-1)
+
+    haiku = wordList1[wordIndex1] + " " + wordList2[wordIndex2] + ". "
+    haiku = haiku + wordList3[wordIndex3] + " " + wordList4[wordIndex4] + " " + wordList5[wordIndex5]  + ". "
+    haiku = haiku + wordList6[wordIndex6] + " " + wordList7[wordIndex7] + "."
+
+    return haiku
+
+< object
+
+
+> object proverbs python
+    import urllib2
+    import json
+    import random
+    topic = args[0]
+    idx = int(args[1])
+    count = int(args[2])
+    number= random.randrange(0,count)
+    url = "https://botwiki.org/api/corpora/data/words/proverbs.json"
+    req = urllib2.Request(url, headers={'User-Agent' : "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Ubuntu/11.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30"})
+    response = urllib2.urlopen(req)
+    info = dict(json.loads(response.read()))
+    text = info["proverbs"][idx][topic][number]
+    proverbs ="Here is a proverb regarding "+topic+". "+ text
+    return proverbs
+
+< object
