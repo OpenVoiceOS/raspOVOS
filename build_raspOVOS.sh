@@ -84,6 +84,9 @@ source /home/$USER/.venvs/ovos/bin/activate
 # Install additional Python dependencies within the virtual environment.
 uv pip install --no-progress wheel cython -c $CONSTRAINTS
 
+echo "Installing llama.cpp"
+uv pip install --no-progress https://github.com/abetlen/llama-cpp-python/releases/download/v0.3.2/llama_cpp_python-0.3.2-cp311-cp311-linux_aarch64.whl
+
 # Install ggwave in the virtual environment.
 echo "Installing ggwave..."
 # NOTE: update this wheel if python version changes
@@ -96,11 +99,11 @@ uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dink
 echo "Installing STT/TTS plugins..."
 uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
-echo "Downloading whisper model..."
-python /mounted-github-repo/scripts/download_fasterwhisper_base.py
+echo "Downloading whisper tiny model (for lang detection)..."
+python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-tiny'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
-mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-base/ /home/ovos/.cache/huggingface/hub/models--Systran--faster-whisper-base/
+mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/ /home/ovos/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/
 
 # Install essential skills for OVOS.
 echo "Installing skills..."
