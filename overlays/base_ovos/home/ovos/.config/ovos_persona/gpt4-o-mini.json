@@ -1,0 +1,12 @@
+{
+  "name": "GPT-4o-mini",
+  "solvers": [
+    "ovos-solver-openai-persona-plugin",
+    "ovos-solver-failure-plugin"
+  ],
+  "ovos-solver-openai-persona-plugin": {
+    "api_url": "https://oi-vscode-server.onrender.com/v1",
+    "key": "sk-xxx",
+    "model": "gpt-4o-mini"
+  }
+}
