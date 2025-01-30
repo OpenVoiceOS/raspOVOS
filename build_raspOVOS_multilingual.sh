@@ -12,8 +12,10 @@ echo "Copying overlays..."
 sudo cp -rv /mounted-github-repo/overlays/en/* /
 sudo cp -rv /mounted-github-repo/overlays/multi/* /
 
-echo "Installing Edge TTS..." # TODO: only multilingual model currently
-uv pip install --no-progress ovos-tts-plugin-edge-tts -c $CONSTRAINTS
+echo "Installing Plugins..."
+# TODO: find offline multilingual model
+# google is here as placeholder as we dont want to load too many piper voices into memory
+uv pip install --no-progress ovos-tts-plugin-google-tx-c $CONSTRAINTS
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
