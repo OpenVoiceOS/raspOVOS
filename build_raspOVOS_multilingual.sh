@@ -15,7 +15,7 @@ sudo cp -rv /mounted-github-repo/overlays/multi/* /
 echo "Installing Plugins..."
 # TODO: find offline multilingual model
 # google is here as placeholder as we dont want to load too many piper voices into memory
-uv pip install --no-progress ovos-tts-plugin-google-tx-c $CONSTRAINTS
+uv pip install --no-progress ovos-tts-plugin-google-tx -c $CONSTRAINTS
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
