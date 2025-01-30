@@ -35,7 +35,7 @@ jobs:
 
   # Stage 2: Build Image
   modify-rpi-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: get-date-release-name
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
