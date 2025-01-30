@@ -13,7 +13,7 @@ on:
 jobs:
   # Stage 1: Get Current Date and Release Name
   get-date-release-name:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       release_name: ${{ steps.current-date.outputs.release_name }}
       cache_key: ${{ steps.current-date.outputs.cache_key }}
@@ -35,7 +35,7 @@ jobs:
 
   # Stage 2: Build Image
   modify-rpi-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: get-date-release-name
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
@@ -52,7 +52,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-audio-base-bookworm-arm64-lite-2025-01-29/raspOVOS-audio-base-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-audio-base-bookworm-arm64-lite-2025-01-30/raspOVOS-audio-base-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-DEV-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
@@ -75,7 +75,7 @@ jobs:
 
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ get-date-release-name, modify-rpi-image ]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
@@ -107,7 +107,7 @@ jobs:
 
   # Stage 4: Upload to Release
   upload-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: ${{ needs.check-release-or-create.outputs.release_id }}
     needs: [ modify-rpi-image, check-release-or-create, get-date-release-name ]
     steps:
@@ -134,7 +134,7 @@ jobs:
           verbose: true
 
   update-en-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -170,7 +170,7 @@ jobs:
           labels: automated-update
 
   update-ca-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -206,7 +206,7 @@ jobs:
           labels: automated-update
 
   update-pt-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -242,7 +242,7 @@ jobs:
           labels: automated-update
 
   update-gl-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -278,7 +278,7 @@ jobs:
           labels: automated-update
 
   update-eu-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -314,7 +314,7 @@ jobs:
           labels: automated-update
 
   update-es-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -349,7 +349,7 @@ jobs:
             This PR updates the base-image-url in `build_img_es.yml` to reflect the latest release.
           labels: automated-update
   update-nl-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -385,7 +385,7 @@ jobs:
           labels: automated-update
 
   update-de-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
@@ -421,7 +421,7 @@ jobs:
           labels: automated-update
 
   update-gui-workflow:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
