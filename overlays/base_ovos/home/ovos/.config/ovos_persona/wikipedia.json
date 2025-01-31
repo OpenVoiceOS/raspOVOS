@@ -1,7 +1,0 @@
-{
-  "name": "Wikipedia",
-  "solvers": [
-    "ovos-solver-wikipedia-plugin",
-    "ovos-solver-failure-plugin"
-  ]
-}
