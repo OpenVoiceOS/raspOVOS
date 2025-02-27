@@ -24,11 +24,11 @@ rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
 echo "Downloading NOS TTS voices..."
 mkdir -p /home/$USER/.local/share/nos_tts_models/sabela
-wget https://huggingface.co/Jarbas/proxectonos-sabela-vits-phonemes-onnx/resolve/main/config.json /home/$USER/.local/share/nos_tts_models/sabela/config.json
-wget https://huggingface.co/Jarbas/proxectonos-sabela-vits-phonemes-onnx/resolve/main/model.onnx /home/$USER/.local/share/nos_tts_models/sabela/model.onnx
+wget https://huggingface.co/Jarbas/proxectonos-sabela-vits-phonemes-onnx/resolve/main/config.json -P /home/$USER/.local/share/nos_tts_models/sabela
+wget https://huggingface.co/Jarbas/proxectonos-sabela-vits-phonemes-onnx/resolve/main/model.onnx -P /home/$USER/.local/share/nos_tts_models/sabela
 mkdir -p /home/$USER/.local/share/nos_tts_models/celtia
-wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/model.onnx /home/$USER/.local/share/nos_tts_models/celtia/model.onnx
-wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/config.json /home/$USER/.local/share/nos_tts_models/celtia/config.json
+wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/model.onnx -P /home/$USER/.local/share/nos_tts_models/celtia
+wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/config.json -P /home/$USER/.local/share/nos_tts_models/celtia
 
 # TODO local cotovia binary
 uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
