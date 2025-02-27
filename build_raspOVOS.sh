@@ -101,9 +101,6 @@ uv pip install --no-progress --pre ovos-docs-viewer ovos-utils[extras] ovos-dink
 echo "Installing STT/TTS plugins..."
 uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
-# TODO - temporary until added to ovos-audio[extras]
-uv pip install --no-progress --pre ovos-dialog-normalizer-plugin
-
 echo "Downloading whisper tiny model (for lang detection)..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-tiny'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
 # since script was run as root, we need to move downloaded files
