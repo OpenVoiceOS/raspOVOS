@@ -134,6 +134,10 @@ fi
 echo "Tuning /etc/fstab..."
 bash /mounted-github-repo/scripts/setup_fstab.sh
 
+# Install ReSpeaker drivers
+echo "Installing ReSpeaker drivers"
+bash /mounted-github-repo/scripts/setup_respeaker.sh
+
 # Enable necessary system services.
 echo "Enabling system services..."
 chmod 644 /etc/systemd/system/kdeconnect.service
