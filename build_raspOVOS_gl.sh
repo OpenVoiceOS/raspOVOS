@@ -22,8 +22,16 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-pt-0.3.zip -P $VOSK_DI
 unzip -o $VOSK_DIR/vosk-model-small-pt-0.3.zip -d $VOSK_DIR
 rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
-# TODO local cotovia / nos
-uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
+echo "Downloading NOS TTS voices..."
+mkdir -p /home/$USER/.local/share/nos_tts_models/sabela
+wget https://huggingface.co/Jarbas/proxectonos-sabela-vits-phonemes-onnx/resolve/main/config.json /home/$USER/.local/share/nos_tts_models/sabela/config.json
+wget https://huggingface.co/Jarbas/proxectonos-sabela-vits-phonemes-onnx/resolve/main/model.onnx /home/$USER/.local/share/nos_tts_models/sabela/model.onnx
+mkdir -p /home/$USER/.local/share/nos_tts_models/celtia
+wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/model.onnx /home/$USER/.local/share/nos_tts_models/celtia/model.onnx
+wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/config.json /home/$USER/.local/share/nos_tts_models/celtia/config.json
+
+# TODO local cotovia binary
+uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
