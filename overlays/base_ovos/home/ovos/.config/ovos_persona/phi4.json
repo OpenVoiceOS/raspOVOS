@@ -1,0 +1,12 @@
+{
+  "name": "Phi4",
+  "solvers": [
+    "ovos-solver-openai-plugin",
+    "ovos-solver-failure-plugin"
+  ],
+  "ovos-solver-openai-plugin": {
+    "api_url": "https://phi4.tigregotico.pt",
+    "key": "sk-xxx",
+    "model": "phi4"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Qwen",
+  "solvers": [
+    "ovos-solver-openai-plugin",
+    "ovos-solver-failure-plugin"
+  ],
+  "ovos-solver-openai-plugin": {
+    "api_url": "https://qwen.tigregotico.pt",
+    "key": "sk-xxx",
+    "model": "qwen2.5"
+  }
+}
