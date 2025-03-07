@@ -15,7 +15,7 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
 echo "Installing Citrinet plugin..."
-uv pip install --no-progress ovos-stt-plugin-citrinet==0.0.5
+uv pip install --no-progress ovos-stt-plugin-citrinet==0.0.6
 
 echo "Downloading spanish citrinet model..."
 python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/stt_es_citrinet_512_onnx'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
