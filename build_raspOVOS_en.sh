@@ -15,7 +15,7 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country US
 
 echo "Installing English specific skills"
-uv pip install --no-progress ovos-skill-word-of-the-day
+uv pip install --no-progress ovos-core[skills-en] -c $CONSTRAINTS
 
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS

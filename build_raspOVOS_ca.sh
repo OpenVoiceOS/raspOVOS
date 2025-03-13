@@ -17,10 +17,10 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
 echo "Installing Catalan specific skills"
-uv pip install --no-progress ovos-skill-fuster-quotes ovos-skill-word-of-the-day
+uv pip install --no-progress ovos-core[skills-ca] -c $CONSTRAINTS
 
 echo "Installing Citrinet plugin..."
-uv pip install --no-progress ovos-stt-plugin-citrinet
+uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
 
 # TODO - Temporarily removed due to license reasons, to be restored later
 #echo "Downloading catalan citrinet model..."

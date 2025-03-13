@@ -15,10 +15,10 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country PT
 
 echo "Installing Portuguese specific skills"
-uv pip install --no-progress ovos-skill-word-of-the-day
+uv pip install --no-progress ovos-core[skills-pt] -c $CONSTRAINTS
 
 echo "Installing Citrinet plugin..."
-uv pip install --no-progress ovos-stt-plugin-citrinet
+uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
 
 echo "Downloading portuguese citrinet model..."
 python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/stt_pt_citrinet_512_gamma_0_25'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
