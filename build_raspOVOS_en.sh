@@ -14,6 +14,9 @@ sudo cp -rv /mounted-github-repo/overlays/en/* /
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country US
 
+echo "Installing English specific skills"
+uv pip install --no-progress ovos-skill-word-of-the-day
+
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 

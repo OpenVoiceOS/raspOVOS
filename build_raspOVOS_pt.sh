@@ -14,6 +14,9 @@ sudo cp -rv /mounted-github-repo/overlays/pt/* /
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country PT
 
+echo "Installing Portuguese specific skills"
+uv pip install --no-progress ovos-skill-word-of-the-day
+
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet
 
