@@ -9,13 +9,13 @@ alias ovos-restart="systemctl --user restart ovos"
 alias ovos-freeze="uv pip list --format=freeze | grep -E 'ovos-|skill-' > requirements.txt"
 
 # To attempt to recover a system
-alias ovos-force-reinstall="uv pip install --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-stable.txt --force-reinstall"
+alias ovos-force-reinstall="uv pip install --pre ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-phal[extras,linux] ovos-audio[extras] ovos-gui ovos-core[lgpl,plugins,skills-audio,skills-essential,skills-internet,skills-media,skills-extra] -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-testing.txt --force-reinstall"
 
 # OVOS Outdated: List outdated OVOS and skill-related packages
 alias ovos-outdated="uv pip list --outdated | grep -E 'ovos-|skill-'"
 
 # OVOS Pip: Run pip commands with a constraints file
-alias ovos-install="uv pip install -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-testing.txt"
+alias ovos-install="uv pip install -c https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
 
 # OVOS quick docs:
 alias ovos-manual="~/.venvs/ovos/bin/ovos-docs-viewer technical"
