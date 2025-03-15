@@ -20,7 +20,6 @@ echo "Installing Italian specific skills"
 uv pip install --no-progress ovos-core[skills-it] -c $CONSTRAINTS
 
 echo "Installing Italian Citrinet plugin..."
-uv pip install torch==2.1.0+cpu  -f https://download.pytorch.org/whl/torch_stable.html
 uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
 
 echo "Downloading Italian citrinet model..."
