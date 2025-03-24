@@ -1,0 +1,7 @@
+Small Italian model for Vosk
+
+WER
+
+%WER 16.88 [ 24763 / 146712, 3133 ins, 4266 del, 17364 sub ] exp/chain/tdnn/decode_test_cv_red/wer_10_0.0
+%WER 25.87 [ 10567 / 40847, 1725 ins, 1248 del, 7594 sub ] exp/chain/tdnn/decode_test_mls_red/wer_9_0.0
+%WER 17.01 [ 3091 / 18167, 695 ins, 890 del, 1506 sub ] exp/chain/tdnn/decode_test_mtedx_red/wer_10_0.0
