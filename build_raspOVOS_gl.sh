@@ -14,13 +14,6 @@ sudo cp -rv /mounted-github-repo/overlays/gl/* /
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
-echo "Downloading portuguese vosk model..."
-# Download and extract VOSK model
-VOSK_DIR="/home/$USER/.local/share/vosk"
-mkdir -p $VOSK_DIR
-wget https://alphacephei.com/vosk/models/vosk-model-small-pt-0.3.zip -P $VOSK_DIR
-unzip -o $VOSK_DIR/vosk-model-small-pt-0.3.zip -d $VOSK_DIR
-rm $VOSK_DIR/vosk-model-small-pt-0.3.zip
 
 echo "Downloading NOS TTS voices..."
 mkdir -p /home/$USER/.local/share/nos_tts_models/sabela

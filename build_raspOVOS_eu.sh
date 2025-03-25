@@ -18,13 +18,6 @@ echo "Setting up default wifi country..."
 
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
-git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
-cd /tmp/AhoTTS
-./script_compile_all_linux.sh
-mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
-cd ~
-
-# TODO TTS and STT
 
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

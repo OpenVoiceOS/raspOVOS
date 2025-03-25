@@ -25,12 +25,6 @@ mv /root/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/ /home/
 
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
-git clone https://github.com/aholab/AhoTTS /tmp/AhoTTS
-cd /tmp/AhoTTS
-apt-get install -y cmake
-./script_compile_all_linux.sh
-mv /tmp/AhoTTS/bin /usr/bin/AhoTTS/
-cd ~
 
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
