@@ -77,6 +77,13 @@ pip install sdnotify uv --break-system-packages
 echo "Installing admin phal..."
 pip install ovos-bus-client ovos-phal ovos-PHAL-plugin-system -c $CONSTRAINTS --break-system-packages
 
+echo "Compiling latest espeak..."
+apt-get install -y jq automake libtool
+git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
+cd /tmp/espeak-ng
+./autogen.sh  && ./configure && make && make install
+rm -rf /tmp/espeak-ng
+
 # Create and activate a virtual environment for OVOS.
 echo "Creating virtual environment..."
 mkdir -p /home/$USER/.venvs
