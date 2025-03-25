@@ -7,7 +7,7 @@ on:
       - dev
     paths:
       - '.github/workflows/build_base.yml'
-      - 'build_base.sh'
+      - 'build_raspOVOS.sh'
       - 'overlays/base_ovos/**'
 
 jobs:
