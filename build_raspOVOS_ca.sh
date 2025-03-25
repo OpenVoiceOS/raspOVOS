@@ -35,13 +35,6 @@ echo "Installing Matxa TTS..."
 git clone https://github.com/OpenVoiceOS/ovos-tts-plugin-matxa-multispeaker-cat /home/$USER/.ovos-tts-plugin-matxa-multispeaker-cat
 uv pip install --no-progress -e /home/$USER/.ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
 
-echo "Compiling latest espeak..."
-apt-get install -y jq automake libtool
-git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
-cd /tmp/espeak-ng
-./autogen.sh  && ./configure && make && make install
-rm -rf /tmp/espeak-ng
-
 echo "Ensuring permissions for $USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$USER
