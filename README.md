@@ -20,7 +20,7 @@ Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/bl
 
 ### 📂 Latest Images:
 
-The image versions below are considered the latest stable versions
+The image versions below are considered the latest stable versions. Status of the different languages can be found [here](https://github.com/OpenVoiceOS/lang-support-tracker)
 
 - [raspOVOS-english-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-english-bookworm-arm64-lite-2025-01-15)
 - [raspOVOS-catalan-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2025-01-15)
@@ -31,33 +31,11 @@ The image versions below are considered the latest stable versions
 - [raspOVOS-portuguese-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-portuguese-bookworm-arm64-lite-2025-01-15)
 - [raspOVOS-spanish-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-spanish-bookworm-arm64-lite-2025-01-15)
 
-Are you a developer?
+#### Are you a developer?
 
 Find the latest developer builds on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page.
 
 > ⚠️ These builds are semi-automated and might not be well tested in comparison to the versions listed above
-
-
----
-
-## Language Specific Image Comparison
-
-- 🌟 **Best**: Fully offline (STT, TTS, wake words).
-- ✅ **Good**: Online STT + Offline TTS.
-- ⚡ **Usable**: Online STT + Online TTS.
-- 🛠️ **Work in Progress**: Missing key functionality or early-stage development.
-
-| **Language**   | **STT**                                                  | **TTS**                                          | **Wake Word**                                  | **"Wake Up" Hotword**                    | **Notes**                                                                                                                                                                                                                                             | **Rating**               |
-|----------------|----------------------------------------------------------|--------------------------------------------------|------------------------------------------------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
-| **English**    | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-piper`<br>voice-en-gb-alan-low  | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"wake up"       | - STT relies on public servers                                                                                                                                                                                                                        | ✅  **Good**              |
-| **Basque**     | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-ahotts`<br>basque               | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"esnatu"        | - STT relies on public servers<br>- HiTz STT remote servers support planned<br>- "wake up" does not have dedicated basque vosk model <br>-⚠️ might be hard to get out of sleep mode! (spanish model)<br>- 🚧 Skills translation is a work in progress | ⚡ **Usable**             |
-| **Catalan**    | `ovos-stt-plugin-citrinet`<br>AINA Citrinet model        | `ovos-tts-plugin-matxa`<br>MatxaTTS              | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"desperta"      | - Fully offline; supports Catalan-specific models for STT and TTS. <br>- 🚧 Skills translation is a work in progress                                                                                                                                  | 🌟  **Best**             |
-| **Dutch**      | `ovos-stt-plugin-citrinet`<br>Nemo Citrinet model        | `ovos-tts-plugin-piper`<br>mls_5809-low          | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"wakker worden" | - 🚧 Skills translation is a work in progress                                                                                                                                                                                                         | ✅  **Good**              |
-| **Galician**   | `ovos-stt-plugin-server`<br>Whisper Turbo public servers | `ovos-tts-plugin-nos`<br>NOS TTS                 | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"acorda"        | - STT relies on public servers <br>- ⚠️ "wake up" does not have dedicated galician vosk model <br> - ⚠️ might be hard to get out of sleep mode! (portuguese model)<br>- 🚧 Skills translation is a work in progress                                   | ⚡ **Usable**             |
-| **German**     | `ovos-stt-plugin-citrinet`<br>Nemo Citrinet model        | `ovos-tts-plugin-piper`<br>thorsten-low          | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"aufwachen"     | - Citrinet is not very good<br>- 🚧 Skills translation is a work in progress                                                                                                                                                                          | ⚡ **Usable**             |
-| **Italian**     | `ovos-stt-plugin-citrinet`<br>Nemo Citrinet model        | `ovos-tts-plugin-piper`<br>paola-medium         | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"svegliati"     | - 🚧 Skills translation is a work in progress                                                                                                                                                                                                          | ⚡ **Usable**             |
-| **Portuguese** | `ovos-stt-plugin-server`<br>MyNorthAI public servers     | `ovos-tts-plugin-edge-tts`<br>pt-PT-DuarteNeural | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"acorda"        | - STT relies on public servers<br>- Edge TTS is temporary (not privacy respecting). <br>- 🚧 Skills translation is a work in progress                                                                                                             | 🛠️ **Work in Progress** |
-| **Spanish**    | `ovos-stt-plugin-citrinet`<br>NVIDIA Citrinet model      | `ovos-tts-plugin-ahotts`<br>spanish              | `ovos-ww-plugin-precise-lite`<br>"hey mycroft" | `ovos-ww-plugin-vosk`<br>"despierta"     | - 🚧 Skills translation is a work in progress                                                                                                                                                                                                            | ✅  **Good**              |
 
 ---
 
