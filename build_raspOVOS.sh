@@ -54,7 +54,7 @@ fi
 echo "The UID for '$USER' is: $TUID"
 
 echo "Installing system packages..."
-apt-get install -y --no-install-recommends swig python3-dev python3-pip libssl-dev libfann-dev
+apt-get install -y --no-install-recommends swig python3-dev python3-pip libssl-dev libfann-dev flac
 
 #echo "Updating ovos-i2csound and raspovos-audio-setup"
 #bash /mounted-github-repo/scripts/update.sh
