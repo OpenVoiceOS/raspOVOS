@@ -12,6 +12,8 @@ on top. The customized images are then uploaded to [GitHub Releases](https://git
 - **Default hostname**: `raspOVOS`
 - OVOS services run under the `ovos` user, with autologin enabled.
 
+> ⚠️ **DO NOT** change the default user when burning the image or you will run into issues
+
 ### 🛠️ Getting Started:
 
 Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/blob/master/tutorial.md) for instructions.
