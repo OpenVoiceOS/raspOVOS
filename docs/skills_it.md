@@ -1,4 +1,51 @@
 
+### ovos-skill-alerts.openvoiceos
+
+Una competenza per gestire allarmi, timer, promemoria, eventi e cose da fare e, facoltativamente, per sincronizzarli con un servizio CalDAV.
+
+**Usage examples:**
+- Imposta una sveglia giornaliera per le 8.
+- svegliami alle 8 del mattino con la musica.
+- Annulla tutti gli allarmi.
+- Quando è la mia prossima sveglia?
+- Imposta un timer per la cottura del pane su 30 minuti.
+- Cosa mi sono perso?
+- Annulla tutti i timer.
+- Imposta la sveglia alle 8 del mattino per ogni sabato.
+- Mi sono perso qualcosa?
+- Organizza un evento di tennis della durata di 2 ore per le ore 14 di venerdì.
+
+-------
+
+
+### skill-ovos-boot-finished.openvoiceos
+
+La competenza Fine di avvio fornisce notifiche quando OpenVoiceOS è completamente avviato e tutti i servizi principali sono pronti
+
+**Usage examples:**
+- Abilita le notifiche di "pronto".
+- Disattiva le notifiche di "pronto".
+- Il sistema è pronto?
+
+-------
+
+
+### skill-ovos-date-time.openvoiceos
+
+Chiedi l'ora, la data, il giorno della settimana
+
+**Usage examples:**
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- Che ora è?
+
+-------
+
+
 ### skill-ovos-ddg.openvoiceos
 
 Usa DuckDuckGo per rispondere alle tue domande
@@ -11,13 +58,21 @@ Usa DuckDuckGo per rispondere alle tue domande
 -------
 
 
-### skill-ovos-fallback-chatgpt.openvoiceos
+### skill-ovos-local-media.openvoiceos
 
-Se non sai qualcosa puoi sempre chiedere a ChatGPT
+Naviga i tuoi media con Open Voice OS
 
 **Usage examples:**
-- Devo preparare la festa di compleanno per un bambino di 10 anni, hai qualche idea da darmi?
-- Spiegami quantum computing in parole semplici
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
+- [UNUSED]
 
 -------
 
@@ -28,10 +83,10 @@ Riproduttore di flussi radio da tutto il mondo
 
 **Usage examples:**
 - metti il radiogiornale spagnolo
-- metti il giornale radio
-- metti il radiogiornale italiano
 - metti npr news
+- metti il giornale radio
 - metti il giornale radio portoghese
+- metti il radiogiornale italiano
 - metti euronews
 
 -------
@@ -42,15 +97,15 @@ Riproduttore di flussi radio da tutto il mondo
 Controlla il volume con la voce!
 
 **Usage examples:**
-- Alza il volume al massimo
+- Imposta il volume di default
+- [UNUSED]
 - Stai zitto
-- Sussurra
-- Alza il volume
+- Imposta il volume al valore predefinito
+- [UNUSED]
 - [UNUSED]
 - [UNUSED]
 - [UNUSED]
 - Metti il volume basso
-- Alza il volume
 - [UNUSED]
 
 -------

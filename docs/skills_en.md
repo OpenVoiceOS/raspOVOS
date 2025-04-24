@@ -4,16 +4,16 @@
 A skill to manage alarms, timers, reminders, events and todos and optionally sync them with a CalDAV service. 
 
 **Usage examples:**
-- What are my reminders?
-- Cancel all reminders.
-- When is my next alarm?
 - Schedule a tennis event for 2 PM on friday spanning 2 hours.
-- What did I miss?
-- remind me to take out the trash every Thursday and Sunday at 7 PM.
-- Start a bread timer for 30 minutes.
+- Cancel all reminders.
 - Did I miss anything?
-- Set an alarm for 8 AM.
 - Set a daily alarm for 8 AM.
+- remind me to take out the trash every Thursday and Sunday at 7 PM.
+- Set an alarm for 8 AM.
+- Cancel all alarms.
+- What did I miss?
+- Set an alarm for 8 AM on saturdays.
+- Start a bread timer for 30 minutes.
 
 -------
 
@@ -34,10 +34,10 @@ No description available
 Quotes from Confucius
 
 **Usage examples:**
-- Quote from Confucius
 - When did Confucius die
-- When was Confucius born
 - Who is Confucius
+- When was Confucius born
+- Quote from Confucius
 
 -------
 
@@ -47,11 +47,11 @@ Quotes from Confucius
 Provides historical events for today or any other calendar day using information pulled from Wikipedia.
 
 **Usage examples:**
-- who died today in history?
-- who was born today in history?
-- What historical events happened on June 16th?
 - Tell me about events in history on December 12th
+- who was born today in history?
 - What happened today in history?
+- What historical events happened on June 16th?
+- who died today in history?
 
 -------
 
@@ -72,11 +72,11 @@ continuously transcribes user speech to text file while enabled
 Network connection information
 
 **Usage examples:**
-- What's your IP address?
-- What's your network address?
 - Tell me your network address
 - What network are you connected to?
 - Tell me your IP address
+- What's your IP address?
+- What's your network address?
 
 -------
 
@@ -86,30 +86,11 @@ Network connection information
 Track the location of the ISS
 
 **Usage examples:**
-- When is the ISS passing over
-- Where is the ISS
 - Tell me about the IS
 - how many persons on board of the space station
+- When is the ISS passing over
 - Who is on board of the space station?
-
--------
-
-
-### ovos-skill-moviemaster.openvoiceos
-
-Find information about movies, actors, and production details. Easily find information about a movie with your voice.
-
-**Usage examples:**
-- What are popular movies playing now?
-- Tell me about the movie _______
-- What genres does the flick _______ belong to?
-- Who plays in the movie _______?
-- How long is the movie _______?
-- Look for information on the movie _______.
-- Do you have info on the film _______?
-- What is the movie _______ about?
-- What are the highest rated movies out?
-- When was the movie _______ made?
+- Where is the ISS
 
 -------
 
@@ -119,13 +100,13 @@ Find information about movies, actors, and production details. Easily find infor
 Facts about numbers
 
 **Usage examples:**
-- random number trivia
 - trivia about next week
+- math fact about number 7
+- fact about yesterday
 - trivia about tomorrow
 - fact about number 666
-- fact about yesterday
 - curiosity about year 1992
-- math fact about number 7
+- random number trivia
 
 -------
 
@@ -135,10 +116,10 @@ Facts about numbers
 Learn history and personality of the assistant. Ask about the 'birth' and parentage of the voice assistant and get a taste of the community who is fostering this open source artificial intelligence.
 
 **Usage examples:**
-- Where were you born?
+- Who made you?
 - What are you?
 - When were you created?
-- Who made you?
+- Where were you born?
 
 -------
 
@@ -164,6 +145,17 @@ runs an internet bandwidth test using speedtest.net
 -------
 
 
+### ovos-skill-spotify.openvoiceos
+
+No description available
+
+**Usage examples:**
+- play heavy metal
+- play motorhead in spotify
+
+-------
+
+
 ### ovos-skill-wikihow.openvoiceos
 
 How to do nearly everything.
@@ -175,16 +167,27 @@ How to do nearly everything.
 -------
 
 
+### ovos-skill-wordnet.openvoiceos
+
+Use Wordnet to answer dictionary-like questions.
+
+**Usage examples:**
+- what is the antonym of ...
+- what is the definition of ...
+
+-------
+
+
 ### skill-ovos-audio-recording.openvoiceos
 
 No description available
 
 **Usage examples:**
 - new recording named {name}
-- start recording
 - start a recording called {name}
-- start a new audio recording called {name}
 - begin recording
+- start a new audio recording called {name}
+- start recording
 
 -------
 
@@ -194,8 +197,8 @@ No description available
 The Finished Booting skill provides notifications when OpenVoiceOS has fully started and all core services are ready
 
 **Usage examples:**
-- Disable ready notifications.
 - Is the system ready?
+- Disable ready notifications.
 - Enable ready notifications.
 
 -------
@@ -206,13 +209,13 @@ The Finished Booting skill provides notifications when OpenVoiceOS has fully sta
 Get the time, date, day of the week
 
 **Usage examples:**
-- What time is it?
 - Tell me the day of the week
+- What time is it?
+- What time is it in Paris?
+- How many days until July 4th
 - What day is Memorial Day 2020?
 - What's the date?
 - Show me the time
-- How many days until July 4th
-- What time is it in Paris?
 
 -------
 
@@ -222,20 +225,9 @@ Get the time, date, day of the week
 Use DuckDuckGo to answer questions.
 
 **Usage examples:**
-- ask the duck about the big bang
 - when was stephen hawking born
 - who is elon musk
-
--------
-
-
-### skill-ovos-fallback-chatgpt.openvoiceos
-
-When in doubt, ask ChatGPT
-
-**Usage examples:**
-- Got any creative ideas for a 10 year old’s birthday?
-- Explain quantum computing in simple terms
+- ask the duck about the big bang
 
 -------
 
@@ -245,9 +237,9 @@ When in doubt, ask ChatGPT
 Introductory Skill so that Skill Authors can see how an OVOS Skill is put together
 
 **Usage examples:**
-- Hello world
-- Thank you
 - How are you?
+- Thank you
+- Hello world
 
 -------
 
@@ -257,13 +249,13 @@ Introductory Skill so that Skill Authors can see how an OVOS Skill is put togeth
 Brighten your day with dad humor. Laughter is not guaranteed, but eye rolls are likely.
 
 **Usage examples:**
+- Do you know any jokes?
+- Tell me a joke.
+- Do you know any Chuck Norris jokes?
+- Say a joke.
 - Can you tell jokes?
 - Make me laugh.
-- Do you know any Chuck Norris jokes?
 - Tell me a joke about dentists.
-- Say a joke.
-- Tell me a joke.
-- Do you know any jokes?
 
 -------
 
@@ -273,16 +265,16 @@ Brighten your day with dad humor. Laughter is not guaranteed, but eye rolls are 
 Local Media File Browser For Open Voice OS
 
 **Usage examples:**
-- open my file browser
-- show my file browser
-- show my usb drive
-- start usb browser app
-- show my usb
-- show file browser app
 - show file browser
-- open usb
-- start usb browser
 - open my usb
+- show usb browser app
+- show my file browser drive
+- start file browser app
+- show my usb drive
+- open usb browser app
+- start file browser
+- show usb
+- show usb drive
 
 -------
 
@@ -304,12 +296,12 @@ Put the assistant to sleep when you don't want to be disturbed.
 News streams from around the globe.
 
 **Usage examples:**
-- play npr news
-- play news in spanish
-- play euronews
-- play the news
 - play portuguese news
+- play news in spanish
+- play the news
 - play catalan news
+- play npr news
+- play euronews
 
 -------
 
@@ -319,15 +311,15 @@ News streams from around the globe.
 Turn OpenVoiceOS into a echoing parrot! Make OVOS repeat whatever you want.
 
 **Usage examples:**
-- Tell me what I just said.
 - say Goodnight, Gracie
 - speak I can say anything you'd like!
-- start parrot
-- repeat Once upon a midnight dreary, while I pondered, weak and weary, Over many a quaint and curious volume of forgotten lore
-- Repeat what you just said
-- What did I just say?
 - Can you repeat that?
+- start parrot
+- What did I just say?
+- repeat Once upon a midnight dreary, while I pondered, weak and weary, Over many a quaint and curious volume of forgotten lore
 - stop parrot
+- Repeat what you just said
+- Tell me what I just said.
 - Repeat that
 
 -------
@@ -339,8 +331,8 @@ No description available
 
 **Usage examples:**
 - play soma fm radio
-- play metal detector
 - play secret agent
+- play metal detector
 
 -------
 
@@ -350,10 +342,10 @@ No description available
 No description available
 
 **Usage examples:**
-- How do you spell bureacracy?
-- How do you spell aardvark?
-- Spell omnipotence
 - Spell succotash
+- Spell omnipotence
+- How do you spell aardvark?
+- How do you spell bureacracy?
 
 -------
 
@@ -363,16 +355,16 @@ No description available
 Control the volume of OVOS with verbal commands
 
 **Usage examples:**
+- unmute audio
 - unmute volume
+- high volume
+- volume level high
+- set volume level to maximum
 - volume low
-- mute audio
-- volume to high level
+- toggle mute
 - reset volume
-- volume to high
-- volume level low
-- toggle audio
-- low volume
-- set volume to maximum
+- set volume to medium
+- volume high
 
 -------
 
@@ -382,15 +374,15 @@ Control the volume of OVOS with verbal commands
 Get weather conditions, forecasts, expected precipitation and more! You can also ask for other cities around the world. Current conditions and weather forecasts come from OpenMeteo
 
 **Usage examples:**
-- What's the temperature in Paris tomorrow in Celsius?
-- When will it rain next?
-- What's the high temperature tomorrow
-- Is it going to snow in Baltimore?
-- what is the weather like?
-- How windy is it?
-- What is the weather this weekend?
 - What is the weather in Houston?
-- Will it be cold on Tuesday
+- What is the forecast tomorrow?
+- Is it going to snow?
+- What is the weather going to be like Tuesday?
+- What's the humidity?
+- What is the weather for the next three days?
+- When will it rain next?
+- is it raining?
+- What is the forecast in London tomorrow?
 - What's the temperature?
 
 -------
@@ -401,13 +393,13 @@ Get weather conditions, forecasts, expected precipitation and more! You can also
 Query Wikipedia for answers to all your questions. Get just a summary, or ask for more to get in-depth information.
 
 **Usage examples:**
-- Search for chocolate
 - More information
-- Tell me about beans
 - Tell me More
-- Tell me about the Pembroke Welsh Corgi
+- Tell me about beans
 - Check Wikipedia for beans
 - Tell me about Elon Musk
+- Search for chocolate
+- Tell me about the Pembroke Welsh Corgi
 
 -------
 
@@ -417,23 +409,12 @@ Query Wikipedia for answers to all your questions. Get just a summary, or ask fo
 Use Wolfram Alpha for general knowledge questions.
 
 **Usage examples:**
-- How tall is Mount Everest?
 - What's 18 times 4?
-- How many inches in a meter?
-- What is Madonna's real name?
-- When was The Rocky Horror Picture Show released?
+- How tall is Mount Everest?
 - ask the wolf what is the speed of light
-
--------
-
-
-### skill-ovos-wordnet.openvoiceos
-
-Use Wordnet to answer dictionary-like questions.
-
-**Usage examples:**
-- what is the definition of ...
-- what is the antonym of ...
+- When was The Rocky Horror Picture Show released?
+- What is Madonna's real name?
+- How many inches in a meter?
 
 -------
 

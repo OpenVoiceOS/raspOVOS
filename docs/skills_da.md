@@ -4,16 +4,16 @@
 En færdighed til at administrere alarmer, timere, påmindelser, begivenheder og gøremål og eventuelt synkronisere dem med en CalDAV-tjeneste. 
 
 **Usage examples:**
-- Annuller alle alarmer.
 - Indstil en daglig alarm til kl.
-- Annuller alle timere.
-- mindemig om at tage skraldet ud hver torsdag og søndag kl. 19.00.
 - Gik jeg glip af noget?
-- Hvad gik jeg glip af?
-- væk mig kl. 8 med musik.
-- Annuller alle påmindelser.
+- Planlæg en tennisbegivenhed til kl. 14.00 på fredag, der strækker sig over 2 timer.
+- Indstil en alarm til kl. 8.
 - Hvad er mine påmindelser?
+- Annuller alle timere.
+- Start en brødtimer i 30 minutter.
+- Annuller alle påmindelser.
 - Hvornår er min næste alarm?
+- væk mig kl. 8 med musik.
 
 -------
 
@@ -35,9 +35,9 @@ Citater fra Confucius
 
 **Usage examples:**
 - Hvornår døde Confucius
+- Hvornår blev Confucius født
 - Hvem er Confucius
 - Citat fra Confucius
-- Hvornår blev Confucius født
 
 -------
 
@@ -47,11 +47,11 @@ Citater fra Confucius
 Giver historiske begivenheder for i dag eller enhver anden kalenderdag ved hjælp af oplysninger hentet fra Wikipedia.
 
 **Usage examples:**
-- Hvilke historiske begivenheder skete den 16. juni?
 - hvem blev født i dag i historien?
-- Fortæl mig om begivenheder i historien den 12. december
-- Hvad skete der i dag i historien?
 - hvem døde i dag i historien?
+- Hvad skete der i dag i historien?
+- Fortæl mig om begivenheder i historien den 12. december
+- Hvilke historiske begivenheder skete den 16. juni?
 
 -------
 
@@ -72,11 +72,11 @@ transskriberer løbende brugertale til tekstfil, mens den er aktiveret
 Oplysninger om netværksforbindelse
 
 **Usage examples:**
+- Hvad er din netværksadresse?
 - Hvad er din IP-adresse?
+- Hvilket netværk er du tilsluttet?
 - Fortæl mig din IP-adresse
 - Fortæl mig din netværksadresse
-- Hvad er din netværksadresse?
-- Hvilket netværk er du tilsluttet?
 
 -------
 
@@ -86,11 +86,11 @@ Oplysninger om netværksforbindelse
 Spor placeringen af ​​ISS
 
 **Usage examples:**
-- Hvor er ISS
 - Hvem er om bord på rumstationen?
-- Fortæl mig om IS
-- hvor mange personer om bord på rumstationen
+- Hvor er ISS
 - Hvornår passerer ISS
+- hvor mange personer om bord på rumstationen
+- Fortæl mig om IS
 
 -------
 
@@ -101,12 +101,12 @@ Fakta om tal
 
 **Usage examples:**
 - nysgerrighed om år 1992
-- fakta om i går
-- trivia om i morgen
 - trivia tilfældigt tal
 - matematisk fakta om nummer 7
+- trivia om i morgen
 - trivia om næste uge
 - fakta om nummer 666
+- fakta om i går
 
 -------
 
@@ -116,10 +116,20 @@ Fakta om tal
 Lær assistentens historie og personlighed. Spørg om stemmeassistentens 'fødsel' og forældreskab, og få en smagsprøve på det fællesskab, der fremmer denne open source kunstige intelligens.
 
 **Usage examples:**
-- Hvad er du?
 - Hvor er du født?
-- Hvornår blev du skabt?
+- Hvad er du?
 - Hvem har lavet dig?
+- Hvornår blev du skabt?
+
+-------
+
+
+### ovos-skill-speedtest.openvoiceos
+
+kører en internetbåndbreddetest ved hjælp af speedtest.net
+
+**Usage examples:**
+- kør en speedtest
 
 -------
 
@@ -129,8 +139,33 @@ Lær assistentens historie og personlighed. Spørg om stemmeassistentens 'fødse
 Sådan gør du næsten alt.
 
 **Usage examples:**
-- hvordan får jeg min hund til at stoppe med at gø
 - hvordan koger man et æg
+- hvordan får jeg min hund til at stoppe med at gø
+
+-------
+
+
+### ovos-skill-wordnet.openvoiceos
+
+Brug Wordnet til at besvare ordbogslignende spørgsmål.
+
+**Usage examples:**
+- hvad er definitionen på...
+- hvad er antonymet til...
+
+-------
+
+
+### skill-ovos-audio-recording.openvoiceos
+
+No description available
+
+**Usage examples:**
+- start en ny lydoptagelse kaldet {name}
+- start en optagelse kaldet {name}
+- begynd at optage
+- ny optagelse med navnet {name}
+- begynd at optage
 
 -------
 
@@ -140,9 +175,9 @@ Sådan gør du næsten alt.
 Færdigheden til færdig opstart giver besked, når OpenVoiceOS er fuldt startet, og alle kernetjenester er klar
 
 **Usage examples:**
-- Deaktiver klarmeddelelser.
 - Aktiver klarmeddelelser.
 - Er systemet klar?
+- Deaktiver klarmeddelelser.
 
 -------
 
@@ -152,13 +187,13 @@ Færdigheden til færdig opstart giver besked, når OpenVoiceOS er fuldt startet
 Få tid, dato, ugedag
 
 **Usage examples:**
-- Hvilken dag er Memorial Day 2020?
-- Hvad er klokken i Paris?
-- Fortæl mig ugedagen
-- Vis mig tiden
-- Hvad er klokken?
-- Hvad er datoen?
 - Hvor mange dage indtil 4. juli
+- Hvad er klokken i Paris?
+- Hvad er klokken?
+- Hvilken dag er Memorial Day 2020?
+- Vis mig tiden
+- Hvad er datoen?
+- Fortæl mig ugedagen
 
 -------
 
@@ -168,20 +203,21 @@ Få tid, dato, ugedag
 Brug DuckDuckGo til at besvare spørgsmål.
 
 **Usage examples:**
-- hvornår blev stephen hawking født
 - spørg anden om big bang
+- hvornår blev stephen hawking født
 - hvem er elon musk
 
 -------
 
 
-### skill-ovos-fallback-chatgpt.openvoiceos
+### skill-ovos-hello-world.openvoiceos
 
-Spørg ChatGPT, når du er i tvivl
+Introduktionsfærdighed, så færdighedsforfattere kan se, hvordan en OVOS-færdighed er sat sammen
 
 **Usage examples:**
-- Forklar kvanteberegning i enkle vendinger
-- Har du nogle kreative ideer til en 10-årig fødselsdag?
+- Hej verden
+- Tak
+- Hvordan har du det?
 
 -------
 
@@ -191,13 +227,13 @@ Spørg ChatGPT, når du er i tvivl
 Gør din dag glad med farhumor. Latter er ikke garanteret, men øjenruller er sandsynlige.
 
 **Usage examples:**
-- Få mig til at grine.
-- Kender du nogle vittigheder?
 - Sig en joke.
-- Kender du nogen Chuck Norris-jokes?
-- Fortæl mig en vittighed om tandlæger.
 - Fortæl mig en vittighed.
+- Fortæl mig en vittighed om tandlæger.
 - Kan du fortælle vittigheder?
+- Få mig til at grine.
+- Kender du nogen Chuck Norris-jokes?
+- Kender du nogle vittigheder?
 
 -------
 
@@ -207,16 +243,16 @@ Gør din dag glad med farhumor. Latter er ikke garanteret, men øjenruller er sa
 Lokal mediefilbrowser til Open Voice OS
 
 **Usage examples:**
-- start usb browser
-- åben filbrowseren
-- åben usb-drev
-- vis usb-drev
-- vis usb
+- åbne min usb
+- åben usb browser app
+- vis filbrowserdrev
+- vis mit usb-drev
+- vis mit filbrowserdrev
+- åben filbrowserdrev
 - vis filbrowser
-- vis usb browser
-- vis usb browser app
+- start filbrowseren
+- åben mit fildrev
 - åben filbrowser-app
-- vis min usb
 
 -------
 
@@ -238,12 +274,12 @@ Læg assistenten til at sove, når du ikke vil forstyrres.
 Nyheder fra hele kloden.
 
 **Usage examples:**
-- spil npr nyheder
 - afspil catalanske nyheder
 - spil euronews
 - afspil nyhederne
-- afspil nyheder på spansk
 - afspil portugisiske nyheder
+- spil npr nyheder
+- afspil nyheder på spansk
 
 -------
 
@@ -253,16 +289,29 @@ Nyheder fra hele kloden.
 Gør OpenVoiceOS til en ekko papegøje! Få OVOS til at gentage, hvad du vil.
 
 **Usage examples:**
-- Hvad sagde jeg lige?
-- gentag Engang en midnat trist, mens jeg grublede, svag og træt, over mange en særegne og mærkværdige mængde glemt historie
-- start papegøje
-- Kan du gentage det?
 - tal jeg kan sige hvad du vil!
-- Gentag det
-- Fortæl mig, hvad jeg lige sagde.
 - Gentag, hvad du lige sagde
 - Sig godnat, Gracie
+- Fortæl mig, hvad jeg lige sagde.
+- Gentag det
+- start papegøje
+- Hvad sagde jeg lige?
 - stop papegøje
+- gentag Engang en midnat trist, mens jeg grublede, svag og træt, over mange en særegne og mærkværdige mængde glemt historie
+- Kan du gentage det?
+
+-------
+
+
+### skill-ovos-spelling.openvoiceos
+
+No description available
+
+**Usage examples:**
+- Stav succotash
+- Hvordan staver man bureaukrati?
+- Stav almagt
+- Hvordan staves jordvark?
 
 -------
 
@@ -272,16 +321,16 @@ Gør OpenVoiceOS til en ekko papegøje! Få OVOS til at gentage, hvad du vil.
 Styr lydstyrken på OVOS med verbale kommandoer
 
 **Usage examples:**
-- dæmp lydstyrken
-- slå lyden fra
-- lav lydstyrke
-- volumen til høj
 - indstill volumen til medium
-- indstill lydstyrken til standard
-- slå lyden til
-- maksimal lydstyrke
-- høj lydstyrke
-- stum
+- lydstyrken til høj
+- volumen lav
+- volumen høj
+- max volumen
+- lydstyrke til lavt
+- lav lydstyrke
+- genopret lydstyrken
+- lydstyrke lav
+- indstille lydstyrken til maksimum
 
 -------
 
@@ -291,16 +340,16 @@ Styr lydstyrken på OVOS med verbale kommandoer
 Få vejrforhold, prognoser, forventet nedbør og meget mere! Du kan også spørge efter andre byer rundt om i verden. Aktuelle forhold og vejrudsigter kommer fra OpenMeteo
 
 **Usage examples:**
-- Hvad er vejret denne weekend?
-- hvordan er vejret?
-- Bliver det koldt på tirsdag
-- Hvad er temperaturen i Paris i morgen i Celsius?
-- Hvornår er solnedgangen?
-- regner det?
-- Kommer det til at sne?
 - Hvad er luftfugtigheden?
-- Hvornår regner det næste gang?
+- Hvad er vejrudsigten i morgen?
+- Hvad er vejrudsigten i London i morgen?
+- Hvad er vejret denne weekend?
 - Hvor blæser det?
+- Hvornår regner det næste gang?
+- Hvad er temperaturen?
+- hvordan er vejret?
+- Hvordan bliver vejret på tirsdag?
+- Kommer det til at sne i Baltimore?
 
 -------
 
@@ -310,11 +359,11 @@ Få vejrforhold, prognoser, forventet nedbør og meget mere! Du kan også spørg
 Spørg Wikipedia for at få svar på alle dine spørgsmål. Få blot et resumé, eller bed om mere for at få dybdegående information.
 
 **Usage examples:**
-- Mere information
+- Tjek Wikipedia for bønner
 - Fortæl mig om Elon Musk
 - Søg efter chokolade
+- Mere information
 - Fortæl mig mere
-- Tjek Wikipedia for bønner
 - Fortæl mig om Pembroke Welsh Corgi
 - Fortæl mig om bønner
 
@@ -326,23 +375,12 @@ Spørg Wikipedia for at få svar på alle dine spørgsmål. Få blot et resumé,
 Brug Wolfram Alpha til generelle vidensspørgsmål.
 
 **Usage examples:**
-- spørg ulven, hvad lysets hastighed er
-- Hvor højt er Mount Everest?
 - Hvad er Madonnas rigtige navn?
-- Hvor mange tommer i en meter?
+- Hvor højt er Mount Everest?
 - Hvad er 18 gange 4?
 - Hvornår blev The Rocky Horror Picture Show udgivet?
-
--------
-
-
-### skill-ovos-wordnet.openvoiceos
-
-Brug Wordnet til at besvare ordbogslignende spørgsmål.
-
-**Usage examples:**
-- hvad er antonymet til...
-- hvad er definitionen på...
+- Hvor mange tommer i en meter?
+- spørg ulven, hvad lysets hastighed er
 
 -------
 
