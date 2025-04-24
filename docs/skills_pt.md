@@ -4,8 +4,8 @@
 No description available
 
 **Usage examples:**
-- executar comando ___
 - execute o script ___
+- executar comando ___
 
 -------
 
@@ -15,13 +15,13 @@ No description available
 Factos sobre números
 
 **Usage examples:**
+- curiosidades sobre a próxima semana
+- curiosidades sobre o amanhã
 - facto sobre o número 666
-- facto matemático sobre o número 7
 - facto sobre ontem
 - curiosidades sobre os números aleatórios
-- curiosidades sobre a próxima semana
 - curiosidade sobre o ano de 1992
-- curiosidades sobre o amanhã
+- facto matemático sobre o número 7
 
 -------
 
@@ -31,13 +31,13 @@ Factos sobre números
 Ilumine o seu dia com humor de pai. O riso não é garantido, mas é provável que revire os olhos.
 
 **Usage examples:**
-- Conhece alguma piada de Chuck Norris?
-- Diga uma piada.
-- Conte-me uma piada sobre dentistas.
-- Conhece alguma piada?
-- Pode contar piadas?
 - Faça-me rir.
 - Conte-me uma piada.
+- Diga uma piada.
+- Conte-me uma piada sobre dentistas.
+- Pode contar piadas?
+- Conhece alguma piada?
+- Conhece alguma piada de Chuck Norris?
 
 -------
 
@@ -47,11 +47,11 @@ Ilumine o seu dia com humor de pai. O riso não é garantido, mas é provável q
 Notícias de todo o mundo.
 
 **Usage examples:**
+- reproduzir notícias em espanhol
 - reproduzir notícias da NPR
 - reproduzir notícias portuguesas
-- reproduzir notícias em espanhol
-- reproduza as notícias
 - reproduzir notícias catalãs
+- reproduza as notícias
 - reproduzir euronews
 
 -------
@@ -62,16 +62,16 @@ Notícias de todo o mundo.
 Controle o volume do OVOS com comandos verbais
 
 **Usage examples:**
-- definir o volume para o máximo
-- ativar áudio
-- volume médio
-- volume para alto
-- alternar áudio
-- mudo
-- silenciar áudio
+- volume máximo
 - volume para alto nível
-- alternar mudo
-- nível de volume elevado
+- volume padrão
+- definir o nível de volume para o padrão
+- silenciar o volume
+- volume máximo
+- ativar o som
+- mudo
+- definir volume para médio
+- nível de volume baixo
 
 -------
 

@@ -4,8 +4,8 @@
 No description available
 
 **Usage examples:**
-- iniciar comando ___
 - executar script ___
+- iniciar comando ___
 
 -------
 
@@ -16,10 +16,10 @@ Rastrexa a localización da EEI
 
 **Usage examples:**
 - Fálame da EEI
-- Quen está a bordo da estación espacial?
-- cantas persoas están a bordo da estación espacial
 - Onde está a EEI?
+- Quen está a bordo da estación espacial?
 - Cando pasa a EEI?
+- cantas persoas están a bordo da estación espacial
 
 -------
 
@@ -29,8 +29,8 @@ Rastrexa a localización da EEI
 Como facer case calquera cousa.
 
 **Usage examples:**
-- como ferver un ovo
 - como consigo que o meu can deixe de ladrar
+- como ferver un ovo
 
 -------
 
@@ -40,8 +40,8 @@ Como facer case calquera cousa.
 Usar DuckDuckGo para responder preguntas.
 
 **Usage examples:**
-- pregúntalle a duck sobre o big bang
 - Quen é Elon Musk?
+- pregúntalle a duck sobre o big bang
 - Cando naceu Stephen Hawking?
 
 -------
@@ -52,8 +52,8 @@ Usar DuckDuckGo para responder preguntas.
 Habilidade introdutiva para que as persoas programadoras de habilidades poidan ver como se monta unha habilidade OVOS
 
 **Usage examples:**
-- Ola mundo
 - Como estás?
+- Ola mundo
 - Grazas
 
 -------
@@ -64,9 +64,9 @@ Habilidade introdutiva para que as persoas programadoras de habilidades poidan v
 Pon o asistente a durmir cando non queiras que te moleste.
 
 **Usage examples:**
-- Vai durmir
-- (Esperta|Desperta|Acorda)
 - Hora da sesta
+- (Esperta|Desperta|Acorda)
+- Vai durmir
 
 -------
 
@@ -76,12 +76,12 @@ Pon o asistente a durmir cando non queiras que te moleste.
 Canles de noticias de todo o mundo.
 
 **Usage examples:**
-- pon as noticias catalás
-- pon as noticias portuguesas
-- pon as noticias da npr
-- pon euronews
 - pon noticias en español
+- pon as noticias da npr
+- pon as noticias portuguesas
+- pon euronews
 - pon as noticias
+- pon as noticias catalás
 
 -------
 
@@ -91,16 +91,16 @@ Canles de noticias de todo o mundo.
 Converte OpenVoiceOS nun papagaio imitador! Fai que OVOS repita o que queiras.
 
 **Usage examples:**
-- Dime o que acabo de dicir.
-- di podo dicir o que queiras!
-- Repite o que acabas de dicir
-- Repite iso
-- Podes repetir iso?
-- repite Unha vez, nunha lúgubre medianoite, en canto cavilaba, débil e canso, nun moi vello e raro libro de saber esquecido
-- Que acabo de dicir?
-- parar papagaio
 - di Boas noites, Ana
+- repite Unha vez, nunha lúgubre medianoite, en canto cavilaba, débil e canso, nun moi vello e raro libro de saber esquecido
 - comezar papagaio
+- Repite iso
+- Repite o que acabas de dicir
+- Podes repetir iso?
+- Que acabo de dicir?
+- Dime o que acabo de dicir.
+- parar papagaio
+- di podo dicir o que queiras!
 
 -------
 
@@ -111,9 +111,9 @@ No description available
 
 **Usage examples:**
 - Como se escribe aardvark?
+- Soletrea omnipotencia
 - Deletrea succotash
 - Como se soletrea burocracia?
-- Soletrea omnipotencia
 
 -------
 
@@ -123,16 +123,16 @@ No description available
 Controla o volume de OVOS con comandos verbais
 
 **Usage examples:**
-- alternar audio
-- o volume máis alto
-- volume máximo
-- fixar o nivel de volume no máximo
-- alto volume
+- restaurar o volume
+- nivel de volume alto
+- fixar o volume no predefinido
 - subir nivel de volume
-- alternar silencio
-- silenciar volume
-- baixo volume
-- silenciar
+- fixar o nivel de volume no predefinido
+- baixar o volume
+- activar o audio
+- nivel de volume baixo
+- fixar un volume intermedio
+- fixar o volume no máximo
 
 -------
 
@@ -142,16 +142,16 @@ Controla o volume de OVOS con comandos verbais
 Obtén as condicións meteorolóxicas, previsións, precipitacións esperadas e moito máis! Tamén podes consultar o tempo noutras cidades do mundo. As condicións actuais e as previsións meteorolóxicas proveñen de OpenMeteo
 
 **Usage examples:**
-- Vai nevar?
-- Cal será a temperatura en París mañá en graos Celsius?
-- Que tempo vai en Ourense?
-- Irá frío o martes?
-- Cal é a temperatura?
 - Como será o tempo o martes?
 - Que tempo vai?
-- Cando se pon o sol?
-- Como será o tempo nos próximos tres días?
+- Irá frío o martes?
 - Vai nevar en Manzaneda?
+- Cal é a temperatura?
+- Cando se pon o sol?
+- (está a chover?|está chovendo?)
+- Cal é a previsión para Londres mañá?
+- Vai moito vento?
+- Cal será a temperatura en París mañá en graos Celsius?
 
 -------
 

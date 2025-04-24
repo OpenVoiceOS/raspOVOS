@@ -4,17 +4,17 @@
 Ein Skill zum Verwalten von Alarmen, Timern, Erinnerungen, Ereignissen und Aufgaben und optional zum Synchronisieren dieser mit einem CalDAV-Dienst.
 
 **Usage examples:**
-- Alle Erinnerungen abbrechen.
-- weck mich um 8 Uhr mit Musik.
-- Plane für Freitag 14:00 Uhr ein Tennis-Event mit einer Dauer von 2 Stunden.
-- Starte einen Brottimer für 30 Minuten.
-- Was sind meine Erinnerungen?
-- Was habe ich verpasst?
 - Stelle täglich einen Wecker auf 8 Uhr.
+- weck mich um 8 Uhr mit Musik.
+- Was habe ich verpasst?
+- Was sind meine Erinnerungen?
+- Wann ist mein nächster Alarm?
+- Alle Timer abbrechen.
+- Plane für Freitag 14:00 Uhr ein Tennis-Event mit einer Dauer von 2 Stunden.
+- Stelle den Wecker samstags auf 8:00 Uhr.
 - erinnere mich jeden Donnerstag und Sonntag um 19 Uhr daran, den Müll rauszubringen.
 - Alle Alarme abbrechen.
 Breche alle Alarme ab
-- Alle Timer abbrechen.
 
 -------
 
@@ -48,11 +48,11 @@ Zitate von Konfuzius
 Bietet historische Ereignisse für heute oder jeden anderen Kalendertag unter Verwendung von Informationen aus Wikipedia.
 
 **Usage examples:**
-- wer wurde heute in der Geschichte geboren?
-- Nenne mir historische Ereignisse am 12. Dezember
-- wer ist heute in der Geschichte gestorben?
-- Was ist heute in der Geschichte passiert?
 - Welche historischen Ereignisse ereigneten sich am 16. Juni?
+- Was ist heute in der Geschichte passiert?
+- Nenne mir historische Ereignisse am 12. Dezember
+- wer wurde heute in der Geschichte geboren?
+- wer ist heute in der Geschichte gestorben?
 
 -------
 
@@ -62,8 +62,8 @@ Bietet historische Ereignisse für heute oder jeden anderen Kalendertag unter Ve
 transkribiert Sprache kontinuierlich in eine Textdatei, solange diese aktiviert ist
 
 **Usage examples:**
-- Diktat starten
 - Diktat beenden
+- Diktat starten
 
 -------
 
@@ -73,11 +73,11 @@ transkribiert Sprache kontinuierlich in eine Textdatei, solange diese aktiviert 
 Netzwerkverbindungsinformationen
 
 **Usage examples:**
-- Mit welchem Netzwerk bist Du verbunden?
-- Sag mir deine Netzwerkadresse
-- Sag mir deine IP-Adresse
 - Wie lautet Deine Netzwerkadresse?
 - Wie lautet Deine IP-Adresse?
+- Mit welchem Netzwerk bist Du verbunden?
+- Sag mir deine IP-Adresse
+- Sag mir deine Netzwerkadresse
 
 -------
 
@@ -87,11 +87,11 @@ Netzwerkverbindungsinformationen
 Verfolge den Standort der ISS
 
 **Usage examples:**
-- Wann fliegt die ISS über
 - Wo ist die ISS
+- wie viele Personen sind an Bord der Raumstation
+- Wann fliegt die ISS über
 - Erzähl mir vom ISS
 - Wer ist an Bord der Raumstation?
-- wie viele Personen sind an Bord der Raumstation
 
 -------
 
@@ -101,13 +101,13 @@ Verfolge den Standort der ISS
 Fakten über Zahlen
 
 **Usage examples:**
-- Fakt über gestern
-- mathematischer Fakt über die Zahl 7
-- Wissenswertes über morgen
-- Fakt über die Zahl 666
-- Neugier auf das Jahr 1992
 - Wissenswertes über nächste Woche
+- mathematischer Fakt über die Zahl 7
 - Wissenswertes über Zufallszahlen
+- Fakt über die Zahl 666
+- Fakt über gestern
+- Neugier auf das Jahr 1992
+- Wissenswertes über morgen
 
 -------
 
@@ -118,9 +118,9 @@ Erfahre mehr über die Geschichte und Persönlichkeit des Assistenten. Frage nac
 
 **Usage examples:**
 - Was bist du?
+- Wann wurdest du erschaffen?
 - Wer hat dich erschaffen?
 - Wo wurdest Du geboren?
-- Wann wurdest du erschaffen?
 
 -------
 
@@ -140,8 +140,8 @@ führt einen Internet-Bandbreitentest mit speedtest.net durch
 Wie man fast alles macht.
 
 **Usage examples:**
-- wie bringe ich meinen Hund dazu, mit dem Bellen aufzuhören
 - Wie man ein Ei kocht
+- wie bringe ich meinen Hund dazu, mit dem Bellen aufzuhören
 
 -------
 
@@ -163,10 +163,10 @@ No description available
 
 **Usage examples:**
 - neue Aufnahme mit dem Namen {name}
-- Aufnahme starten
+- starte eine Aufnahme mit dem Namen {name}
 - Aufnahme starten
 - Starte eine neue Audioaufnahme mit dem Namen {name}
-- starte eine Aufnahme mit dem Namen {name}
+- Aufnahme starten
 
 -------
 
@@ -176,9 +176,9 @@ No description available
 Die Fertig-Boot-Funktion gibt Benachrichtigungen aus, wenn OpenVoiceOS vollständig gestartet ist und alle Kerndienste bereit sind
 
 **Usage examples:**
+- Deaktiviere Bereitschaftsbenachrichtigungen.
 - Aktiviere die Bereitschaftsbenachrichtigungen.
 - Ist das System bereit?
-- Deaktiviere Bereitschaftsbenachrichtigungen.
 
 -------
 
@@ -188,13 +188,13 @@ Die Fertig-Boot-Funktion gibt Benachrichtigungen aus, wenn OpenVoiceOS vollstän
 Erfrage die Uhrzeit, das Datum, den Wochentag
 
 **Usage examples:**
+- Zeig mir die Zeit
+- Wie spät ist es in Paris?
+- Wie spät ist es?
+- Wie viele Tage bis zum 4. Juli
 - Welcher Tag ist der Memorial Day 2020?
 - Welches Datum haben wir?
 - Sag mir den Wochentag
-- Wie viele Tage bis zum 4. Juli
-- Wie spät ist es in Paris?
-- Zeig mir die Zeit
-- Wie spät ist es?
 
 -------
 
@@ -216,9 +216,9 @@ Verwende DuckDuckGo, um Fragen zu beantworten.
 Einführungs-Skill, damit Skill-Autoren sehen können, wie ein OVOS-Skill zusammengestellt wird
 
 **Usage examples:**
-- Danke
 - Hello world
 - Wie geht es dir?
+- Danke
 
 -------
 
@@ -228,12 +228,12 @@ Einführungs-Skill, damit Skill-Autoren sehen können, wie ein OVOS-Skill zusamm
 Verschönere Deinen Tag mit Humor. Lachen ist nicht garantiert, aber Augenrollen ist wahrscheinlich.
 
 **Usage examples:**
+- Bring mich zum Lachen.
+- Erzähl einen Witz.
+- Erzähl mir einen Witz über Zahnärzte.
+- Kennst du irgendwelche Witze?
 - Erzähl mir einen Witz.
 - Kennst Du Witze über Chuck Norris?
-- Bring mich zum Lachen.
-- Erzähl mir einen Witz über Zahnärzte.
-- Erzähl einen Witz.
-- Kennst du irgendwelche Witze?
 - Kannst du Witze erzählen?
 
 -------
@@ -244,16 +244,16 @@ Verschönere Deinen Tag mit Humor. Lachen ist nicht garantiert, aber Augenrollen
 Lokaler Mediendateibrowser für Open Voice OS
 
 **Usage examples:**
-- öffne meinen USB
-- öffne meinen Dateibrowser
-- USB-Browser anzeigen
+- Dateibrowser-Laufwerk öffnen
 - Dateibrowser starten
-- USB-Browser öffnen
-- USB-Browser-App anzeigen
+- Dateibrowser-App starten
+- USB-Browser starten
+- Dateibrowser-App anzeigen
+- USB-Browser-App starten
+- Dateibrowser-Laufwerk anzeigen
 - meinen Dateibrowser anzeigen
-- Öffnen Sie die USB-Browser-App
-- zeige mein Dateibrowser-Laufwerk
-- Dateibrowser-App öffnen
+- zeig mein USB Gerät
+- öffne mein Dateibrowser-Laufwerk
 
 -------
 
@@ -263,10 +263,10 @@ Lokaler Mediendateibrowser für Open Voice OS
 Versetze den Assistenten in den Ruhezustand, wenn Du nicht gestört werden möchtest
 
 **Usage examples:**
+- Mittagsschlaf
 - Aufwachen
 Wache auf
 - Geh schlafen
-- Mittagsschlaf
 
 -------
 
@@ -276,13 +276,13 @@ Wache auf
 Nachrichten-Streams aus der ganzen Welt.
 
 **Usage examples:**
-- spiele katalanische Nachrichten
+- portugiesische Nachrichten abspielen
 - Nachrichten abspielen
 spiele die Nachrichten 
-- Nachrichten auf Spanisch abspielen
-- portugiesische Nachrichten abspielen
+- spiele katalanische Nachrichten
 - euronews abspielen
 spiele euronews 
+- Nachrichten auf Spanisch abspielen
 - NPR Nachrichten abspielen
 spiele NPR Nachrichten
 
@@ -294,15 +294,15 @@ spiele NPR Nachrichten
 Mache OpenVoiceOS zu einem Echo-Papagei! Lasse OVOS alles wiederholen, was Du willst
 
 **Usage examples:**
-- spreche Ich kann alles sagen, was Du möchtest!
+- Kannst Du das wiederholen?
 - Sag mir, was ich gerade gesagt habe.
-- Papagei starten
-starte Papagei
+- Was habe ich gerade gesagt?
 - Papagei stoppen
 stoppe Papagei
 - sage gute Nacht, Gracie
-- Kannst Du das wiederholen?
-- Was habe ich gerade gesagt?
+- Papagei starten
+starte Papagei
+- spreche Ich kann alles sagen, was Du möchtest!
 - Wiederhole das
 - Wiederhole, was Du gerade gesagt hast
 - Wiederhole einmal eine trostlose Mitternacht, während ich, schwach und müde, über viele kuriose und merkwürdige Bände vergessener Überlieferungen nachdachte
@@ -316,9 +316,9 @@ No description available
 
 **Usage examples:**
 - Wie buchstabiert man Bürokratie?
-- Buchstabiere Allmacht
 - Wie buchstabiert man Erdferkel?
 - Buchstabiere Succotash 
+- Buchstabiere Allmacht
 
 -------
 
@@ -328,17 +328,18 @@ No description available
 Steuere die Lautstärke von OVOS mit verbalen Befehlen
 
 **Usage examples:**
-- Lautstärke auf hohen Pegel einstellen
+- Volume wiederherstellen
 - Lautstärke hoch
-- Maximale Lautstärke
+- Lautstärke zu niedrig
+- Lautstärke auf Standardwert einstellen
 - Lautstärke zu hoch
-- Ton einschalten
-- Standardlautstärke
 - Mute Lautstärke
 Schalte Lautstärke stumm
-- Volume wiederherstellen
+- Lautstärke zu hoch
 - hohe Lautstärke
-- Lautstärke auf Standard einstellen
+- Lautstärke auf Maximum stellen
+Stelle Lautstärke auf Maximum
+- geringe Lautstärke
 
 -------
 
@@ -348,16 +349,16 @@ Schalte Lautstärke stumm
 Erhalte Wetterbedingungen, Prognosen, erwartete Niederschläge und mehr! Du kannst auch nach anderen Städten auf der ganzen Welt fragen. Aktuelle Bedingungen und Wettervorhersagen stammen von OpenMeteo
 
 **Usage examples:**
+- Wie ist die Prognose für morgen in London?
+- Wie ist das Wetter dieses Wochenende?
 - Wie ist die Vorhersage für morgen?
-- Wird es schneien?
-- Wie wird das Wetter in den nächsten drei Tagen?
-- Wie hoch ist die Luftfeuchtigkeit?
-- Wie hoch ist die Höchsttemperatur morgen
-- Wie ist das Wetter in Houston?
-- Wie wird das Wetter am Dienstag?
+- regnet es?
+- Wie windig ist es?
+- Wie ist die Temperatur?
+- wie ist das Wetter?
 - Wird es am Dienstag kalt
+- Wird es schneien?
 - Wird es in Baltimore schneien?
-- Wann ist Sonnenuntergang?
 
 -------
 
@@ -367,13 +368,13 @@ Erhalte Wetterbedingungen, Prognosen, erwartete Niederschläge und mehr! Du kann
 Suche in Wikipedia nach Antworten auf all Deine Fragen. Erhalte nur eine Zusammenfassung oder frage nach weiteren Informationen, um tiefer gehende Informationen zu erhalten.
 
 **Usage examples:**
-- Erzähle mir etwas über den Pembroke Welsh Corgi
-- Erzähl mir mehr
-- Weitere Informationen
 - Suche nach Schokolade
-- Erzähl mir von Bohnen
 - Erzähl mir von Elon Musk
+- Erzähl mir mehr
 - Checke Wikipedia zu Bohnen
+- Erzähle mir etwas über den Pembroke Welsh Corgi
+- Erzähl mir von Bohnen
+- Weitere Informationen
 
 -------
 
@@ -383,12 +384,12 @@ Suche in Wikipedia nach Antworten auf all Deine Fragen. Erhalte nur eine Zusamme
 Verwende Wolfram Alpha für Fragen zum Allgemeinwissen.
 
 **Usage examples:**
-- Wie hoch ist der Mount Everest?
-- Was ist 18 mal 4?
-- Wann kam die Rocky Horror Picture Show in die Kinos?
-- frage den Wolf wie hoch die Lichtgeschwindigkeit ist
 - Wie viele Zoll sind ein Meter?
 - Wie ist Madonnas richtiger Name?
+- frage den Wolf wie hoch die Lichtgeschwindigkeit ist
+- Was ist 18 mal 4?
+- Wann kam die Rocky Horror Picture Show in die Kinos?
+- Wie hoch ist der Mount Everest?
 
 -------
 
