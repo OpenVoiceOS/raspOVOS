@@ -29,14 +29,17 @@ print_message() {
 # Print a header
 print_message "Starting OpenVoiceOS update process..." "info"
 
-# Set the default tag
-TAG=$(cat /opt/ovos/tag)  # alpha, testing, stable
-
-# Check if the tag file exists and is readable
-if [[ ! -f /opt/ovos/tag ]]; then
-    print_message "Error: Unable to find the tag file at /opt/ovos/tag. Please ensure OpenVoiceOS is properly installed." "error"
-    exit 1
+# Accept the tag as an argument (default: read from file, fallback: "alpha")
+if [[ -n "$1" && "$1" != -* ]]; then
+    TAG="$1"
+    shift  # Shift arguments so "$@" passes the rest (e.g., --dry-run)
+elif [[ -f /opt/ovos/tag ]]; then
+    # file exists only in raspOVOS
+    TAG=$(< /opt/ovos/tag)
+else
+    TAG="alpha"
 fi
+
 
 # Print which tag is being used
 print_message "Using update tag: $TAG" "info"
