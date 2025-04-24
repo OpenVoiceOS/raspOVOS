@@ -146,10 +146,13 @@ chmod 644 /etc/systemd/system/kdeconnect.service
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 ln -s /etc/systemd/system/autoconfigure_soundcard.service /etc/systemd/system/multi-user.target.wants/autoconfigure_soundcard.service
 ln -s /etc/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/sshd.service
-ln -s /home/$USER/.config/systemd/user/gmrender.service /home/$USER/.config/systemd/user/default.target.wants/gmrender.service
 ln -s /etc/systemd/system/kdeconnect.service /etc/systemd/system/multi-user.target.wants/kdeconnect.service
 #ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
 ln -s /usr/lib/systemd/system/systemd-zram-setup@.service /etc/systemd/system/multi-user.target.wants/systemd-zram-setup@zram0.service
+
+chmod 644 /home/$USER/.config/systemd/user/*.service
+mkdir -p /home/$USER/.config/systemd/user/default.target.wants/
+ln -s /home/$USER/.config/systemd/user/gmrender.service /home/$USER/.config/systemd/user/default.target.wants/gmrender.service
 
 echo "Ensuring permissions for $USER user..."
 chmod 644 /home/$USER/.asoundrc
