@@ -16,7 +16,7 @@ on top. The customized images are then uploaded to [GitHub Releases](https://git
 
 ### 🛠️ Getting Started:
 
-Check out the [Getting Started Guide](https://github.com/OpenVoiceOS/raspOVOS/blob/master/tutorial.md) for instructions.
+Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for instructions.
 
 ---
 
