@@ -106,7 +106,7 @@ apt-get update
 apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi mosh systemd-zram-generator i2c-tools
 
 echo "Installing audio packages..."
-apt-get install -y --no-install-recommends pipewire wireplumber pipewire-alsa alsa-utils portaudio19-dev libpulse-dev libasound2-dev mpd mpv ffmpeg kdeconnect
+apt-get install -y --no-install-recommends pipewire wireplumber pipewire-alsa alsa-utils portaudio19-dev libpulse-dev libasound2-dev mpv ffmpeg kdeconnect
 
 echo "Installing camera packages..."
 apt install -y --no-install-recommends python3-libcamera python3-kms++ libcap-dev
@@ -118,9 +118,13 @@ cp -rv /mounted-github-repo/overlays/base/* /
 # Ensure the correct permissions for binaries
 chmod +x /usr/libexec/*
 
-# NOTE: upmpdcli will only work after the overlays due to trusted keys being added there
-echo "Installing extra system packages..."
-apt-get update && apt-get install -y --no-install-recommends upmpdcli
+# dependencies for DLNA etc
+apt-get update && apt-get install -y --no-install-recommends libupnp-dev libgstreamer1.0-dev \
+              gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+              gstreamer1.0-libav gstreamer1.0-pipewire gmediarender
+
+# can be made into a DLNA player via
+# /usr/local/bin/gmediarender -f "RaspOVOS"
 
 # Configure user groups for audio management.
 echo "Configuring audio..."
@@ -144,8 +148,9 @@ chmod 644 /etc/systemd/system/kdeconnect.service
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 ln -s /etc/systemd/system/autoconfigure_soundcard.service /etc/systemd/system/multi-user.target.wants/autoconfigure_soundcard.service
 ln -s /etc/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/sshd.service
+#ln -s /etc/systemd/system/gmrender.service /etc/systemd/system/multi-user.target.wants/gmrender.service
 ln -s /etc/systemd/system/kdeconnect.service /etc/systemd/system/multi-user.target.wants/kdeconnect.service
-ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
+#ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
 ln -s /usr/lib/systemd/system/systemd-zram-setup@.service /etc/systemd/system/multi-user.target.wants/systemd-zram-setup@zram0.service
 
 echo "Ensuring permissions for $USER user..."
