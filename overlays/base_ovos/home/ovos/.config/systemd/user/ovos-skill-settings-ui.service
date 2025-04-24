@@ -1,0 +1,16 @@
+[Unit]
+Description=OVOS Skill Settings Editor
+PartOf=ovos.service
+After=ovos.service
+
+[Service]
+Group=ovos
+UMask=002
+Environment="OVOS_CONFIG_USERNAME=ovos"
+Environment="OVOS_CONFIG_PASSWORD=ovos"
+WorkingDirectory=%h/.venvs/ovos
+ExecStart=%h/.venvs/ovos/bin/ovos-skill-config-tool
+
+[Install]
+WantedBy=ovos.service
+
