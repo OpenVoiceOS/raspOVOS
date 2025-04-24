@@ -123,8 +123,6 @@ apt-get update && apt-get install -y --no-install-recommends libupnp-dev libgstr
               gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
               gstreamer1.0-libav gstreamer1.0-pipewire gmediarender
 
-# can be made into a DLNA player via
-# /usr/local/bin/gmediarender -f "RaspOVOS"
 
 # Configure user groups for audio management.
 echo "Configuring audio..."
@@ -148,7 +146,7 @@ chmod 644 /etc/systemd/system/kdeconnect.service
 ln -s /etc/systemd/system/i2csound.service /etc/systemd/system/multi-user.target.wants/i2csound.service
 ln -s /etc/systemd/system/autoconfigure_soundcard.service /etc/systemd/system/multi-user.target.wants/autoconfigure_soundcard.service
 ln -s /etc/systemd/system/sshd.service /etc/systemd/system/multi-user.target.wants/sshd.service
-#ln -s /etc/systemd/system/gmrender.service /etc/systemd/system/multi-user.target.wants/gmrender.service
+ln -s /home/$USER/.config/systemd/user/gmrender.service /home/$USER/.config/systemd/user/default.target.wants/gmrender.service
 ln -s /etc/systemd/system/kdeconnect.service /etc/systemd/system/multi-user.target.wants/kdeconnect.service
 #ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
 ln -s /usr/lib/systemd/system/systemd-zram-setup@.service /etc/systemd/system/multi-user.target.wants/systemd-zram-setup@zram0.service
