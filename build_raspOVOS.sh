@@ -151,6 +151,7 @@ ln -s /home/$USER/.config/systemd/user/ovos-phal.service /home/$USER/.config/sys
 ln -s /home/$USER/.config/systemd/user/ovos-gui.service /home/$USER/.config/systemd/user/default.target.wants/ovos-gui.service
 ln -s /home/$USER/.config/systemd/user/ovos-ggwave.service /home/$USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
 ln -s /home/$USER/.config/systemd/user/ovos-spotify.service /home/$USER/.config/systemd/user/default.target.wants/ovos-spotify.service
+ln -s /home/$USER/.config/systemd/user/ovos-skill-settings-ui.service /home/$USER/.config/systemd/user/default.target.wants/ovos-skill-settings-ui.service
 
 echo "Enabling messagebus signals..."
 ln -s /etc/systemd/system/ovos-reboot-signal.service /etc/systemd/system/multi-user.target.wants/ovos-reboot-signal.service
