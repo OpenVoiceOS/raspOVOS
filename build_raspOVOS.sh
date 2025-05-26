@@ -102,7 +102,7 @@ echo "Installing STT/TTS plugins..."
 uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
 echo "Downloading multilingual model2vec intent model ..."
-python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
@@ -110,7 +110,6 @@ mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /h
 echo "Downloading whisper tiny model (for lang detection)..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-tiny'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
 # since script was run as root, we need to move downloaded files
-mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/ /home/ovos/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/
 
 # Install essential skills for OVOS.
