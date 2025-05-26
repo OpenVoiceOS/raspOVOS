@@ -22,6 +22,13 @@ uv pip install --no-progress ovos-core[skills-ca] -c $CONSTRAINTS
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
 
+echo "Downloading catalan model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-roberta-large-ca-v2-massive'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-roberta-large-ca-v2-massive/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-roberta-large-ca-v2-massive/
+
+
 # TODO - Temporarily removed due to license reasons, to be restored later
 #echo "Downloading catalan citrinet model..."
 #python -c "from huggingface_hub import hf_hub_download; repo_id='projecte-aina/stt-ca-citrinet-512'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"

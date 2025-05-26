@@ -14,6 +14,11 @@ sudo cp -rv /mounted-github-repo/overlays/gl/* /
 echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
+echo "Downloading galician model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-bertinho-gl-base-cased'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-bertinho-gl-base-cased/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-bertinho-gl-base-cased/
 
 echo "Downloading NOS TTS voices..."
 mkdir -p /home/$USER/.local/share/nos_tts_models/sabela

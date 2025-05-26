@@ -20,6 +20,13 @@ uv pip install --no-progress ovos-core[skills-pt] -c $CONSTRAINTS
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
 
+echo "Downloading portuguese model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder/
+
+
 echo "Downloading portuguese citrinet model..."
 python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/stt_pt_citrinet_512_gamma_0_25'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
 # since script was run as root, we need to move downloaded files

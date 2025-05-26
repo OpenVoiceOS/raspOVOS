@@ -20,6 +20,13 @@ uv pip install --no-progress ovos-core[skills-en] -c $CONSTRAINTS
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
+echo "Downloading english model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-potion-32M'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-potion-32M/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-potion-32M/
+
+
 # TODO - compile minimal without bundled voices
 #echo "Installing Mimic TTS (for G2P)"
 #apt-get -y --no-install-recommends install gcc make pkg-config automake libtool libasound2-dev libicu-dev
