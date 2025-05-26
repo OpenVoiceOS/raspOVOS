@@ -51,11 +51,11 @@ CONSTRAINTS="https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/co
 print_message "Using constraints file: $CONSTRAINTS" "info"
 
 # Get the list of installed packages that match the pattern
-INSTALLED_PACKAGES=$(uv pip list --format=freeze | grep -E 'ovos-|skill-' | cut -d '=' -f 1)
+INSTALLED_PACKAGES=$(uv pip list --format=freeze | grep -E 'ovos-' | cut -d '=' -f 1)
 
 # Check if there are any installed packages
 if [[ -z "$INSTALLED_PACKAGES" ]]; then
-    print_message "No installed packages matching 'ovos-' or 'skill-' found." "warning"
+    print_message "No installed packages matching 'ovos-' found." "warning"
 else
     print_message "Found the following installed packages to update:" "info"
     echo "$INSTALLED_PACKAGES" | while read -r pkg; do

@@ -94,6 +94,12 @@ echo "Installing ggwave..."
 # NOTE: update this wheel if python version changes
 uv pip install --no-progress https://whl.smartgic.io/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
 
+echo "Downloading multilingual model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
+
 # Install OVOS dependencies in the virtual environment.
 echo "Installing OVOS..."
 uv pip install --no-progress --pre ovos-skill-config-tool ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener ovos-phal ovos-audio ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
