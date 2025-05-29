@@ -23,6 +23,13 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/st
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--neongeckocom--stt_de_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_de_citrinet_512_gamma_0_25/
 
+echo "Downloading german model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-xlm-roberta-large-finetuned-conll03-german'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll03-german/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll03-german/
+
+
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 

@@ -23,6 +23,13 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/stt_es_c
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/ /home/ovos/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/
 
+echo "Downloading spanish model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-spanish'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-spanish/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-spanish/
+
+
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
 
