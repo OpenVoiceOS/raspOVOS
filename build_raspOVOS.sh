@@ -54,7 +54,7 @@ fi
 echo "The UID for '$USER' is: $TUID"
 
 echo "Installing system packages..."
-apt-get upgrade -y
+apt-get update -y
 apt-get install -y --no-install-recommends swig python3-dev python3-pip libssl-dev libfann-dev flac
 
 #echo "Updating ovos-i2csound and raspovos-audio-setup"
@@ -103,10 +103,11 @@ echo "Installing STT/TTS plugins..."
 uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
 echo "Downloading multilingual model2vec intent model ..."
-python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+#python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-xlm-roberta-ovos-intent-classifier'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
-mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-ovos-intent-classifier/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-ovos-intent-classifier/
 
 echo "Downloading whisper tiny model (for lang detection)..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-tiny'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
