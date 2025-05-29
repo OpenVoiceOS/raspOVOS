@@ -101,7 +101,7 @@ echo "The UID for '$USER' is: $TUID"
 # Update package list and install necessary system tools.
 # Installs required packages and purges unnecessary ones.
 echo "Updating base system..."
-apt-get update -y && apt-get upgrade -y --fix-missing
+apt-get update -y
 # NOTE: zram and mpd need to be installed here otherwise the cmd will hang prompting user about replacing files from overlays
 apt-get install -y --no-install-recommends jq git unzip curl build-essential fake-hwclock userconf-pi mosh systemd-zram-generator i2c-tools
 
