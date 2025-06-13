@@ -57,7 +57,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-audio-base-bookworm-arm64-lite-2025-06-13/raspOVOS-audio-base-bookworm-arm64-lite.img.xz
+          base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-DEV-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
