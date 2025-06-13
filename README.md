@@ -41,7 +41,117 @@ Find the latest developer builds on the [Releases](https://github.com/OpenVoiceO
 
 ---
 
-## 🚀 OVOS Raspberry Pi Optimizations
+## 🛠 What raspOVOS Does to Raspberry Pi OS
+
+raspOVOS is a customization layer for Raspberry Pi OS that transforms a standard base image into a fully functional, voice-enabled smart assistant platform powered by [OpenVoiceOS (OVOS)](https://openvoiceos.org). Here’s what the installation script modifies and installs:
+
+---
+
+### System Configuration
+
+**User Customization:**
+
+* Renames the default `pi` user to a custom user (default: `ovos`).
+* Updates all references in system files (`/etc/passwd`, `/etc/group`, `/etc/shadow`) and moves the home directory.
+* Sets a default password (`ovos`, configurable) and ensures it's reflected across boot and login settings.
+* Adds the user to critical groups: `sudo`, `audio`, `pipewire`, `rtkit`, and a custom `ovos` group.
+
+**Hostname:**
+
+* Sets a custom hostname (`raspOVOS`).
+
+**Performance Tuning:**
+
+* Modifies `/etc/fstab` via `setup_fstab.sh` to optimize disk usage and performance (e.g., zram swap).
+
+---
+
+### System Dependencies
+
+Installs essential system tools and packages, including:
+
+* **Build and development tools:** `build-essential`, `swig`, `python3-dev`, `libssl-dev`, etc.
+* **Audio stack:** `pipewire`, `wireplumber`, `alsa-utils`, `portaudio`, `mpv`, `ffmpeg`, etc.
+* **Camera support:** `python3-libcamera`, `python3-kms++`.
+* **DLNA/Media support:** `gstreamer`, `libupnp`, `gmediarender`.
+
+---
+
+### File System Overlays
+
+The file overlays introduce services, configs, and utilities specific to the OVOS runtime environment:
+
+```
+├── etc
+│   ├── modules-load.d/i2c.conf                      # Ensures i2c modules are loaded on boot
+│   ├── mycroft/mycroft.conf                         # Default OVOS config optimized for raspberry pi
+│   ├── systemd/system/                              # Systemd service units
+│   │   ├── i2csound.service                          # I2C audio board init
+│   │   ├── ovos-admin-phal.service                   # Enables admin PHAL (root PHAL pluginss)
+│   │   ├── splashscreen.service                      # Boot splash screen
+├── home/ovos/nltk_data/                              # Preloaded NLTK tokenizers, corpora, taggers
+├── home
+│└── ovos
+│    ├── nltk_data                                    # Preloaded NLTK tokenizers, corpora, taggers
+│    ├── .config
+│    │└── mycroft
+│    │    └── mycroft.conf                            # language specific configuration 
+│    └── .local
+│        └── share
+│            ├── mycroft
+│            │└── word_corrections.json               # ovos-utterance-corrections-plugin config to improve STT
+│            └── vosk
+│                └── vosk-model-small-xxx             # vosk model for wake word
+├── opt/ovos/
+│   ├── splashscreen.png                              # OVOS splash image
+│   └── tag                                           
+├── usr/libexec/                                      # system signals for ovos-bus:
+│   ├── ovos-clock-sync                               
+│   ├── ovos-i2csound                                 
+│   ├── ovos-librespot                                
+│   ├── ovos-ocp-*-signal                             
+│   ├── ovos-reboot-signal                            
+│   ├── ovos-shutdown-signal                          
+│   ├── ovos-ssh-*-signal                             
+│   ├── ovos-stop                                     
+│   ├── ovos-systemd-* (admin, audio, gui, etc.)     # Systemd wrapper launchers for core subsystems
+├── usr/local/bin/
+│   ├── ovos-*                                         # CLI tools: ovos-update, ovos-help, ovos-reset-brain, etc.
+│   └── ls-*                                           # List available STT, TTS, skills, wakewords, etc.
+```
+
+These overlays ensure:
+
+* OVOS boots as a system-managed, modular assistant.
+* OS-level actions like reboot, shutdown, clock sync, or SSH enable/disable emit OVOS bus messages.
+* Splashscreen and audio initialization integrate tightly with boot services.
+* Tools like `ovos-update` and `ovos-reset-brain` provide maintenance and troubleshooting from CLI.
+
+---
+
+### Python Environment Setup
+
+* Installs [uv](https://github.com/astral-sh/uv) and `sdnotify` globally.
+* Creates a Python virtual environment at `~/.venvs/ovos`.
+* Installs core OVOS components and their dependencies inside the venv:
+  * `ovos-core`, `ovos-gui`, `ovos-audio`, `ovos-phal`, `ovos-skill-config-tool`, etc.
+  * STT/TTS plugins like `ovos-stt-plugin-fasterwhisper`, `ovos-audio-transformer-plugin-ggwave`.
+
+
+---
+
+### Models and Skill Enhancements
+
+* Downloads and installs:
+
+  * `model2vec` multilingual intent classification model.
+  * `faster-whisper-tiny` for fast, lightweight speech-to-text with language detection.
+
+* Sets up Hugging Face shared model cache under the `ovos` user for efficient reuse across plugins.
+
+---
+
+### Raspberry Pi Optimizations
 
 Here is an overview of non-OVOS specific changes to the base raspios-lite image
 
@@ -74,46 +184,3 @@ Here is an overview of non-OVOS specific changes to the base raspios-lite image
 
 ---
 
-## 🛠️ Build Scripts
-
-### Base System:
-
-- **[build_base.sh](build_base.sh)**
-    - Tunes the base system (see below).
-    - Installs `pipewire`.
-    - Changes user, enables SSH, and more.
-
-### OVOS Builds:
-
-- **[build_raspOVOS.sh](build_raspOVOS.sh)**  
-  Installs OVOS on the base system, including the `"hey mycroft"` wake word.
-- 🚧 **[build_raspOVOS_gui.sh](build_raspOVOS_gui.sh)** 🚧    
-  Installs the OVOS GUI on top of the base system.  (**work in progress**)
-
-### Language-Specific Builds:
-
-- **[build_raspOVOS_en.sh](build_raspOVOS_en.sh)**  
-  Configures OVOS to English, installs the Vosk English model (`"wake up"` wake word), and adds
-  PiperTTS (`voice-en-gb-alan-low`).
-- **[build_raspOVOS_ca.sh](build_raspOVOS_ca.sh)**  
-  Configures OVOS to Catalan, downloads AINA citrinet STT model, and installs MatxaTTS.
-- 🚧 **[build_raspOVOS_pt.sh](build_raspOVOS_pt.sh)**  
-  Configures OVOS to Portuguese, adds the Vosk Portuguese model (`"acorda"` wake word), sets STT to MyNorthAI public
-  servers, and adds PiperTTS (`tugao-medium`).
-- 🚧 **[build_raspOVOS_es.sh](build_raspOVOS_es.sh)**  
-  Configures OVOS to Spanish, adds the Vosk Spanish model (`"desperta"` wake word), and installs AhoTTS.
-- 🚧 **[build_raspOVOS_it.sh](build_raspOVOS_it.sh)**  
-  Configures OVOS to Italian, adds the Vosk Italian model (`"svegliati"` wake word), and installs citrinet.
-- 🚧 **[build_raspOVOS_gl.sh](build_raspOVOS_gl.sh)**  
-  Configures OVOS to Galician, adds the Vosk Portuguese model (`"desperta"` wake word) and configures TTS to use NOS TTS
-  Public servers.
-- 🚧  **[build_raspOVOS_eu.sh](build_raspOVOS_eu.sh)**  
-  Configures OVOS to Basque and installs AhoTTS.
-
----
-
-## 📦 Additional Notes
-
-- 🎨 **Custom Builds**: Create your own language or feature-specific builds by extending the scripts!
-- 🔗 **Contribute**: Found a bug or have an idea? Open an issue or submit a PR!
-- 💬 **Community**: Join us on [Matrix](https://matrix.to/#/#openvoiceos:matrix.org) to discuss and get support.  
