@@ -201,7 +201,7 @@ mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/ /home/ovos
 
 # Install essential skills for OVOS.
 echo "Installing skills..."
-uv pip install --no-progress --pre -r ./mounted-github-repo/skills.list
+uv pip install --no-progress --pre -r ./mounted-github-repo/skills.list -c $CONSTRAINTS
 
 # Install PHAL plugins for OVOS.
 echo "Installing PHAL plugins..."

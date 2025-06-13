@@ -6,7 +6,7 @@
 set -e
 
 # Activate the virtual environment
-source /home/$USER/.venvs/ovos/bin/activate
+source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Copying overlays..."
 sudo cp -rv /mounted-github-repo/overlays/en/* /
@@ -41,7 +41,7 @@ mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-potion-32
 #uv pip install --no-progress ovos-tts-plugin-mimic -c $CONSTRAINTS
 
 # download default piper voice for english  (change this for other languages)
-PIPER_DIR="/home/$USER/.local/share/piper_tts/voice-en-gb-alan-low"
+PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts/voice-en-gb-alan-low"
 VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-gb-alan-low.tar.gz"
 VOICE_ARCHIVE="$PIPER_DIR/voice-en-gb-alan-low.tar.gz"
 mkdir -p "$PIPER_DIR"
@@ -55,9 +55,9 @@ touch $VOICE_ARCHIVE
 echo "Creating system level mycroft.conf..."
 mkdir -p /etc/mycroft
 
-echo "Ensuring permissions for $USER user..."
+echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
-chown -R 1000:1000 /home/$USER
+chown -R 1000:1000 /home/$OVOS_USER
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean

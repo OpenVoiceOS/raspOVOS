@@ -6,7 +6,7 @@
 set -e
 
 # Activate the virtual environment
-source /home/$USER/.venvs/ovos/bin/activate
+source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Copying overlays..."
 sudo cp -rv /mounted-github-repo/overlays/nl/* /
@@ -23,18 +23,19 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/st
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--neongeckocom--stt_nl_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_nl_citrinet_512_gamma_0_25/
 
-echo "Downloading dutch model2vec intent model ..."
-python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-dutch'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# TODO - setup benchmarks before deploying lang specific model, use multilingual for now
+#echo "Downloading dutch model2vec intent model ..."
+#python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-dutch'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
-mkdir -p /home/ovos/.cache/huggingface/hub/
-mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-dutch/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-dutch/
+#mkdir -p /home/ovos/.cache/huggingface/hub/
+#mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-dutch/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-xlm-roberta-large-finetuned-conll02-dutch/
 
 
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
 # download default piper voice for dutch
-PIPER_DIR="/home/$USER/.local/share/piper_tts/mls_5809-low"
+PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts/mls_5809-low"
 VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-nl-mls_5809-low.tar.gz"
 VOICE_ARCHIVE="$PIPER_DIR/voice-nl-mls_5809-low.tar.gz"
 mkdir -p "$PIPER_DIR"
@@ -45,9 +46,9 @@ tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
 rm "$VOICE_ARCHIVE"
 touch $VOICE_ARCHIVE
 
-echo "Ensuring permissions for $USER user..."
+echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
-chown -R 1000:1000 /home/$USER
+chown -R 1000:1000 /home/$OVOS_USER
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean

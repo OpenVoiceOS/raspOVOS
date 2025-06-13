@@ -1,4 +1,4 @@
-name: build portuguese headless image
+name: build all raspOVOS images
 
 on:
   workflow_dispatch:
@@ -6,12 +6,11 @@ on:
     branches:
       - dev
     paths:
-      - '.github/workflows/build_img_pt.yml'
-      - 'build_raspOVOS_pt.sh'
-      - 'overlays/pt/**'
+      - '.github/workflows/build_all_images.yml'
+      - 'build_raspOVOS_*.sh'
+      - 'overlays/**'
 
 jobs:
-  # Stage 1: Get Current Date and Release Name
   get-date-release-name:
     runs-on: ubuntu-24.04
     outputs:
@@ -22,50 +21,46 @@ jobs:
         id: current-date
         run: |
           current_date=$(date +'%Y-%m-%d')
-          release_name="raspOVOS-portuguese-bookworm-arm64-lite-${current_date}"
+          release_name="raspOVOS-bookworm-arm64-lite-${current_date}"
           cache_key="raspOVOS-${{ github.run_id }}"
           echo "release_name=$release_name" >> $GITHUB_OUTPUT
           echo "cache_key=$cache_key" >> $GITHUB_OUTPUT
 
-      - name: Print outputs
-        shell: bash
-        run: |
-          echo "cache_key: ${{ steps.current-date.outputs.cache_key }}"
-          echo "release_name: ${{ steps.current-date.outputs.release_name }}"
-
-  # Stage 2: Build Image
-  modify-rpi-image:
+  build-all-images:
     runs-on: ubuntu-24.04
     needs: get-date-release-name
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [ca, gl, en, es, eu, pt, nl, de, it, multilingual]
     outputs:
-      image-path: ${{ steps.create-image.outputs.image-path }}
+      image-path-${{ matrix.lang }}: ${{ steps.build.outputs.image-path }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configuring OVOS for Portuguese
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Build image for ${{ matrix.lang }}
+        id: build
         uses: TigreGotico/rpi-image-modifier@main
-        id: create-image
         env:
-          USER: 'ovos'
+          OVOS_USER: 'ovos'
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-05-29/raspOVOS-DEV-bookworm-arm64-lite.img.xz
-          image-path: raspOVOS-portuguese-bookworm-arm64-lite.img
+          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-13/raspOVOS-DEV-bookworm-arm64-lite.img.xz
+          image-path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-lite.img
           compress-with-xz: true
           shrink: true
           cache: false
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
-          script-path: build_raspOVOS_pt.sh
-      - name: Print outputs
-        shell: bash
-        run: |
-          echo "image-path: ${{ steps.create-image.outputs.image-path }}"
-          echo "image-size: ${{ steps.create-image.outputs.image-size }}"
-          echo "image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}"
+          script-path: build_raspOVOS_${{ matrix.lang }}.sh
 
       - name: Save Image to Cache
         uses: actions/cache@v4
@@ -73,61 +68,49 @@ jobs:
           path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
 
-  # Stage 3: Check if Release Exists and Create if Needed
-  check-release-or-create:
+  create-release:
     runs-on: ubuntu-24.04
-    needs: [get-date-release-name, modify-rpi-image]
+    needs: [get-date-release-name, build-all-images]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
     steps:
-      - name: Check if Release Exists
+      - name: Create or Get Release ID
         id: get-release-id
         run: |
           release_name="${{ needs.get-date-release-name.outputs.release_name }}"
           release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_name")
-          release_id=$(echo $release | jq -r .id)
+          release_id=$(echo "$release" | jq -r .id)
           if [[ "$release_id" == "null" ]]; then
             release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS pre-configured for Portuguese\"}" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS multilingual image set\"}" \
               "https://api.github.com/repos/${{ github.repository }}/releases")
-            release_id=$(echo $release | jq -r .id)
+            release_id=$(echo "$release" | jq -r .id)
           fi
           echo "release_id=$release_id" >> $GITHUB_OUTPUT
 
-      - name: Print outputs
-        shell: bash
-        run: |
-          echo "release_id: ${{ steps.get-release-id.outputs.release_id }}"
-          if [[ $release_id == "null" ]]; then
-            echo "Failed to create release. Response: $release"
-            exit 1
-          fi
-
-  # Stage 4: Upload to Release
-  upload-image:
+  upload-images:
     runs-on: ubuntu-24.04
-    if: ${{ needs.check-release-or-create.outputs.release_id }}
-    needs: [modify-rpi-image, check-release-or-create, get-date-release-name]
+    needs: [create-release, build-all-images, get-date-release-name]
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [ca, gl, en, es, eu, pt, nl, de, it, multilingual]
     steps:
-      - name: Restore Cache for Image
+      - name: Restore Image from Cache
         uses: actions/cache@v4
         with:
           path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
-          fail-on-cache-miss: true
 
-      - name: Debug Cache Content
-        run: ls .
-
-      - name: Upload to release
+      - name: Upload ${{ matrix.lang }} image to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: ${{ needs.modify-rpi-image.outputs.image-path }}
-          release_id: ${{ needs.check-release-or-create.outputs.release_id }}
+          file: raspOVOS-${{ matrix.lang }}-bookworm-arm64-lite.img.xz
+          release_id: ${{ needs.create-release.outputs.release_id }}
           draft: false
           overwrite: true
           prerelease: false
