@@ -19,7 +19,7 @@ BUILD_DIR="/tmp/rpi-image-modifier-raspOVOS"
 RASPOVOS_DIR="$(pwd -P)"  # raspOVOS repo
 
 # === REQUIRED ARGUMENTS ===
-script_path="build_audio_base.sh" # relative path
+script_path="build_raspOVOS.sh" # relative path
 
 base_image="https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz"
 image_maxsize="8G"
@@ -30,7 +30,6 @@ shrink_image=false
 compress_with_xz=false
 extra_xz_args=""
 shell="/bin/bash"
-
 
 # === Parse arguments ===
 while [[ $# -gt 0 ]]; do

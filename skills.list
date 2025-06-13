@@ -10,7 +10,7 @@ ovos-skill-personal>=0.1.7,<1.0.0
 ovos-skill-date-time>=0.4.2,<1.0.0
 ovos-skill-hello-world>=0.1.10,<1.0.0
 ovos-skill-spelling>=0.2.5,<1.0.0
-skill-wordnet>=0.0.10,<1.0.0
+ovos-skill-wordnet>=0.0.10,<1.0.0
 ovos-skill-randomness>=0.1.1,<1.0.0; python_version >= "3.10"
 ovos-skill-days-in-history>=0.3.6,<1.0.0
 ovos-skill-laugh>=0.1.1,<1.0.0
@@ -22,14 +22,14 @@ ovos-skill-confucius-quotes>=0.1.7,<1.0.0
 ovos-skill-icanhazdadjokes>=0.3.1,<1.0.0
 ovos-skill-camera
 ovos-skill-weather>=0.1.11,<1.0.0
-skill-ddg>=0.1.9,<1.0.0
-skill-wolfie>=0.2.9,<1.0.0
+ovos-skill-ddg>=0.1.9,<1.0.0
+ovos-skill-wolfie>=0.2.9,<1.0.0
 ovos-skill-wikipedia>=0.5.3,<1.0.0
 ovos-skill-wikihow>=0.2.5,<1.0.0
 ovos-skill-speedtest>=0.3.2,<1.0.0
 ovos-skill-ip>=0.2.5,<1.0.0
 ovos-skill-somafm>=0.1.3,<1.0.0
-skill-news>=0.1.8,<1.0.0
+ovos-skill-news>=0.1.8,<1.0.0
 ovos-skill-pyradios>=0.1.4,<1.0.0
 ovos-skill-local-media>=0.2.4,<1.0.0
 ovos-skill-spotify
