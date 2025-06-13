@@ -5,6 +5,9 @@
 # scroll back and figure out what went wrong.
 set -e
 
+: "${OVOS_USER:=ovos}"
+: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
+
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
