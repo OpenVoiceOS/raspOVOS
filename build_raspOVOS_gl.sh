@@ -34,7 +34,7 @@ wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolv
 wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/config.json -P /home/$OVOS_USER/.local/share/nos_tts_models/celtia
 
 # TODO local cotovia binary
-uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos ovos-tts-plugin-cotovia-remote -c $CONSTRAINTS
+uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos -c $CONSTRAINTS
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
