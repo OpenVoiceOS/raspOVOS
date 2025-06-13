@@ -5,41 +5,48 @@
 # scroll back and figure out what went wrong.
 set -e
 
+
+: "${OVOS_USER:=ovos}"
+: "${PASSWORD:=ovos}"
+: "${HOSTNAME:=raspOVOS}"
+: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
+
+
 # Rename the default 'pi' user if the current user is not 'pi'.
 # Updates system configurations related to user, home directory, password, and group.
-if [ "$USER" != "pi" ]; then
+if [ "$OVOS_USER" != "pi" ]; then
   # 1. Change the username in /etc/passwd
   echo "Renaming user in /etc/passwd..."
-  sed -i "s/^pi:/$USER:/g" "/etc/passwd"
+  sed -i "s/^pi:/$OVOS_USER:/g" "/etc/passwd"
 
   # 2. Change the group name in /etc/group
   echo "Renaming user in /etc/group..."
-  sed -i "s/\bpi\b/$USER/g" "/etc/group"
+  sed -i "s/\bpi\b/$OVOS_USER/g" "/etc/group"
 
   # 3. Rename the home directory from /home/pi to /home/newuser
   echo "Renaming home directory..."
-  # replace "pi"" with "$USER" in /etc/passwd
-  sed -i "s|pi:|$USER:|g" "/etc/passwd"
-  mv "/home/pi" "/home/$USER"
+  # replace "pi"" with "$OVOS_USER" in /etc/passwd
+  sed -i "s|pi:|$OVOS_USER:|g" "/etc/passwd"
+  mv "/home/pi" "/home/$OVOS_USER"
 
   # 4. Change ownership of the new home directory
   echo "Updating file ownership..."
-  chown -R 1000:1000 "/home/$USER"
+  chown -R 1000:1000 "/home/$OVOS_USER"
 
   # 5. Change the password in /etc/shadow
   echo "Changing user password to $PASSWORD..."
   NEW_HASHED_PASSWORD=$(openssl passwd -6 "$PASSWORD")
   echo "hashed password: $NEW_HASHED_PASSWORD..."
-  sed -i "s#^pi:.*#$USER:$NEW_HASHED_PASSWORD:18720:0:99999:7:::#g" "/etc/shadow"
+  sed -i "s#^pi:.*#$OVOS_USER:$NEW_HASHED_PASSWORD:18720:0:99999:7:::#g" "/etc/shadow"
 
   # 6. don't let raspbian force to change username on first boot
   echo "Disabling first boot user setup wizard..."
-  echo "$USER:$NEW_HASHED_PASSWORD" > /boot/firmware/userconf.txt
+  echo "$OVOS_USER:$NEW_HASHED_PASSWORD" > /boot/firmware/userconf.txt
   chmod 600 /boot/firmware/userconf.txt
 
   # 7. Add the new user to the sudo group
-  echo "Adding $USER to the sudo group..."
-  sed -i "/^sudo:/s/pi/$USER/" /etc/group
+  echo "Adding $OVOS_USER to the sudo group..."
+  sed -i "/^sudo:/s/pi/$OVOS_USER/" /etc/group
 
   echo "User has been renamed, added to sudo group, and password updated."
 fi
@@ -58,21 +65,21 @@ add_user_to_group() {
     fi
 
     # Add the user to the group if not already a member
-    if ! grep -q "^$group:.*\b$user\b" /etc/group; then
-        echo "Adding $user to $group"
-        sed -i "/^$group:/s/$/,$user/" /etc/group
+    if ! grep -q "^$group:.*\b$OVOS_USER\b" /etc/group; then
+        echo "Adding $OVOS_USER to $group"
+        sed -i "/^$group:/s/$/,$OVOS_USER/" /etc/group
     else
-        echo "$user is already in $group"
+        echo "$OVOS_USER is already in $group"
     fi
 }
 
 # Add the current user to the 'ovos' group.
-echo "Adding $USER to the ovos group..."
+echo "Adding $OVOS_USER to the ovos group..."
 # Create the 'ovos' group if it doesn't exist
 if ! getent group ovos > /dev/null; then
     groupadd ovos
 fi
-add_user_to_group $USER ovos
+add_user_to_group $OVOS_USER ovos
 
 # Retrieve the GID of the 'ovos' group
 GROUP_FILE="/etc/group"
@@ -88,15 +95,15 @@ echo "The GID for 'ovos' is: $TGID"
 
 # Parse the UID of the current user from /etc/passwd
 PASSWD_FILE="/etc/passwd"
-TUID=$(awk -F: -v user="$USER" '$1 == user {print $3}' "$PASSWD_FILE")
+TUID=$(awk -F: -v user="$OVOS_USER" '$1 == user {print $3}' "$PASSWD_FILE")
 
 # Check if UID was successfully retrieved
 if [[ -z "$TUID" ]]; then
-    echo "Error: Failed to retrieve UID for user '$USER'. Exiting..."
+    echo "Error: Failed to retrieve UID for user '$OVOS_USER'. Exiting..."
     exit 1
 fi
 
-echo "The UID for '$USER' is: $TUID"
+echo "The UID for '$OVOS_USER' is: $TUID"
 
 # Update package list and install necessary system tools.
 # Installs required packages and purges unnecessary ones.
@@ -126,10 +133,10 @@ apt-get update && apt-get install -y --no-install-recommends libupnp-dev libgstr
 
 # Configure user groups for audio management.
 echo "Configuring audio..."
-add_user_to_group $USER audio
-add_user_to_group $USER pipewire
+add_user_to_group $OVOS_USER audio
+add_user_to_group $OVOS_USER pipewire
 if getent group rtkit > /dev/null 2>&1; then
-    add_user_to_group $USER rtkit
+    add_user_to_group $OVOS_USER rtkit
 fi
 
 # Modify /etc/fstab for performance optimization.
@@ -150,21 +157,21 @@ ln -s /etc/systemd/system/kdeconnect.service /etc/systemd/system/multi-user.targ
 #ln -s /usr/lib/systemd/system/mpd.service /etc/systemd/system/multi-user.target.wants/mpd.service
 ln -s /usr/lib/systemd/system/systemd-zram-setup@.service /etc/systemd/system/multi-user.target.wants/systemd-zram-setup@zram0.service
 
-chmod 644 /home/$USER/.config/systemd/user/*.service
-mkdir -p /home/$USER/.config/systemd/user/default.target.wants/
-ln -s /home/$USER/.config/systemd/user/gmrender.service /home/$USER/.config/systemd/user/default.target.wants/gmrender.service
+chmod 644 /home/$OVOS_USER/.config/systemd/user/*.service
+mkdir -p /home/$OVOS_USER/.config/systemd/user/default.target.wants/
+ln -s /home/$OVOS_USER/.config/systemd/user/gmrender.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/gmrender.service
 
-echo "Ensuring permissions for $USER user..."
-chmod 644 /home/$USER/.asoundrc
-chown -R $TUID:$TGID /home/$USER
+echo "Ensuring permissions for $OVOS_USER user..."
+chmod 644 /home/$OVOS_USER/.asoundrc
+chown -R $TUID:$TGID /home/$OVOS_USER
 
 # Enable lingering for the user
-echo "Enabling lingering for $USER user ..."
+echo "Enabling lingering for $OVOS_USER user ..."
 mkdir -p /var/lib/systemd/linger
-touch /var/lib/systemd/linger/$USER
+touch /var/lib/systemd/linger/$OVOS_USER
 # Ensure correct permissions
-chown root:root /var/lib/systemd/linger/$USER
-chmod 644 /var/lib/systemd/linger/$USER
+chown root:root /var/lib/systemd/linger/$OVOS_USER
+chmod 644 /var/lib/systemd/linger/$OVOS_USER
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean

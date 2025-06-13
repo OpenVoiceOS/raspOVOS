@@ -52,7 +52,7 @@ jobs:
         uses: TigreGotico/rpi-image-modifier@main
         id: create-image
         env:
-          USER: 'ovos'
+          OVOS_USER: 'ovos'
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
