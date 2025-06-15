@@ -143,8 +143,11 @@ fi
 echo "Tuning /etc/fstab..."
 bash /mounted-github-repo/scripts/setup_fstab.sh
 
-#echo "Updating ovos-i2csound and raspovos-audio-setup"
-#bash /mounted-github-repo/scripts/update.sh
+echo "Installing respeaker drivers"
+bash /mounted-github-repo/scripts/setup_respeaker.sh
+
+# echo "Updating ovos-i2csound and raspovos-audio-setup"
+# bash /mounted-github-repo/scripts/update.sh
 
 # Copy raspOVOS overlay to the system.
 echo "Copying raspOVOS overlay..."

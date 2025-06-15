@@ -14,7 +14,16 @@ marker="0.0.0"
 
 git clone https://github.com/HinTak/seeed-voicecard
 cd seeed-voicecard
-git checkout v6.6
+kernel=$(uname -r)
+k_ver=$(echo $kernel | cut -d '.' -f2)
+checkout_version="v6.$k_ver"
+
+if git checkout $checkout_version; then
+  echo "using version $checkout_version of respeaker drivers"
+else
+  echo "Could not checkout version $checkout_version"
+  echo "Trying default branch"
+fi
 
 function install_respeaker {
   local _i
@@ -30,7 +39,7 @@ function install_respeaker {
     dkms remove --force -m $mod -v $ver --all
     rm -rf /usr/src/$mod-$ver
   fi
-  
+
   mkdir -p /usr/src/$mod-$ver
   cp -a $src/* /usr/src/$mod-$ver/
 
@@ -55,7 +64,11 @@ apt-get -y install dkms git i2c-tools libasound2-plugins
 
 kernels=($(ls /boot/vmlinuz-* | sort -V | sed 's|/boot/vmlinuz-||'))
 
-install_respeaker "./" "seeed-voicecard"
+if [ install_respeaker "./" "seeed-voicecard" -eq 0]; then
+  echo "seeed-voicecard drivers are installed"
+else
+  echo "could not build respeaker drivers"
+fi
 
 cd ..
 
