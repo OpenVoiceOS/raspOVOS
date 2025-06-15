@@ -64,7 +64,7 @@ apt-get -y install dkms git i2c-tools libasound2-plugins
 
 kernels=($(ls /boot/vmlinuz-* | sort -V | sed 's|/boot/vmlinuz-||'))
 
-if [ install_respeaker "./" "seeed-voicecard" -eq 0]; then
+if install_respeaker "./" "seeed-voicecard"; then
   echo "seeed-voicecard drivers are installed"
 else
   echo "could not build respeaker drivers"
