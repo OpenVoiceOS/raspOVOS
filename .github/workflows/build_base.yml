@@ -7,7 +7,7 @@ on:
       - dev
     paths:
       - '.github/workflows/build_base.yml'
-      - 'build_raspOVOS.sh'
+      - 'build_raspOVOS_lite.sh'
       - 'overlays/base_ovos/**'
       - 'skills.list'
 
@@ -65,7 +65,7 @@ jobs:
           cache: false
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
-          script-path: build_raspOVOS.sh
+          script-path: build_raspOVOS_lite.sh
       - name: Print outputs
         shell: bash
         run: |
@@ -96,7 +96,7 @@ jobs:
           if [[ "$release_id" == "null" ]]; then
             release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"FOR DEVELOPERS: Base OVOS setup.\"}" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"FOR DEVELOPERS: Base OVOS setup. (defaults to online functionality, might work in rpi3) \"}" \
               "https://api.github.com/repos/${{ github.repository }}/releases")
             release_id=$(echo $release | jq -r .id)
           fi
@@ -138,40 +138,4 @@ jobs:
           overwrite: true
           prerelease: false
           verbose: true
-
-  update-en-workflow:
-    runs-on: ubuntu-24.04
-    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Update base-image-url in build_lang_images.yml
-        run: |
-          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_lang_images.yml
-
-      - name: Check for changes
-        id: check-changes
-        run: |
-          if git diff --exit-code .github/workflows/build_lang_images.yml; then
-            echo "base image download url didnt change"
-            echo "no_changes=true" >> $GITHUB_ENV
-          else
-            echo "base image download url updated in build_lang_images.yml"
-            echo "no_changes=false" >> $GITHUB_ENV
-          fi
-
-      - name: Create Pull Request
-        if: env.no_changes == 'false'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          token: ${{ secrets.PA_TOKEN }}
-          branch: "update-base-image-url-en"
-          commit-message: "Update base-image-url in build_lang_images.yml"
-          title: "Update base-image-url-en"
-          body: |
-            This PR updates the base-image-url in `build_lang_images.yml` to reflect the latest release.
-          labels: automated-update
 
