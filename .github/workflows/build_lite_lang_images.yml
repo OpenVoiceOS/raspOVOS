@@ -1,0 +1,111 @@
+name: build all lite raspOVOS images
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+    paths:
+      - '.github/workflows/build_lite_lang_images.yml'
+      - 'build_raspOVOS_.sh'
+      - 'overlays/**'
+
+jobs:
+  get-date-release-name:
+    runs-on: ubuntu-24.04
+    outputs:
+      release_name: ${{ steps.current-date.outputs.release_name }}
+    steps:
+      - name: Get Current Date and Release Name
+        id: current-date
+        run: |
+          current_date=$(date +'%Y-%m-%d')
+          release_name="raspOVOS-bookworm-arm64-lite-${current_date}"
+          echo "release_name=$release_name" >> $GITHUB_OUTPUT
+
+  build-all-images:
+    runs-on: ubuntu-24.04
+    needs: get-date-release-name
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [ca, gl, en, es, eu, pt, nl, de, it, multilingual]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Build image for ${{ matrix.lang }}
+        id: build
+        uses: TigreGotico/rpi-image-modifier@main
+        env:
+          OVOS_USER: 'ovos'
+          PASSWORD: 'ovos'
+          HOSTNAME: "raspOVOS"
+          CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
+        with:
+          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-17/raspOVOS-DEV-bookworm-arm64-lite.img.xz
+          image-path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-lite.img
+          compress-with-xz: true
+          shrink: true
+          cache: false
+          mount-repository: true
+          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
+          script-path: build_raspOVOS_${{ matrix.lang }}.sh
+
+      - name: Upload built image as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: raspOVOS-${{ matrix.lang }}
+          path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-lite.img.xz
+
+  create-release:
+    runs-on: ubuntu-24.04
+    needs: [get-date-release-name, build-all-images]
+    outputs:
+      release_id: ${{ steps.get-release-id.outputs.release_id }}
+    steps:
+      - name: Create or Get Release ID
+        id: get-release-id
+        run: |
+          release_name="${{ needs.get-date-release-name.outputs.release_name }}"
+          release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/$release_name")
+          release_id=$(echo "$release" | jq -r .id)
+          if [[ "$release_id" == "null" ]]; then
+            release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"RaspOVOS lite - multilingual image set\"}" \
+              "https://api.github.com/repos/${{ github.repository }}/releases")
+            release_id=$(echo "$release" | jq -r .id)
+          fi
+          echo "release_id=$release_id" >> $GITHUB_OUTPUT
+
+  upload-images:
+    runs-on: ubuntu-24.04
+    needs: [create-release, build-all-images]
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [ca, gl, en, es, eu, pt, nl, de, it, mul]
+    steps:
+      - name: Download image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: raspOVOS-${{ matrix.lang }}
+
+      - name: Upload ${{ matrix.lang }} image to release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: raspOVOS-${{ matrix.lang }}-bookworm-arm64-lite.img.xz
+          release_id: ${{ needs.create-release.outputs.release_id }}
+          draft: false
+          overwrite: true
+          prerelease: false
+          verbose: true

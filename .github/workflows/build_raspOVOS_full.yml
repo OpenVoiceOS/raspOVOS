@@ -1,4 +1,4 @@
-name: build base raspOVOS lite image
+name: build base raspOVOS full image
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
     branches:
       - dev
     paths:
-      - '.github/workflows/build_base.yml'
-      - 'build_raspOVOS_base_lite.sh'
+      - '.github/workflows/build_raspOVOS_full.yml'
+      - 'build_raspOVOS_base_full.sh'
       - 'overlays/base_ovos/**'
       - 'skills.list'
 
@@ -23,7 +23,7 @@ jobs:
         id: current-date
         run: |
           current_date=$(date +'%Y-%m-%d')
-          release_name="raspOVOS-DEV-bookworm-arm64-lite-${current_date}"
+          release_name="raspOVOS-DEV-bookworm-arm64-offline-${current_date}"
           cache_key="raspOVOS-${{ github.run_id }}"
           echo "release_name=$release_name" >> $GITHUB_OUTPUT
           echo "cache_key=$cache_key" >> $GITHUB_OUTPUT
@@ -58,14 +58,14 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz
-          image-path: raspOVOS-DEV-bookworm-arm64-lite.img
+          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-17/raspOVOS-DEV-bookworm-arm64-lite.img.xz
+          image-path: raspOVOS-DEV-bookworm-arm64-offline.img
           compress-with-xz: true
           shrink: true
           cache: false
           mount-repository: true
           env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
-          script-path: build_raspOVOS_base_lite.sh
+          script-path: build_raspOVOS_base_full.sh
       - name: Print outputs
         shell: bash
         run: |
@@ -96,7 +96,7 @@ jobs:
           if [[ "$release_id" == "null" ]]; then
             release=$(curl -s -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"FOR DEVELOPERS: Base OVOS setup. (defaults to online functionality, might work in rpi3) \"}" \
+              -d "{\"tag_name\":\"$release_name\",\"name\":\"$release_name\",\"body\":\"FOR DEVELOPERS: Base OVOS setup tuned to run offline (recommended rpi5 with 4GB RAM) .\"}" \
               "https://api.github.com/repos/${{ github.repository }}/releases")
             release_id=$(echo $release | jq -r .id)
           fi
@@ -146,18 +146,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update base-image-url in build_lite_lang_images.yml
+      - name: Update base-image-url in build_lang_images.yml
         run: |
-          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_lite_lang_images.yml
+          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_lang_images.yml
 
       - name: Check for changes
         id: check-changes
         run: |
-          if git diff --exit-code .github/workflows/build_lite_lang_images.yml; then
+          if git diff --exit-code .github/workflows/build_lang_images.yml; then
             echo "base image download url didnt change"
             echo "no_changes=true" >> $GITHUB_ENV
           else
-            echo "base image download url updated in build_lite_lang_images.yml"
+            echo "base image download url updated in build_lang_images.yml"
             echo "no_changes=false" >> $GITHUB_ENV
           fi
 
@@ -169,9 +169,9 @@ jobs:
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           token: ${{ secrets.PA_TOKEN }}
           branch: "update-base-image-url-en"
-          commit-message: "Update base-image-url in build_lite_lang_images.yml"
+          commit-message: "Update base-image-url in build_lang_images.yml"
           title: "Update base-image-url-en"
           body: |
-            This PR updates the base-image-url in `build_lite_lang_images.yml` to reflect the latest release.
+            This PR updates the base-image-url in `build_lang_images.yml` to reflect the latest release.
           labels: automated-update
 
