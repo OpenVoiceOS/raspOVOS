@@ -48,7 +48,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-13/raspOVOS-DEV-bookworm-arm64-lite.img.xz
+          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-17/raspOVOS-DEV-bookworm-arm64-lite.img.xz
           image-path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-hybrid.img
           compress-with-xz: true
           shrink: true
@@ -84,6 +84,7 @@ jobs:
             release_id=$(echo "$release" | jq -r .id)
           fi
           echo "release_id=$release_id" >> $GITHUB_OUTPUT
+
 
   upload-images:
     runs-on: ubuntu-24.04

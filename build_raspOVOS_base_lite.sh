@@ -202,12 +202,6 @@ uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-PHAL-plugin-
 echo "Installing OVOS Spotify..."
 uv pip install --no-progress --pre ovos-media-plugin-spotify -c $CONSTRAINTS
 
-echo "Compiling latest espeak..."
-apt-get install -y jq automake libtool
-git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
-cd /tmp/espeak-ng
-./autogen.sh  && ./configure && make && make install
-rm -rf /tmp/espeak-ng
 
 # Enable necessary system services.
 echo "Enabling system services..."
