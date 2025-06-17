@@ -24,7 +24,7 @@ jobs:
         run: |
           current_date=$(date +'%Y-%m-%d')
           release_name="raspOVOS-DEV-bookworm-arm64-offline-${current_date}"
-          cache_key="raspOVOS-${{ github.run_id }}"
+          cache_key="raspOVOS-offline-${{ github.run_id }}"
           echo "release_name=$release_name" >> $GITHUB_OUTPUT
           echo "cache_key=$cache_key" >> $GITHUB_OUTPUT
 
