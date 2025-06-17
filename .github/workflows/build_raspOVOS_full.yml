@@ -139,25 +139,25 @@ jobs:
           prerelease: false
           verbose: true
 
-  update-en-workflow:
+  update-offline-workflow:
     runs-on: ubuntu-24.04
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update base-image-url in build_lang_images.yml
+      - name: Update base-image-url in build_offline_lang_images.yml
         run: |
-          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_lang_images.yml
+          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_offline_lang_images.yml
 
       - name: Check for changes
         id: check-changes
         run: |
-          if git diff --exit-code .github/workflows/build_lang_images.yml; then
+          if git diff --exit-code .github/workflows/build_offline_lang_images.yml; then
             echo "base image download url didnt change"
             echo "no_changes=true" >> $GITHUB_ENV
           else
-            echo "base image download url updated in build_lang_images.yml"
+            echo "base image download url updated in build_offline_lang_images.yml"
             echo "no_changes=false" >> $GITHUB_ENV
           fi
 
@@ -168,10 +168,10 @@ jobs:
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           token: ${{ secrets.PA_TOKEN }}
-          branch: "update-base-image-url-en"
-          commit-message: "Update base-image-url in build_lang_images.yml"
-          title: "Update base-image-url-en"
+          branch: "update-base-image-url-offline"
+          commit-message: "Update base-image-url in build_offline_lang_images.yml"
+          title: "Update base-image-url-offline"
           body: |
-            This PR updates the base-image-url in `build_lang_images.yml` to reflect the latest release.
+            This PR updates the base-image-url in `build_offline_lang_images.yml` to reflect the latest release.
           labels: automated-update
 
