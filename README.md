@@ -5,6 +5,8 @@ a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/imag
 on top. The customized images are then uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases).
 🎉
 
+---
+
 ## 📋 Notes:
 
 - **Default user**: `ovos`
@@ -14,13 +16,37 @@ on top. The customized images are then uploaded to [GitHub Releases](https://git
 
 > ⚠️ **DO NOT** change the default user when burning the image or you will run into issues
 
+---
+
 ### 🛠️ Getting Started:
 
 Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for instructions.
 
 ---
 
+### Image Variants
+
+- lite images delegate STT and TTS to public servers and have a minimal intents pipeline
+- hybrid images delegate STT to public servers, run TTS on device and have a minimal intents pipeline
+- offline images run STT and TTS on device and have a full intents pipeline
+
+> ⚠️ online servers are hosted by volunteers and provided on a **best effort** basis, [latency and uptime](https://openvoiceos.github.io/status) might vary wildly per request
+
+---
+
+### System requirements
+
+- lite images *might* work in a rpi3
+- hybrid images recommend at least a rpi4
+- offline images need at least 4GB RAM, preferably 8GB
+
+> 💡 Please consider self-hosting your own [TTS](https://openvoiceos.github.io/ovos-technical-manual/201-tts_server/) and [STT](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/) servers in a more powerful device
+
+---
+
 ### 📂 Latest Images:
+
+> TODO this section is outdated
 
 The image versions below are considered the latest stable versions. Status of the different languages can be found [here](https://github.com/OpenVoiceOS/lang-support-tracker)
 
