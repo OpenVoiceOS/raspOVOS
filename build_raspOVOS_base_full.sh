@@ -45,6 +45,9 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 echo "Installing llama.cpp"
 uv pip install --no-progress https://github.com/abetlen/llama-cpp-python/releases/download/v0.3.2/llama_cpp_python-0.3.2-cp311-cp311-linux_aarch64.whl
 
+echo "Installing fasterwhisper"
+uv pip install --no-progress ovos-stt-plugin-fasterwhisper -c $CONSTRAINTS
+
 echo "Downloading multilingual model2vec intent model ..."
 python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
