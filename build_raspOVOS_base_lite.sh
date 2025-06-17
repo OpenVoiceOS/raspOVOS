@@ -189,14 +189,14 @@ uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-lis
 echo "Installing extra utils..."
 uv pip install --no-progress --pre ovos-yaml-editor -c $CONSTRAINTS
 
-
 # Install essential skills for OVOS.
 echo "Installing skills..."
 uv pip install --no-progress --pre -r ./mounted-github-repo/skills.list -c $CONSTRAINTS
 
 # Install PHAL plugins for OVOS.
 echo "Installing PHAL plugins..."
-uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-PHAL-plugin-dotstar ovos-phal-plugin-camera -c $CONSTRAINTS
+# ovos-PHAL-plugin-dotstar  temporarily removed until its dependencies are updated
+uv pip install --no-progress --pre ovos-phal[extras,linux,mk1] ovos-phal-plugin-camera -c $CONSTRAINTS
 
 # Install Spotify-related plugins for OVOS.
 echo "Installing OVOS Spotify..."
