@@ -13,13 +13,13 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 # TODO - no wake word for "wake up"
 #echo "Copying overlays..."
-#sudo cp -rv /mounted-github-repo/overlays/da/* /
+#sudo cp -rv /mounted-github-repo/overlays/fr/* /
 
 echo "Setting up default wifi country..."
-/usr/bin/raspi-config nonint do_wifi_country DK
+/usr/bin/raspi-config nonint do_wifi_country FR
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang da-DK --online --male --platform rpi3
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang fr-FR --online --male --platform rpi3
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

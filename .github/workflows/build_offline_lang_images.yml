@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lang: [ca, gl, en, es, eu, pt, nl, de, it, da]
+        lang: [ca, gl, en, es, eu, pt, nl, de, it, fr, da]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -91,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lang: [ca, gl, en, es, eu, pt, nl, de, it, da]
+        lang: [ca, gl, en, es, eu, pt, nl, de, it, fr, da]
     steps:
       - name: Download image artifact
         uses: actions/download-artifact@v4

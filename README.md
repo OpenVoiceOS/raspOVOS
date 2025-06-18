@@ -67,16 +67,17 @@ The following language specific plugin configurations are used
 
 | lang | stt-plugin                    | stt-model                                   |
 |------|-------------------------------|---------------------------------------------|
+| da   | ovos-stt-plugin-fasterwhisper | Systran/faster-whisper-base                 |
 | gl   | ovos-stt-plugin-fasterwhisper | Jarbas/faster-whisper-base-gl-cv13          |
 | eu   | ovos-stt-plugin-fasterwhisper | Jarbas/faster-whisper-base-eu-cv16          |
 | es   | ovos-stt-plugin-citrinet      | Jarbas/stt_es_citrinet_512_onnx             |
 | ca   | ovos-stt-plugin-citrinet      | neongeckocom/stt_ca_citrinet_512_gamma_0_25 |
 | pt   | ovos-stt-plugin-citrinet      | neongeckocom/stt_pt_citrinet_512_gamma_0_25 |
-| fr   | ovos-stt-plugin-citrinet      | neongeckocom/stt_fr_citrinet_512_gamma_0_25 |
 | de   | ovos-stt-plugin-citrinet      | neongeckocom/stt_de_citrinet_512_gamma_0_25 |
 | it   | ovos-stt-plugin-citrinet      | neongeckocom/stt_it_citrinet_512_gamma_0_25 |
 | nl   | ovos-stt-plugin-citrinet      | neongeckocom/stt_nl_citrinet_512_gamma_0_25 |
 | en   | ovos-stt-plugin-citrinet      | neongeckocom/stt_en_citrinet_512_gamma_0_25 |
+| fr   | ovos-stt-plugin-citrinet      | neongeckocom/stt_fr_citrinet_512_gamma_0_25 |
 
 
 | lang | intent-model                                                       |
