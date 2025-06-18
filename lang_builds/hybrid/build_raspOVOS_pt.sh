@@ -18,12 +18,11 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang pt-PT --hybrid --male --platform rpi4
 
-# TODO - lang specific smaller model
 echo "Downloading model2vec intent model ..."
-python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
-mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder/
 
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
