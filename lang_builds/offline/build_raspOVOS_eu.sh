@@ -18,9 +18,6 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang eu-ES --offline --female --platform rpi5
 
-echo "Installing fasterwhisper-zuazo plugin..."
-uv pip install --no-progress ovos-stt-plugin-fasterwhisper-zuazo -c $CONSTRAINTS
-
 echo "Downloading zuazo whisper model ..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Jarbas/faster-whisper-base-eu-cv16'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
 # since script was run as root, we need to move downloaded files

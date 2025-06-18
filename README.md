@@ -26,9 +26,9 @@ Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technic
 
 ### Image Variants
 
-- lite images delegate STT and TTS to public servers and have a minimal intents pipeline
-- hybrid images delegate STT to public servers, run TTS on device and have a minimal intents pipeline
-- offline images run STT and TTS on device and have a full intents pipeline
+- `lite` images delegate STT and TTS to public servers and have a minimal intents pipeline
+- `hybrid` images delegate STT to public servers, run TTS on device and have a balanced intents pipeline
+- `offline` images run STT and TTS on device and have a full intents pipeline
 
 > ⚠️ online servers are hosted by volunteers and provided on a **best effort** basis, [latency and uptime](https://openvoiceos.github.io/status) might vary wildly per request
 
@@ -36,9 +36,9 @@ Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technic
 
 ### System requirements
 
-- lite images *might* work in a rpi3
-- hybrid images recommend at least a rpi4
-- offline images need at least 4GB RAM, preferably 8GB
+- `lite` images *might* work in a rpi3
+- `hybrid` images recommend at least a rpi4
+- `offline` images need at least 4GB RAM, preferably 8GB
 
 > 💡 Please consider self-hosting your own [TTS](https://openvoiceos.github.io/ovos-technical-manual/201-tts_server/) and [STT](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/) servers in a more powerful device
 
