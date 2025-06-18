@@ -1,7 +1,12 @@
 # RaspOVOS
 
+
 Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier), we download
 a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top. 
+
+<p align="center">
+  <img src="https://github.com/OpenVoiceOS/raspOVOS/blob/dev/logo.png?raw=true" alt="raspOVOS Logo" width="200"/>
+</p>
 
 The customized images are then uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases). 🎉
 
