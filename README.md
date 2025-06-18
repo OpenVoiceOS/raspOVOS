@@ -20,7 +20,8 @@ on top. The customized images are then uploaded to [GitHub Releases](https://git
 
 ### 🛠️ Getting Started:
 
-Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for instructions.
+Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for
+instructions.
 
 ---
 
@@ -31,6 +32,15 @@ Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technic
 - `offline` images run STT and TTS on device and have a full intents pipeline
 
 > ⚠️ online servers are hosted by volunteers and provided on a **best effort** basis, [latency and uptime](https://openvoiceos.github.io/status) might vary wildly per request
+
+In general the following plugins are used for all images
+
+| image_type | stt-plugin               | tts-plugin             | m2v-intent-model             |
+|------------|--------------------------|------------------------|------------------------------|
+| offline    | ovos-stt-plugin-citrinet | ovos-tts-plugin-piper  | ovos-model2vec-intents-LaBSE |
+| hybrid     | ovos-stt-plugin-server   | ovos-tts-plugin-piper  | ovos-model2vec-intents-LaBSE |
+| online     | ovos-stt-plugin-server   | ovos-tts-plugin-server | N/A                          |
+
 
 ---
 
@@ -44,11 +54,51 @@ Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technic
 
 ---
 
+### Language specific plugins and models
+
+The following language specific plugin configurations are used
+
+| lang | tts-plugin                             |
+|------|----------------------------------------|
+| ca   | ovos-tts-plugin-matxa-multispeaker-cat |
+| gl   | ovos-tts-plugin-nos                    |
+| eu   | ovos-tts-plugin-ahotts                 |
+
+
+| lang | stt-plugin                    | stt-model                                   |
+|------|-------------------------------|---------------------------------------------|
+| gl   | ovos-stt-plugin-fasterwhisper | Jarbas/faster-whisper-base-gl-cv13          |
+| eu   | ovos-stt-plugin-fasterwhisper | Jarbas/faster-whisper-base-eu-cv16          |
+| es   | ovos-stt-plugin-citrinet      | Jarbas/stt_es_citrinet_512_onnx             |
+| ca   | ovos-stt-plugin-citrinet      | neongeckocom/stt_ca_citrinet_512_gamma_0_25 |
+| pt   | ovos-stt-plugin-citrinet      | neongeckocom/stt_pt_citrinet_512_gamma_0_25 |
+| fr   | ovos-stt-plugin-citrinet      | neongeckocom/stt_fr_citrinet_512_gamma_0_25 |
+| de   | ovos-stt-plugin-citrinet      | neongeckocom/stt_de_citrinet_512_gamma_0_25 |
+| it   | ovos-stt-plugin-citrinet      | neongeckocom/stt_it_citrinet_512_gamma_0_25 |
+| nl   | ovos-stt-plugin-citrinet      | neongeckocom/stt_nl_citrinet_512_gamma_0_25 |
+| en   | ovos-stt-plugin-citrinet      | neongeckocom/stt_en_citrinet_512_gamma_0_25 |
+
+
+| lang | intent-model                                                       |
+|------|--------------------------------------------------------------------|
+| mul  | ovos-model2vec-intents-LaBSE                                       |
+| en   | ovos-model2vec-intents-potion-32M                                  |
+| ca   | ovos-model2vec-intents-roberta-large-ca-v2-massive                 |
+| gl   | ovos-model2vec-intents-bertinho-gl-base-cased                      |
+| eu   | ovos-model2vec-intents-BERnaT-base                                 |
+| pt   | ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder |
+| es   | ovos-model2vec-intents-roberta-large-bne                           |
+
+> NOTE: intent models are still undergoing training for some languages and might not actually be shipped yet
+
+---
+
 ### 📂 Latest Images:
 
 > TODO this section is outdated
 
-The image versions below are considered the latest stable versions. Status of the different languages can be found [here](https://github.com/OpenVoiceOS/lang-support-tracker)
+The image versions below are considered the latest stable versions. Status of the different languages can be
+found [here](https://github.com/OpenVoiceOS/lang-support-tracker)
 
 - [raspOVOS-english-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-english-bookworm-arm64-lite-2025-01-15)
 - [raspOVOS-catalan-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2025-01-15)
@@ -69,7 +119,9 @@ Find the latest developer builds on the [Releases](https://github.com/OpenVoiceO
 
 ## 🛠 What raspOVOS Does to Raspberry Pi OS
 
-raspOVOS is a customization layer for Raspberry Pi OS that transforms a standard base image into a fully functional, voice-enabled smart assistant platform powered by [OpenVoiceOS (OVOS)](https://openvoiceos.org). Here’s what the installation script modifies and installs:
+raspOVOS is a customization layer for Raspberry Pi OS that transforms a standard base image into a fully functional,
+voice-enabled smart assistant platform powered by [OpenVoiceOS (OVOS)](https://openvoiceos.org). Here’s what the
+installation script modifies and installs:
 
 ---
 
@@ -160,9 +212,8 @@ These overlays ensure:
 * Installs [uv](https://github.com/astral-sh/uv) and `sdnotify` globally.
 * Creates a Python virtual environment at `~/.venvs/ovos`.
 * Installs core OVOS components and their dependencies inside the venv:
-  * `ovos-core`, `ovos-gui`, `ovos-audio`, `ovos-phal`, `ovos-skill-config-tool`, etc.
-  * STT/TTS plugins like `ovos-stt-plugin-fasterwhisper`, `ovos-audio-transformer-plugin-ggwave`.
-
+    * `ovos-core`, `ovos-gui`, `ovos-audio`, `ovos-phal`, `ovos-skill-config-tool`, etc.
+    * STT/TTS plugins like `ovos-stt-plugin-fasterwhisper`, `ovos-audio-transformer-plugin-ggwave`.
 
 ---
 
@@ -170,8 +221,8 @@ These overlays ensure:
 
 * Downloads and installs:
 
-  * `model2vec` multilingual intent classification model.
-  * `faster-whisper-tiny` for fast, lightweight speech-to-text with language detection.
+    * `model2vec` multilingual intent classification model.
+    * `faster-whisper-tiny` for fast, lightweight speech-to-text with language detection.
 
 * Sets up Hugging Face shared model cache under the `ovos` user for efficient reuse across plugins.
 

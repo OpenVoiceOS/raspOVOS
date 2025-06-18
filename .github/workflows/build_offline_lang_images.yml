@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lang: [ca, gl, en, es, eu, pt, nl, de, it, mul]
+        lang: [ca, gl, en, es, eu, pt, nl, de, it]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
