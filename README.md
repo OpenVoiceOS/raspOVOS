@@ -164,7 +164,6 @@ The file overlays introduce services, configs, and utilities specific to the OVO
 │   │   ├── i2csound.service                          # I2C audio board init
 │   │   ├── ovos-admin-phal.service                   # Enables admin PHAL (root PHAL pluginss)
 │   │   ├── splashscreen.service                      # Boot splash screen
-├── home/ovos/nltk_data/                              # Preloaded NLTK tokenizers, corpora, taggers
 ├── home
 │└── ovos
 │    ├── nltk_data                                    # Preloaded NLTK tokenizers, corpora, taggers
