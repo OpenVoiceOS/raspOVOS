@@ -167,7 +167,7 @@ The file overlays introduce services, configs, and utilities specific to the OVO
 │   ├── mycroft/mycroft.conf                         # Default OVOS config optimized for raspberry pi
 │   ├── systemd/system/                              # Systemd service units
 │   │   ├── i2csound.service                          # I2C audio board init
-│   │   ├── ovos-admin-phal.service                   # Enables admin PHAL (root PHAL pluginss)
+│   │   ├── ovos-admin-phal.service                   # Enables admin PHAL (root PHAL plugins)
 │   │   ├── splashscreen.service                      # Boot splash screen
 ├── home
 │└── ovos
