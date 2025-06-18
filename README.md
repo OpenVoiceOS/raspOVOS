@@ -133,7 +133,7 @@ installation script modifies and installs:
 
 * Renames the default `pi` user to a custom user (default: `ovos`).
 * Updates all references in system files (`/etc/passwd`, `/etc/group`, `/etc/shadow`) and moves the home directory.
-* Sets a default password (`ovos`, configurable) and ensures it's reflected across boot and login settings.
+* Sets a default password (`ovos`) and ensures it's reflected across boot and login settings.
 * Adds the user to critical groups: `sudo`, `audio`, `pipewire`, `rtkit`, and a custom `ovos` group.
 
 **Hostname:**
@@ -223,7 +223,7 @@ These overlays ensure:
 * Downloads and installs:
 
     * `model2vec` multilingual intent classification model.
-    * `faster-whisper-tiny` for fast, lightweight speech-to-text with language detection.
+    * `fasterwhisper` for fast, lightweight speech-to-text with language detection.
 
 * Sets up Hugging Face shared model cache under the `ovos` user for efficient reuse across plugins.
 
