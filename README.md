@@ -1,13 +1,40 @@
 # RaspOVOS
 
 Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier), we download
-a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS
-on top. The customized images are then uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases).
-🎉
+a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top. 
+
+The customized images are then uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases). 🎉
 
 ---
 
-## 📋 Notes:
+- [RaspOVOS](#raspovos)
+   + [Getting Started](#getting-started)
+   + [Important Notes](#important-notes)
+   + [Image Variants](#image-variants)
+   + [System requirements](#system-requirements)
+   + [Language specific plugins and models](#language-specific-plugins-and-models)
+* [What raspOVOS Does to Raspberry Pi OS](#what-raspovos-does-to-raspberry-pi-os)
+   + [System Configuration](#system-configuration)
+   + [System Dependencies](#system-dependencies)
+   + [File System Overlays](#file-system-overlays)
+   + [Python Environment Setup](#python-environment-setup)
+   + [Models and Skill Enhancements](#models-and-skill-enhancements)
+   + [Raspberry Pi Optimizations](#raspberry-pi-optimizations)
+        
+---
+
+### Getting Started
+
+Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for
+instructions.
+
+Find the latest images on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page.
+
+> ⚠️ These builds are semi-automated and might not be well tested
+
+---
+
+### Important Notes
 
 - **Default user**: `ovos`
 - **Default password**: `ovos`
@@ -15,13 +42,6 @@ on top. The customized images are then uploaded to [GitHub Releases](https://git
 - OVOS services run under the `ovos` user, with autologin enabled.
 
 > ⚠️ **DO NOT** change the default user when burning the image or you will run into issues
-
----
-
-### 🛠️ Getting Started:
-
-Check out the [Getting Started Guide](https://openvoiceos.github.io/ovos-technical-manual/51-install_raspovos) for
-instructions.
 
 ---
 
@@ -41,7 +61,6 @@ In general the following plugins are used for all images
 | hybrid     | ovos-stt-plugin-server   | ovos-tts-plugin-piper  | ovos-model2vec-intents-LaBSE |
 | online     | ovos-stt-plugin-server   | ovos-tts-plugin-server | N/A                          |
 
-
 ---
 
 ### System requirements
@@ -51,6 +70,7 @@ In general the following plugins are used for all images
 - `offline` images need at least 4GB RAM, preferably 8GB
 
 > 💡 Please consider self-hosting your own [TTS](https://openvoiceos.github.io/ovos-technical-manual/201-tts_server/) and [STT](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/) servers in a more powerful device
+
 
 ---
 
@@ -94,31 +114,7 @@ The following language specific plugin configurations are used
 
 ---
 
-### 📂 Latest Images:
-
-> TODO this section is outdated
-
-The image versions below are considered the latest stable versions. Status of the different languages can be
-found [here](https://github.com/OpenVoiceOS/lang-support-tracker)
-
-- [raspOVOS-english-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-english-bookworm-arm64-lite-2025-01-15)
-- [raspOVOS-catalan-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-catalan-bookworm-arm64-lite-2025-01-15)
-- [raspOVOS-dutch-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-dutch-bookworm-arm64-lite-2025-01-15)
-- [raspOVOS-galician-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-galician-bookworm-arm64-lite-2025-01-15)
-- [raspOVOS-german-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-german-bookworm-arm64-lite-2025-01-15)
-- [raspOVOS-italian-bookworm-arm64-lite-2025-03-24](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-italian-bookworm-arm64-lite-2025-03-24)
-- [raspOVOS-portuguese-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-portuguese-bookworm-arm64-lite-2025-01-15)
-- [raspOVOS-spanish-bookworm-arm64-lite-2025-01-15](https://github.com/OpenVoiceOS/raspOVOS/releases/tag/raspOVOS-spanish-bookworm-arm64-lite-2025-01-15)
-
-#### Are you a developer?
-
-Find the latest developer builds on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page.
-
-> ⚠️ These builds are semi-automated and might not be well tested in comparison to the versions listed above
-
----
-
-## 🛠 What raspOVOS Does to Raspberry Pi OS
+## What raspOVOS Does to Raspberry Pi OS
 
 raspOVOS is a customization layer for Raspberry Pi OS that transforms a standard base image into a fully functional,
 voice-enabled smart assistant platform powered by [OpenVoiceOS (OVOS)](https://openvoiceos.org). Here’s what the
