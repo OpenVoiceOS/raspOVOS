@@ -228,9 +228,10 @@ ln -s /home/$OVOS_USER/.config/systemd/user/ovos-listener.service /home/$OVOS_US
 ln -s /home/$OVOS_USER/.config/systemd/user/ovos-phal.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-phal.service
 ln -s /home/$OVOS_USER/.config/systemd/user/ovos-gui.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-gui.service
 ln -s /home/$OVOS_USER/.config/systemd/user/ovos-ggwave.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-ggwave.service
+ln -s /home/$OVOS_USER/.config/systemd/user/ovos-yaml-editor.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-yaml-editor.service
+ln -s /home/$OVOS_USER/.config/systemd/user/ovos-skill-settings-ui.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-skill-settings-ui.service
 #ln -s /home/$OVOS_USER/.config/systemd/user/ovos-librespot.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-librespot.service
 #ln -s /home/$OVOS_USER/.config/systemd/user/ovos-spotifyd.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-spotifyd.service
-ln -s /home/$OVOS_USER/.config/systemd/user/ovos-skill-settings-ui.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/ovos-skill-settings-ui.service
 ln -s /home/$OVOS_USER/.config/systemd/user/gmrender.service /home/$OVOS_USER/.config/systemd/user/default.target.wants/gmrender.service
 
 echo "Enabling messagebus signals..."

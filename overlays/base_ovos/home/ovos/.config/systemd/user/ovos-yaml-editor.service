@@ -1,0 +1,16 @@
+[Unit]
+Description=OVOS Config WebUI
+PartOf=ovos.service
+After=ovos.service
+
+[Service]
+Group=ovos
+UMask=002
+Environment="EDITOR_USERNAME=ovos"
+Environment="EDITOR_PASSWORD=ovos"
+WorkingDirectory=%h/.venvs/ovos
+ExecStart=%h/.venvs/ovos/bin/ovos-yaml-editor
+
+[Install]
+WantedBy=ovos.service
+
