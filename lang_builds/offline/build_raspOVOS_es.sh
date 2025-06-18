@@ -16,7 +16,7 @@ bash /mounted-github-repo/lang_builds/hybrid/build_raspOVOS_es.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang es-ES --offline --male
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang es-ES --offline --male --platform rpi5
 
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS

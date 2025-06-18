@@ -20,7 +20,7 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country ES
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang ca-ES --online --male
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang ca-ES --online --male --platform rpi3
 
 echo "Installing Catalan specific skills"
 uv pip install --no-progress ovos-core[skills-ca] -c $CONSTRAINTS

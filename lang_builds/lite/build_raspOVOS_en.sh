@@ -21,7 +21,7 @@ echo "Installing English specific skills"
 uv pip install --no-progress ovos-core[skills-en] -c $CONSTRAINTS
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang en-US --online --male
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang en-US --online --male --platform rpi3
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

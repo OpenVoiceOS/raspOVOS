@@ -5,7 +5,7 @@
 # scroll back and figure out what went wrong.
 set -e
 
-## Intended to run on top of the raspOVOS LITE image
+## Intended to run on top of the raspOVOS FULL image
 
 : "${OVOS_USER:=ovos}"
 : "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
@@ -15,7 +15,13 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Copying overlays..."
 sudo cp -rv /mounted-github-repo/overlays/en/* /
-sudo cp -rv /mounted-github-repo/overlays/multi/* /
+sudo cp -rv /mounted-github-repo/overlays/mul/* /
+
+echo "Downloading model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
 
 echo "Installing Plugins..."
 # TODO: find offline multilingual model

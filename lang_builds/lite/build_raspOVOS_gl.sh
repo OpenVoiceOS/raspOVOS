@@ -22,7 +22,7 @@ uv pip install --no-progress ovos-core[skills-gl] -c $CONSTRAINTS
 
 echo "Configuring for target language..."
 # TODO - only female voice available
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang gl-ES --online --female
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang gl-ES --online --female --platform rpi3
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

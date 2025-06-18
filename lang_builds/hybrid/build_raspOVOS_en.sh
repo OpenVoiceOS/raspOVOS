@@ -5,7 +5,7 @@
 # scroll back and figure out what went wrong.
 set -e
 
-## Intended to run on top of the raspOVOS LITE image
+## Intended to run on top of the raspOVOS FULL image
 
 : "${OVOS_USER:=ovos}"
 : "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
@@ -18,7 +18,14 @@ bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_en.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang en-US --hybrid --male
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang en-US --hybrid --male --platform rpi4
+
+# TODO - lang specific smaller model
+echo "Downloading model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
 
 echo "Installing Piper TTS..."
 uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
@@ -37,16 +44,13 @@ uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 #uv pip install --no-progress ovos-tts-plugin-mimic -c $CONSTRAINTS
 
 # download default piper voice for english  (change this for other languages)
-PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts/voice-en-gb-alan-low"
-VOICE_URL="https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-gb-alan-low.tar.gz"
-VOICE_ARCHIVE="$PIPER_DIR/voice-en-gb-alan-low.tar.gz"
+PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
+VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/en_GB-alan-medium.onnx?download=true"
+CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/en_GB-alan-medium.onnx.json?download=true"
 mkdir -p "$PIPER_DIR"
 echo "Downloading voice from $VOICE_URL..."
-wget "$VOICE_URL" -O "$VOICE_ARCHIVE"
-tar -xvzf "$VOICE_ARCHIVE" -C "$PIPER_DIR"
-# if we remove the voice archive the plugin will think its missing and redownload voice on boot...
-rm "$VOICE_ARCHIVE"
-touch $VOICE_ARCHIVE
+wget "$VOICE_URL" -P "$PIPER_DIR"
+wget "$CONFIG_URL" -P "$PIPER_DIR"
 
 
 echo "Ensuring permissions for $OVOS_USER user..."

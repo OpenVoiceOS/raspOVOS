@@ -10,7 +10,6 @@ set -e
 : "${OVOS_USER:=ovos}"
 : "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
 
-
 # start from lite image
 bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_ca.sh
 
@@ -18,14 +17,14 @@ bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_ca.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang ca-ES --hybrid --male
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang ca-ES --hybrid --male --platform rpi4
 
-echo "Compiling latest espeak..."  # needed for matxa TTS phonemization
-apt-get install -y jq automake libtool
-git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
-cd /tmp/espeak-ng
-./autogen.sh  && ./configure && make && make install
-rm -rf /tmp/espeak-ng
+# TODO - lang specific smaller model
+echo "Downloading model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
 
 # install matxa
 echo "Installing Matxa TTS..."
@@ -33,6 +32,13 @@ echo "Installing Matxa TTS..."
 git clone https://github.com/OpenVoiceOS/ovos-tts-plugin-matxa-multispeaker-cat /home/$OVOS_USER/.ovos-tts-plugin-matxa-multispeaker-cat
 uv pip install --no-progress -e /home/$OVOS_USER/.ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
 
+echo "Compiling latest espeak..."  # needed for matxa TTS phonemization
+apt-get install -y jq automake libtool
+git clone https://github.com/espeak-ng/espeak-ng.git /tmp/espeak-ng
+cd /tmp/espeak-ng
+./autogen.sh  && ./configure && make && make install
+rm -rf /tmp/espeak-ng
+cd /home/$OVOS_USER/
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

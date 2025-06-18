@@ -18,7 +18,7 @@ echo "Setting up default wifi country..."
 /usr/bin/raspi-config nonint do_wifi_country NL
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang nl-NL --online --male
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang nl-NL --online --male --platform rpi3
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

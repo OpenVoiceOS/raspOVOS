@@ -5,7 +5,7 @@
 # scroll back and figure out what went wrong.
 set -e
 
-## Intended to run on top of the raspOVOS LITE image
+## Intended to run on top of the raspOVOS FULL image
 
 : "${OVOS_USER:=ovos}"
 : "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
@@ -17,7 +17,14 @@ bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_eu.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang eu-ES --hybrid --female
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang eu-ES --hybrid --female --platform rpi4
+
+# TODO - lang specific smaller model
+echo "Downloading model2vec intent model ..."
+python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-LaBSE'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
+# since script was run as root, we need to move downloaded files
+mkdir -p /home/ovos/.cache/huggingface/hub/
+mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
 
 echo "Installing AhoTTS"
 uv pip install --no-progress ovos-tts-plugin-ahotts
