@@ -9,7 +9,7 @@ UMask=002
 Environment="EDITOR_USERNAME=ovos"
 Environment="EDITOR_PASSWORD=ovos"
 WorkingDirectory=%h/.venvs/ovos
-ExecStart=%h/.venvs/ovos/bin/ovos-yaml-editor
+ExecStart=%h/.venvs/ovos/bin/ovos-yaml-editor --host 0.0.0.0
 
 [Install]
 WantedBy=ovos.service
