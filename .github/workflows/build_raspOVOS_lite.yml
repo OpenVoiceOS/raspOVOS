@@ -74,7 +74,7 @@ jobs:
           echo "image-sha256sum: ${{ steps.create-image.outputs.image-sha256sum }}"
 
       - name: Save Image to Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
@@ -118,7 +118,7 @@ jobs:
     needs: [ modify-rpi-image, check-release-or-create, get-date-release-name ]
     steps:
       - name: Restore Cache for Image
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
