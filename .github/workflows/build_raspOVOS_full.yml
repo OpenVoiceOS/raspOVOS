@@ -42,7 +42,7 @@ jobs:
       image-path: ${{ steps.create-image.outputs.image-path }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up QEMU for ARM64 emulation
         uses: docker/setup-qemu-action@v3
@@ -144,7 +144,7 @@ jobs:
     needs: [ upload-image, get-date-release-name, modify-rpi-image ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Update base-image-url in build_offline_lang_images.yml
         run: |
