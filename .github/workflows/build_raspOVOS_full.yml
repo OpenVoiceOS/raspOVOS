@@ -2,6 +2,11 @@ name: build base raspOVOS full image
 
 on:
   workflow_dispatch:
+    inputs:
+      base_image_url:
+        description: "Override the base image URL (reproduce an old build)"
+        required: false
+        default: ""
   push:
     branches:
       - dev
@@ -34,10 +39,32 @@ jobs:
           echo "cache_key: ${{ steps.current-date.outputs.cache_key }}"
           echo "release_name: ${{ steps.current-date.outputs.release_name }}"
 
+  # Stage 1.5: Resolve the newest base image release (override via input)
+  resolve-base:
+    runs-on: ubuntu-24.04
+    outputs:
+      base_image_url: ${{ steps.resolve.outputs.base_image_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve base image URL
+        id: resolve
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.inputs.base_image_url }}" ]; then
+            url="${{ github.event.inputs.base_image_url }}"
+          else
+            url="$(./scripts/ci/resolve_base_image.sh raspOVOS-DEV-bookworm-arm64-lite)"
+          fi
+          echo "base_image_url=$url" >> $GITHUB_OUTPUT
+          echo "Using base image: $url"
+
   # Stage 2: Build Image
   modify-rpi-image:
     runs-on: ubuntu-24.04
-    needs: get-date-release-name
+    needs: [ get-date-release-name, resolve-base ]
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
     steps:
@@ -58,7 +85,7 @@ jobs:
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-18/raspOVOS-DEV-bookworm-arm64-lite.img.xz
+          base-image-url: ${{ needs.resolve-base.outputs.base_image_url }}
           image-path: raspOVOS-DEV-bookworm-arm64-offline.img
           compress-with-xz: true
           shrink: true
@@ -79,10 +106,31 @@ jobs:
           path: .
           key: ${{ needs.get-date-release-name.outputs.cache_key }}
 
+  # Stage 2.5: Smoke-test the image (Tier 1 static + Tier 2 chroot checks)
+  smoke-test:
+    runs-on: ubuntu-24.04
+    needs: [ get-date-release-name, modify-rpi-image ]
+    steps:
+      - name: Restore Cache for Image
+        uses: actions/cache@v4
+        with:
+          path: .
+          key: ${{ needs.get-date-release-name.outputs.cache_key }}
+          fail-on-cache-miss: true
+
+      - name: Install test dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq qemu-user-static binfmt-support systemd-container
+
+      - name: "Tier 1: static image assertions"
+        run: sudo make test-static IMG=${{ needs.modify-rpi-image.outputs.image-path }}
+
+      - name: "Tier 2: chroot functional checks"
+        run: sudo make test-chroot IMG=${{ needs.modify-rpi-image.outputs.image-path }} VARIANT=offline
+
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
     runs-on: ubuntu-24.04
-    needs: [ get-date-release-name, modify-rpi-image ]
+    needs: [ get-date-release-name, modify-rpi-image, smoke-test ]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
     steps:
@@ -138,40 +186,3 @@ jobs:
           overwrite: true
           prerelease: false
           verbose: true
-
-  update-offline-workflow:
-    runs-on: ubuntu-24.04
-    needs: [ upload-image, get-date-release-name, modify-rpi-image ]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Update base-image-url in build_offline_lang_images.yml
-        run: |
-          sed -i '/^[^#]*base-image-url:/ {/sed/! s|base-image-url: .*|base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/${{ needs.get-date-release-name.outputs.release_name }}/${{ needs.modify-rpi-image.outputs.image-path }}|}' .github/workflows/build_offline_lang_images.yml
-
-      - name: Check for changes
-        id: check-changes
-        run: |
-          if git diff --exit-code .github/workflows/build_offline_lang_images.yml; then
-            echo "base image download url didnt change"
-            echo "no_changes=true" >> $GITHUB_ENV
-          else
-            echo "base image download url updated in build_offline_lang_images.yml"
-            echo "no_changes=false" >> $GITHUB_ENV
-          fi
-
-      - name: Create Pull Request
-        if: env.no_changes == 'false'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          token: ${{ secrets.PA_TOKEN }}
-          branch: "update-base-image-url-offline"
-          commit-message: "Update base-image-url in build_offline_lang_images.yml"
-          title: "Update base-image-url-offline"
-          body: |
-            This PR updates the base-image-url in `build_offline_lang_images.yml` to reflect the latest release.
-          labels: automated-update
-
