@@ -1,0 +1,62 @@
+# Tier 1 assertions common to every raspOVOS image.
+# Syntax: see scripts/ci/assert_image.sh header. Paths relative to rootfs.
+
+# --- user & login ---
+user_exists ovos 1000
+linger_enabled ovos
+file_exists /home/ovos
+grep_file /etc/hostname raspOVOS
+
+# --- python venv & OVOS stack ---
+file_exists /home/ovos/.venvs/ovos/bin/python
+file_exists /home/ovos/.venvs/ovos/bin/ovos-config
+file_exists /opt/ovos/tag
+
+# --- system services (installed) ---
+file_exists /etc/systemd/system/ovos-admin-phal.service
+file_exists /etc/systemd/system/splashscreen.service
+file_exists /etc/systemd/system/i2csound.service
+file_exists /etc/systemd/system/autoconfigure_soundcard.service
+file_exists /etc/systemd/system/ovos-reboot-signal.service
+file_exists /etc/systemd/system/ovos-shutdown-signal.service
+
+# --- system services (enabled) ---
+unit_enabled ovos-admin-phal.service /etc/systemd/system/multi-user.target.wants
+unit_enabled splashscreen.service /etc/systemd/system/multi-user.target.wants
+unit_enabled i2csound.service /etc/systemd/system/multi-user.target.wants
+unit_enabled autoconfigure_soundcard.service /etc/systemd/system/multi-user.target.wants
+unit_enabled ovos-reboot-signal.service /etc/systemd/system/multi-user.target.wants
+unit_enabled ovos-shutdown-signal.service /etc/systemd/system/multi-user.target.wants
+
+# --- user services (installed) ---
+file_exists /home/ovos/.config/systemd/user/ovos.service
+file_exists /home/ovos/.config/systemd/user/ovos-messagebus.service
+file_exists /home/ovos/.config/systemd/user/ovos-skills.service
+file_exists /home/ovos/.config/systemd/user/ovos-audio.service
+file_exists /home/ovos/.config/systemd/user/ovos-listener.service
+file_exists /home/ovos/.config/systemd/user/ovos-phal.service
+file_exists /home/ovos/.config/systemd/user/ovos-gui.service
+file_exists /home/ovos/.config/systemd/user/ovos-ggwave.service
+
+# --- user services (enabled via default.target.wants) ---
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos.service
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos-messagebus.service
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos-skills.service
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos-audio.service
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos-listener.service
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos-phal.service
+symlink_valid /home/ovos/.config/systemd/user/default.target.wants/ovos-gui.service
+
+# --- disabled-by-default services must stay disabled ---
+file_absent /home/ovos/.config/systemd/user/default.target.wants/ovos-librespot.service
+file_absent /home/ovos/.config/systemd/user/default.target.wants/ovos-spotifyd.service
+
+# --- CLI tooling shipped by overlays ---
+file_exists /usr/local/bin/ovos-update
+file_exists /usr/local/bin/ovos-support
+file_exists /usr/local/bin/ovos-help
+file_exists /usr/local/bin/ovos-audio-diagnostics
+file_exists /usr/libexec/ovos-i2csound
+
+# --- OVOS configuration ---
+file_exists /etc/mycroft/mycroft.conf
