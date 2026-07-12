@@ -6,10 +6,11 @@
 set -e
 
 : "${OVOS_USER:=ovos}"
-: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
+: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-alpha.txt}"
 
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
+export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}"
 
 # TODO - no wake word for "wake up"
 #echo "Copying overlays..."

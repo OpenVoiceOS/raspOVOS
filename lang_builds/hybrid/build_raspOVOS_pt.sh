@@ -7,13 +7,14 @@ set -e
 
 ## Intended to run on top of the raspOVOS FULL image
 : "${OVOS_USER:=ovos}"
-: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
+: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-alpha.txt}"
 
 # start from lite image
 bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_pt.sh
 
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
+export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}"
 
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang pt-PT --hybrid --male --platform rpi4
