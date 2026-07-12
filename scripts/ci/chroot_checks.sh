@@ -37,8 +37,10 @@ in_image() {
     chroot "$MNT" /bin/bash -c "$*"
 }
 
+# run as the ovos user via --userspec (sudo inside a bare chroot needs /proc
+# and a pty; --userspec needs neither)
 as_ovos() {
-    chroot "$MNT" sudo -u ovos /bin/bash -c "$*"
+    chroot --userspec=1000:1000 "$MNT" /bin/bash -c "export HOME=/home/ovos USER=ovos; $*"
 }
 
 VENV_PY="/home/ovos/.venvs/ovos/bin/python"

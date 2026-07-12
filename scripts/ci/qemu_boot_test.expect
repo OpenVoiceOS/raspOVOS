@@ -26,6 +26,11 @@ expect {
 }
 puts "\nBOOT-TEST: logged in"
 
+# systemctl --user needs the session bus env; serial getty logins don't
+# always export it even when pam_systemd ran
+send "export XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus\r"
+expect -re {\$ $}
+
 # --- wait for user units to settle ---
 set timeout $env(UNIT_BUDGET)
 send "for i in \$(seq 1 $env(UNIT_BUDGET)); do failed=\$(systemctl --user is-active ovos-messagebus ovos-skills ovos-audio ovos-listener ovos-phal 2>/dev/null | grep -cv '^active\$'); if \[ \"\$failed\" = 0 \]; then echo UNITS-OK; break; fi; sleep 1; done; \[ \"\$failed\" = 0 \] || { echo UNITS-FAIL; systemctl --user --no-pager --failed; }\r"
