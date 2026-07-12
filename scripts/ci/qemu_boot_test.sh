@@ -1,13 +1,13 @@
 #!/bin/bash
 # Tier 3 — full boot smoke test in qemu-system-aarch64 (no hardware).
 #
-# Boots the image on the 'virt' machine using the kernel/initrd shipped in
+# Boots the image on the 'raspi3b' machine using the kernel/initrd shipped in
 # the image's boot partition, watches the serial console, logs in, and
 # asserts the OVOS stack came up:
 #   - every enabled ovos-* user unit reaches 'active' (retry budget)
 #   - journalctl -p err -b is empty modulo scripts/ci/journal-allowlist.txt
 #
-# LIMITATION (by design): the 'virt' machine does not exercise Raspberry Pi
+# LIMITATION (by design): raspi3b emulation does not exercise Pi 4/5
 # firmware, device-tree, HAT or audio paths — those live in the human
 # release checklist (docs/dev/release-checklist.md).
 #
@@ -21,7 +21,7 @@ source "${SCRIPT_DIR}/image_mount.sh"
 
 IMG="${1:?usage: qemu_boot_test.sh <image> [artifact-dir]}"
 ARTIFACTS="${2:-./boot-test-artifacts}"
-BOOT_TIMEOUT="${RASPOVOS_BOOT_TIMEOUT:-600}"     # seconds to reach login
+BOOT_TIMEOUT="${RASPOVOS_BOOT_TIMEOUT:-1500}"    # seconds to reach login (raspi3b TCG is slow)
 UNIT_BUDGET="${RASPOVOS_UNIT_BUDGET:-120}"       # seconds for units to settle
 USER_NAME="ovos"
 USER_PASS="ovos"
@@ -49,6 +49,7 @@ mount_image "$IMG" ro
 BOOT_DIR="$MNT/boot/firmware"
 [[ -d "$BOOT_DIR" ]] || BOOT_DIR="$MNT/boot"
 cp "$BOOT_DIR/kernel8.img" "$WORK/kernel8.img" || fail "kernel8.img not found in boot partition"
+cp "$BOOT_DIR/bcm2710-rpi-3-b.dtb" "$WORK/pi3.dtb" || fail "bcm2710-rpi-3-b.dtb not found in boot partition"
 # the boot partition carries one initramfs per kernel flavor
 # (initramfs7/initramfs8/initramfs_2712...); we boot kernel8.img so pick
 # initramfs8, falling back to the first match on older layouts
@@ -72,16 +73,24 @@ trap 'set +e; [[ -n "${QEMU_PID:-}" ]] && kill "$QEMU_PID" 2>/dev/null; rm -rf "
 
 # --- boot ---
 log "Booting image in qemu (timeout ${BOOT_TIMEOUT}s), serial -> $SERIAL_LOG"
-# the Raspberry Pi kernel has no virtio drivers; it does build in nvme,
-# xhci-pci and usb-storage (Pi 4/5 boot media), so present the disk as NVMe
-# and the NIC as a USB device
+# the Raspberry Pi kernel has no virtio drivers and its only PCI controller
+# driver is pcie-brcmstb, so neither 'virt' virtio-mmio nor 'virt' PCI
+# devices ever appear. Use the real Pi 3 machine model instead: SD card via
+# the native mmc controller, network as a USB device on the dwc2 controller.
+# raspi3b fixes RAM at 1 GiB — the lite image explicitly targets Pi 3.
+
+# the raspi3b SD controller requires a power-of-two disk size
+disk_bytes="$(stat -c %s "$WORK/disk.img")"
+pow2=1
+while (( pow2 < disk_bytes )); do pow2=$((pow2 * 2)); done
+truncate -s "$pow2" "$WORK/disk.img"
+
 QEMU_ARGS=(
-    -M virt -cpu cortex-a72 -smp 4 -m 2048
+    -M raspi3b
     -kernel "$WORK/kernel8.img"
-    -append "console=ttyAMA0 root=/dev/nvme0n1p2 rootwait rw"
-    -drive "file=$WORK/disk.img,format=raw,if=none,id=disk0"
-    -device "nvme,drive=disk0,serial=raspovos"
-    -device qemu-xhci
+    -dtb "$WORK/pi3.dtb"
+    -append "console=ttyAMA0,115200 root=/dev/mmcblk0p2 rootwait rw"
+    -drive "file=$WORK/disk.img,format=raw,if=sd"
     -netdev user,id=net0 -device usb-net,netdev=net0
     -nographic -serial mon:stdio
 )
