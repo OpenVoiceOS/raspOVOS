@@ -73,7 +73,7 @@ jobs:
           OVOS_USER: 'ovos'
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
-          CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
+          CONSTRAINTS: "https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-alpha.txt"
           BASE_IMAGE_URL: "${{ needs.resolve-base.outputs.base_image_url }}"
         with:
           base-image-url: ${{ needs.resolve-base.outputs.base_image_url }}

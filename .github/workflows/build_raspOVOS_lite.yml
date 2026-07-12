@@ -61,7 +61,7 @@ jobs:
           OVOS_USER: 'ovos'
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
-          CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
+          CONSTRAINTS: "https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-alpha.txt"
           BASE_IMAGE_URL: "${{ github.event.inputs.base_image_url || 'https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz' }}"
         with:
           base-image-url: ${{ github.event.inputs.base_image_url || 'https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz' }}

@@ -9,7 +9,9 @@ set -e
 : "${OVOS_USER:=ovos}"
 : "${PASSWORD:=ovos}"
 : "${HOSTNAME:=raspOVOS}"
-: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt}"
+: "${CONSTRAINTS:=https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-alpha.txt}"
+# every uv/pip invocation is constrained, even ones missing an explicit -c
+export UV_CONSTRAINT="$CONSTRAINTS" PIP_CONSTRAINT="$CONSTRAINTS"
 
 
 # Rename the default 'pi' user if the current user is not 'pi'.
