@@ -43,7 +43,7 @@ echo "Entering virtual environment..."
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 
 echo "Installing llama.cpp"
-uv pip install --no-progress https://github.com/abetlen/llama-cpp-python/releases/download/v0.3.2/llama_cpp_python-0.3.2-cp311-cp311-linux_aarch64.whl
+bash /mounted-github-repo/scripts/install_wheel.sh llama-cpp-python
 
 echo "Installing fasterwhisper"
 uv pip install --no-progress ovos-stt-plugin-fasterwhisper -c $CONSTRAINTS
