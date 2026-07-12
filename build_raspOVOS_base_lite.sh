@@ -174,10 +174,12 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 # Install additional Python dependencies within the virtual environment.
 uv pip install --no-progress wheel cython -c $CONSTRAINTS
 
-# Install ggwave in the virtual environment (prebuilt wheel matched to the
-# image's python ABI via wheels.txt; hard-fails on an unknown ABI).
-echo "Installing ggwave..."
-bash /mounted-github-repo/scripts/install_wheel.sh ggwave
+# Install ggwave from sdist — the prebuilt wheel host (whl.smartgic.io)
+# is gone (404). It is a small C++ extension; build-essential and
+# python3-dev are already installed, so building under emulation is
+# acceptable (~minutes).
+echo "Installing ggwave (from source)..."
+uv pip install --no-progress ggwave
 
 # Install OVOS dependencies in the virtual environment.
 echo "Installing OVOS..."
