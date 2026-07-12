@@ -257,3 +257,6 @@ chmod 644 /var/lib/systemd/linger/$OVOS_USER
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean
+
+echo "Writing build manifest..."
+bash /mounted-github-repo/scripts/write_build_manifest.sh lite

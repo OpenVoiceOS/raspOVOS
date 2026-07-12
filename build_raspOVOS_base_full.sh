@@ -58,3 +58,6 @@ echo "Downloading whisper tiny model (for lang detection)..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-tiny'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
 # since script was run as root, we need to move downloaded files
 mv /root/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/ /home/ovos/.cache/huggingface/hub/models--Systran--faster-whisper-tiny/
+
+echo "Writing build manifest..."
+bash /mounted-github-repo/scripts/write_build_manifest.sh offline

@@ -84,6 +84,7 @@ jobs:
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
+          BASE_IMAGE_URL: "${{ needs.resolve-base.outputs.base_image_url }}"
         with:
           base-image-url: ${{ needs.resolve-base.outputs.base_image_url }}
           image-path: raspOVOS-DEV-bookworm-arm64-offline.img
@@ -91,7 +92,7 @@ jobs:
           shrink: true
           cache: false
           mount-repository: true
-          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
+          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS,BASE_IMAGE_URL,GITHUB_SHA,GITHUB_RUN_ID,GITHUB_REPOSITORY
           script-path: build_raspOVOS_base_full.sh
       - name: Print outputs
         shell: bash

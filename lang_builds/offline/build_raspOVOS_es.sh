@@ -30,3 +30,6 @@ mv /root/.cache/huggingface/hub/models--Jarbas--stt_es_citrinet_512_onnx/ /home/
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$OVOS_USER
+
+echo "Updating build manifest..."
+LANG_CODE=es bash /mounted-github-repo/scripts/write_build_manifest.sh offline

@@ -26,3 +26,5 @@ chown -R 1000:1000 /home/$OVOS_USER
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean
+echo "Updating build manifest..."
+LANG_CODE=nl bash /mounted-github-repo/scripts/write_build_manifest.sh lite

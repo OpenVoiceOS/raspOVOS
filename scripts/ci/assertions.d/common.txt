@@ -60,3 +60,7 @@ file_exists /usr/libexec/ovos-i2csound
 
 # --- OVOS configuration ---
 file_exists /etc/mycroft/mycroft.conf
+
+# --- build manifest (reproducibility/debugging) ---
+json_valid /opt/ovos/build-manifest.json
+grep_file /opt/ovos/build-manifest.json resolved_packages
