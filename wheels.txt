@@ -4,5 +4,6 @@
 # bump must add a row here, never break silently at boot.
 #
 # Columns (whitespace-separated): package  abi  url
-ggwave  cp311  https://whl.smartgic.io/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
+# NOTE: ggwave is built from sdist in the image (its former wheel host,
+# whl.smartgic.io, is gone); only heavy builds belong here.
 llama-cpp-python  cp311  https://github.com/abetlen/llama-cpp-python/releases/download/v0.3.2/llama_cpp_python-0.3.2-cp311-cp311-linux_aarch64.whl
