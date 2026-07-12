@@ -65,6 +65,8 @@ fi
 # never installed (the vendoring-drift bug class).
 log "Verifying systemd unit Exec targets"
 while IFS= read -r unit; do
+    # skip dangling alias symlinks (dbus-org.*.service pointing at masked units)
+    [[ -e "$unit" ]] || continue
     exec_paths="$(grep -hoE '^Exec[a-zA-Z]*=-?[^ ]+' "$unit" | sed 's/^Exec[a-zA-Z]*=-?//' || true)"
     for p in $exec_paths; do
         [[ "$p" == /* ]] || continue
