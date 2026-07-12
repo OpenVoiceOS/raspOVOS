@@ -7,11 +7,11 @@
 set -e
 
 echo_green() {
-    echo -e "\x1B[1m>>> \x1B[0m\x1B[32;1m$@\x1B[0m"
+    echo -e "\x1B[1m>>> \x1B[0m\x1B[32;1m$*\x1B[0m"
 }
 
 error() {
-    echo -e "\x1B[31;1mERROR: $@\x1B[0m"
+    echo -e "\x1B[31;1mERROR: $*\x1B[0m"
     exit 1
 }
 

@@ -156,12 +156,12 @@ echo ""
 echo "# Available audio outputs:"
 ls_sinks
 
-if $SOUND_SERVER == "alsa"; then
+if [ "$SOUND_SERVER" = "alsa" ]; then
     # no sinks, guess we |  awk '/Video/ {exit} {print}' | could print asound.rc
     exit 0
 fi
 
-if $SOUND_SERVER == "pulseaudio"; then
+if [ "$SOUND_SERVER" = "pulseaudio" ]; then
     echo "pulseaudio support not implemented"
     exit 1
 fi
