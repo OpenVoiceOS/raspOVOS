@@ -1,7 +1,8 @@
 # RaspOVOS
 
+raspOVOS is the **flagship OpenVoiceOS experience for the Raspberry Pi**: ready-to-flash images that turn a Pi into a voice assistant.
 
-Using [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier), we download
+Using [TigreGotico/rpi-image-modifier](https://github.com/TigreGotico/rpi-image-modifier) (a fork of [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier)), we download
 a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top. 
 
 <p align="center">
