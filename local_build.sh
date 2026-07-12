@@ -19,7 +19,7 @@ BUILD_DIR="/tmp/rpi-image-modifier-raspOVOS"
 RASPOVOS_DIR="$(pwd -P)"  # raspOVOS repo
 
 # === REQUIRED ARGUMENTS ===
-script_path="build_raspOVOS.sh" # relative path
+script_path="build_raspOVOS_base_lite.sh" # relative path
 
 base_image="https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz"
 image_maxsize="8G"
@@ -31,9 +31,44 @@ compress_with_xz=false
 extra_xz_args=""
 shell="/bin/bash"
 
+usage() {
+    cat <<EOF
+Usage: $0 [options]
+
+Build a raspOVOS image locally (equivalent to the GitHub Actions build).
+Needs root via sudo, qemu-user-static binfmt, and systemd-nspawn.
+
+Options:
+  --script-path PATH        Provisioning script to run inside the image
+                            (default: build_raspOVOS_base_lite.sh; lang images
+                            use lang_builds/{lite,hybrid,offline}/build_raspOVOS_<lang>.sh)
+  --base-image URL|FILE     Base image to modify (default: pinned Raspberry Pi OS Lite)
+  --image-maxsize SIZE      Grow image to SIZE before provisioning (default: 8G)
+  --image-output-path PATH  Output filename (default: raspovos-dev-bookworm-arm64-lite.img.xz)
+  --shrink                  Shrink the image with PiShrink
+  --compress-with-xz        Compress the output with xz
+  --extra-xz-args ARGS      Extra arguments for xz
+  --shell SHELL             Shell used inside the container (default: /bin/bash)
+  -h, --help                Show this help and exit
+EOF
+}
+
+check_deps() {
+    local missing=()
+    local dep
+    for dep in losetup parted e2fsck resize2fs systemd-nspawn wget file fallocate xz; do
+        command -v "$dep" >/dev/null 2>&1 || missing+=("$dep")
+    done
+    [[ -f /usr/bin/qemu-aarch64-static ]] || missing+=("qemu-aarch64-static (qemu-user-static)")
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        error "Missing dependencies: ${missing[*]}"
+    fi
+}
+
 # === Parse arguments ===
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -h|--help) usage; exit 0 ;;
         --script-path) script_path="$2"; shift ;;
         --base-image) base_image="$2"; shift ;;
         --image-maxsize) image_maxsize="$2"; shift ;;
@@ -59,6 +94,13 @@ if [[ ! -f "$script_path" ]]; then
     error "Script not found: $script_path"
 fi
 
+check_deps
+
+# resolve local base images to absolute paths before we cd into BUILD_DIR
+if [[ ! "$base_image" =~ ^https?:// && -f "$base_image" ]]; then
+    base_image="$(realpath "$base_image")"
+fi
+
 if $shrink_image; then
     sudo wget -q -O /usr/local/bin/pishrink.sh https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
     sudo chmod +x /usr/local/bin/pishrink.sh
@@ -73,8 +115,7 @@ if [[ "$base_image" =~ ^https?:// ]]; then
     wget -q -O rpi.img "${base_image}"
 elif [[ -f "$base_image" ]]; then
     echo_green "Copying local image: ${base_image}"
-    #cp -v "$base_image" rpi.img
-    #ln -s "$base_image" rpi.img
+    cp -v "$base_image" rpi.img
 else
     error "Invalid base_image path or URL: ${base_image}"
 fi

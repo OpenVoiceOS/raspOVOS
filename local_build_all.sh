@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# This script is equivalent to the github action but tuned to run locally
-# if you cloned the raspOVOS repo you can use this script as long as qemu is properly setup in your machine
-# NOTE: runs local_build.sh for all language specific images
+# This script is equivalent to the github actions but tuned to run locally.
+# It drives local_build.sh: first the base image (build_raspOVOS_base_lite.sh,
+# optionally build_raspOVOS_base_full.sh on top), then the per-language images
+# from lang_builds/{lite,hybrid,offline}/.
+# Requires qemu-user-static + systemd-nspawn, see local_build.sh --help.
 
 set -e
 
@@ -19,44 +21,81 @@ error() {
     exit 1
 }
 
+usage() {
+    cat <<EOF
+Usage: $0 [--variant lite|hybrid|offline] [--langs "xx yy"] [--base-image URL|FILE] [--skip-base]
+
+Builds the raspOVOS base image, then the per-language images for one variant.
+
+Options:
+  --variant VARIANT    Which lang_builds variant to build (default: lite)
+  --langs "xx yy"      Space-separated language codes (default: every script
+                       present in lang_builds/<variant>/)
+  --base-image PATH    Base image for the base build (default: local_build.sh's
+                       pinned Raspberry Pi OS Lite URL)
+  --skip-base          Reuse an existing local base image instead of building it;
+                       requires --base-image pointing at a raspOVOS base image
+  -h, --help           Show this help and exit
+EOF
+}
+
 BASEDIR="$(pwd -P)"
+variant="lite"
+langs=""
+base_image=""
+skip_base=false
 
-LANGS=(ca gl en es eu pt nl de it multilingual)
-AUDIO_BASE="rpi-bookworm-arm64-audio-base.img.xz"
-RASPOVOS_BASE="raspOVOS-bookworm-arm64-DEV.img.xz"
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help) usage; exit 0 ;;
+        --variant) variant="$2"; shift ;;
+        --langs) langs="$2"; shift ;;
+        --base-image) base_image="$2"; shift ;;
+        --skip-base) skip_base=true ;;
+        *) echo "Unknown option: $1"; usage; exit 1 ;;
+    esac
+    shift
+done
 
-echo_green "Starting build: Audio base image"
-if /bin/bash ./build.sh --script-path build_audio_base.sh --image-output-path "$AUDIO_BASE"; then
-    echo_green "Audio base image built successfully"
-else
-    error "Failed to build audio base image"
+[[ -d "lang_builds/$variant" ]] || error "Unknown variant: $variant (expected lite, hybrid or offline)"
+
+if [[ -z "$langs" ]]; then
+    langs="$(find "lang_builds/$variant" -name 'build_raspOVOS_*.sh' -printf '%f\n' \
+        | sed 's/build_raspOVOS_\(.*\)\.sh/\1/' | sort | tr '\n' ' ')"
 fi
 
-echo_green "Starting build: raspOVOS base image"
-if /bin/bash ./build.sh --script-path build_raspOVOS.sh --image-output-path "$RASPOVOS_BASE" --base-image "$BASEDIR/$AUDIO_BASE"; then
-    echo_green "raspOVOS base image built successfully"
+RASPOVOS_BASE="raspOVOS-DEV-bookworm-arm64-lite.img"
+
+if $skip_base; then
+    [[ -f "$base_image" ]] || error "--skip-base requires --base-image pointing at an existing raspOVOS base image"
+    RASPOVOS_BASE="$base_image"
+    echo_yellow "Skipping base build, reusing: $RASPOVOS_BASE"
 else
-    error "Failed to build raspOVOS base image"
+    echo_green "Starting build: raspOVOS base image (lite)"
+    base_args=()
+    [[ -n "$base_image" ]] && base_args=(--base-image "$base_image")
+    /bin/bash ./local_build.sh --script-path build_raspOVOS_base_lite.sh \
+        --image-output-path "$RASPOVOS_BASE" "${base_args[@]}" \
+        || error "Failed to build raspOVOS base image"
+    if [[ "$variant" == "offline" ]]; then
+        echo_green "Starting build: raspOVOS base image (full, needed for offline langs)"
+        /bin/bash ./local_build.sh --script-path build_raspOVOS_base_full.sh \
+            --image-output-path "$RASPOVOS_BASE" --base-image "$BASEDIR/$RASPOVOS_BASE" \
+            || error "Failed to build raspOVOS full base image"
+    fi
 fi
 
+for lang in $langs; do
+    SCRIPT="lang_builds/$variant/build_raspOVOS_${lang}.sh"
+    OUTPUT="raspOVOS-bookworm-arm64-${variant}-${lang}.img"
 
-
-LANGS=(ca gl en es eu pt nl de it multilingual)
-RASPOVOS_BASE="https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-05-29/raspOVOS-DEV-bookworm-arm64-lite.img.xz"
-
-for lang in "${LANGS[@]}"; do
-    IMG_VAR="RASPOVOS_${lang}"
-    IMG_PATH="${!IMG_VAR}"
-    SCRIPT="build_raspOVOS_${lang}.sh"
-
-    echo_green "Processing language: $lang"
+    echo_green "Processing language: $lang ($variant)"
     if [[ -f "$SCRIPT" ]]; then
         echo_yellow "Running build script: $SCRIPT"
-        if /bin/bash ./build.sh --script-path "$SCRIPT" --image-output-path "$IMG_PATH" --base-image "$RASPOVOS_BASE"; then
-            echo_green "Build for $lang completed successfully"
-        else
-            error "Build failed for $lang"
-        fi
+        /bin/bash ./local_build.sh --script-path "$SCRIPT" \
+            --image-output-path "$OUTPUT" --base-image "$BASEDIR/$RASPOVOS_BASE" \
+            || error "Build failed for $lang"
+        echo_green "Build for $lang completed successfully: $OUTPUT"
     else
         echo_yellow "Script $SCRIPT not found, skipping build for $lang"
     fi
