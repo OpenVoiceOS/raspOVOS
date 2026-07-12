@@ -6,6 +6,8 @@
 #
 # Usage (root): scripts/ci/assert_image.sh <image[.xz]> [table ...]
 #   default tables: common.txt (+ any extra table names passed, e.g. "gui")
+# For self-tests, RASPOVOS_CI_ROOTFS=<dir> runs the assertions against an
+# unpacked rootfs directory instead of loop-mounting an image (no root needed).
 #
 # Table syntax — one assertion per line, '#' comments allowed:
 #   file_exists <path>            path exists (file, dir or symlink target)
@@ -23,7 +25,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=scripts/ci/image_mount.sh
 source "${SCRIPT_DIR}/image_mount.sh"
 
-IMG="${1:?usage: assert_image.sh <image> [table ...]}"
+IMG="${1:?usage: assert_image.sh <image|-> [table ...]}"
 shift || true
 TABLES=(common)
 [[ $# -gt 0 ]] && TABLES+=("$@")
@@ -69,8 +71,14 @@ check_line() {
     esac
 }
 
-trap cleanup_image EXIT
-mount_image "$IMG" ro
+if [[ -n "${RASPOVOS_CI_ROOTFS:-}" ]]; then
+    MNT="$RASPOVOS_CI_ROOTFS"
+    [[ -d "$MNT" ]] || fail "RASPOVOS_CI_ROOTFS is not a directory: $MNT"
+    log "Using rootfs directory: $MNT"
+else
+    trap cleanup_image EXIT
+    mount_image "$IMG" ro
+fi
 
 for table in "${TABLES[@]}"; do
     table_file="${SCRIPT_DIR}/assertions.d/${table}.txt"
