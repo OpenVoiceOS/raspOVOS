@@ -1,3 +1,4 @@
+#!/bin/bash
 # TODO - flesh out and include in image as /usr/local/bin/ovos-update
 #  also see current alias in .bash_aliases
 

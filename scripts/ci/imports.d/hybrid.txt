@@ -1,0 +1,8 @@
+# Python modules that must import inside the venv of a hybrid image.
+ovos_core
+ovos_audio
+ovos_dinkum_listener
+ovos_gui
+ovos_bus_client
+ovos_config
+ovos_utils

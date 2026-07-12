@@ -1,0 +1,12 @@
+# Regexes (extended) for journal -p err lines that are expected/benign in the
+# qemu 'virt' boot environment. EVERY entry needs a comment saying why.
+
+# qemu 'virt' has no Pi firmware interface — vcgencmd/firmware errors are
+# expected off-hardware and covered by the hardware release checklist
+vchiq|vcgencmd|raspberrypi-firmware
+
+# no sound hardware exists in the CI VM; audio device probing may error
+snd_|alsa.*(no soundcards|not found)
+
+# no i2c bus in the CI VM; ovos-i2csound probing is hardware-only
+i2c.*(no such|not found)

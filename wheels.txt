@@ -1,0 +1,8 @@
+# Prebuilt arm64 wheels for packages with no PyPI aarch64 binaries.
+# Consumed by scripts/install_wheel.sh, which selects the row matching the
+# image's python ABI tag (cpXY) and HARD-FAILS if none exists — a python
+# bump must add a row here, never break silently at boot.
+#
+# Columns (whitespace-separated): package  abi  url
+ggwave  cp311  https://whl.smartgic.io/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
+llama-cpp-python  cp311  https://github.com/abetlen/llama-cpp-python/releases/download/v0.3.2/llama_cpp_python-0.3.2-cp311-cp311-linux_aarch64.whl

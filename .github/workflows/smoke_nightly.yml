@@ -1,0 +1,53 @@
+name: nightly boot smoke test
+
+# Tier 3: boots the newest published DEV lite base image in qemu and checks
+# the OVOS stack comes up. Serial log + journal errors are always uploaded
+# as artifacts. See scripts/ci/qemu_boot_test.sh for scope and limitations.
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_url:
+        description: "Image URL to boot (default: newest DEV lite base release)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "30 4 * * *"
+
+jobs:
+  boot-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install test dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq qemu-system-arm expect xz-utils
+
+      - name: Resolve image URL
+        id: resolve
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.inputs.image_url }}" ]; then
+            url="${{ github.event.inputs.image_url }}"
+          else
+            url="$(./scripts/ci/resolve_base_image.sh raspOVOS-DEV-bookworm-arm64-lite)"
+          fi
+          echo "url=$url" >> $GITHUB_OUTPUT
+          echo "Booting: $url"
+
+      - name: Download image
+        run: wget -q -O image.img.xz "${{ steps.resolve.outputs.url }}"
+
+      - name: "Tier 3: qemu boot smoke"
+        run: sudo make test-boot IMG=image.img.xz
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-test-artifacts
+          path: boot-test-artifacts/
+          if-no-files-found: ignore

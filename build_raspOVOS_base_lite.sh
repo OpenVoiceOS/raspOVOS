@@ -174,10 +174,10 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 # Install additional Python dependencies within the virtual environment.
 uv pip install --no-progress wheel cython -c $CONSTRAINTS
 
-# Install ggwave in the virtual environment.
+# Install ggwave in the virtual environment (prebuilt wheel matched to the
+# image's python ABI via wheels.txt; hard-fails on an unknown ABI).
 echo "Installing ggwave..."
-# NOTE: update this wheel if python version changes
-uv pip install --no-progress https://whl.smartgic.io/ggwave-0.4.2-cp311-cp311-linux_aarch64.whl
+bash /mounted-github-repo/scripts/install_wheel.sh ggwave
 
 # Install OVOS dependencies in the virtual environment.
 echo "Installing OVOS..."
@@ -257,3 +257,6 @@ chmod 644 /var/lib/systemd/linger/$OVOS_USER
 
 echo "Cleaning up apt packages..."
 apt-get --purge autoremove -y && apt-get clean
+
+echo "Writing build manifest..."
+bash /mounted-github-repo/scripts/write_build_manifest.sh lite

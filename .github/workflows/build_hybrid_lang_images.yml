@@ -2,6 +2,11 @@ name: build all hybrid raspOVOS images
 
 on:
   workflow_dispatch:
+    inputs:
+      base_image_url:
+        description: "Override the raspOVOS base image URL (reproduce an old build)"
+        required: false
+        default: ""
   push:
     branches:
       - dev
@@ -23,9 +28,31 @@ jobs:
           release_name="raspOVOS-bookworm-arm64-hybrid-${current_date}"
           echo "release_name=$release_name" >> $GITHUB_OUTPUT
 
+  # Resolve the newest base image release (override via input)
+  resolve-base:
+    runs-on: ubuntu-24.04
+    outputs:
+      base_image_url: ${{ steps.resolve.outputs.base_image_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve base image URL
+        id: resolve
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.inputs.base_image_url }}" ]; then
+            url="${{ github.event.inputs.base_image_url }}"
+          else
+            url="$(./scripts/ci/resolve_base_image.sh raspOVOS-DEV-bookworm-arm64-lite)"
+          fi
+          echo "base_image_url=$url" >> $GITHUB_OUTPUT
+          echo "Using base image: $url"
+
   build-all-images:
     runs-on: ubuntu-24.04
-    needs: get-date-release-name
+    needs: [ get-date-release-name, resolve-base ]
     strategy:
       fail-fast: false
       matrix:
@@ -47,15 +74,25 @@ jobs:
           PASSWORD: 'ovos'
           HOSTNAME: "raspOVOS"
           CONSTRAINTS: "https://github.com/OpenVoiceOS/ovos-releases/raw/refs/heads/main/constraints-alpha.txt"
+          BASE_IMAGE_URL: "${{ needs.resolve-base.outputs.base_image_url }}"
         with:
-          base-image-url: https://github.com/OpenVoiceOS/raspOVOS/releases/download/raspOVOS-DEV-bookworm-arm64-lite-2025-06-18/raspOVOS-DEV-bookworm-arm64-lite.img.xz
+          base-image-url: ${{ needs.resolve-base.outputs.base_image_url }}
           image-path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-hybrid.img
           compress-with-xz: true
           shrink: true
           cache: false
           mount-repository: true
-          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS
+          env-vars: USER,PASSWORD,HOSTNAME,CONSTRAINTS,BASE_IMAGE_URL,GITHUB_SHA,GITHUB_RUN_ID,GITHUB_REPOSITORY
           script-path: lang_builds/hybrid/build_raspOVOS_${{ matrix.lang }}.sh
+
+      - name: Install test dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq qemu-user-static binfmt-support systemd-container
+
+      - name: "Tier 1: static image assertions"
+        run: sudo make test-static IMG=raspOVOS-${{ matrix.lang }}-bookworm-arm64-hybrid.img.xz
+
+      - name: "Tier 2: chroot functional checks"
+        run: sudo make test-chroot IMG=raspOVOS-${{ matrix.lang }}-bookworm-arm64-hybrid.img.xz VARIANT=hybrid
 
       - name: Upload built image as artifact
         uses: actions/upload-artifact@v4
