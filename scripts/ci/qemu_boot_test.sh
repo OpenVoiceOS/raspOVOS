@@ -86,7 +86,10 @@ log "Checking journal errors against allowlist"
 JOURNAL_ERR="$ARTIFACTS/journal-err.log"
 sed -n '/JOURNAL-ERR-BEGIN/,/JOURNAL-ERR-END/p' "$SERIAL_LOG" \
     | grep -vE 'JOURNAL-ERR-(BEGIN|END)|^-- ' > "$JOURNAL_ERR" || true
-UNEXPECTED="$(grep -vEf "${SCRIPT_DIR}/journal-allowlist.txt" "$JOURNAL_ERR" | grep -vE '^\s*$' || true)"
+# strip comments/blank lines from the allowlist first — grep -f treats every
+# line as a live regex and an empty line would match (and suppress) everything
+ALLOW_PATTERNS="$(grep -vE '^\s*(#|$)' "${SCRIPT_DIR}/journal-allowlist.txt")"
+UNEXPECTED="$(grep -vEf <(echo "$ALLOW_PATTERNS") "$JOURNAL_ERR" | grep -vE '^\s*$' || true)"
 if [[ -n "$UNEXPECTED" ]]; then
     echo "$UNEXPECTED" >&2
     fail "unexpected journal errors (add benign ones to journal-allowlist.txt WITH a why-comment)"

@@ -30,6 +30,7 @@ c_fail() { echo -e "\x1B[31;1mCHECK FAIL: $*\x1B[0m" >&2; ERRORS=$((ERRORS + 1))
 
 trap cleanup_image EXIT
 mount_image "$IMG" rw   # rw: we drop qemu-aarch64-static in, removed on exit
+bind_system_mounts
 
 cp /usr/bin/qemu-aarch64-static "$MNT/usr/bin/" 2>/dev/null || true
 

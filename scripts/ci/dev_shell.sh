@@ -16,6 +16,7 @@ command -v systemd-nspawn >/dev/null 2>&1 || fail "systemd-container is required
 
 trap cleanup_image EXIT
 mount_image "$IMG" rw
+# nspawn manages its own /proc etc.; no bind_system_mounts needed here
 
 cp /usr/bin/qemu-aarch64-static "$MNT/usr/bin/"
 log "Entering image (exit the shell to unmount)"

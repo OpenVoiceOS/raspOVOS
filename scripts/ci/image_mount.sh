@@ -53,6 +53,16 @@ mount_image() {
     log "Mounted rootfs at $MNT"
 }
 
+# Bind-mount the host's /proc, /sys, /dev into the image rootfs so chrooted
+# processes work (python multiprocessing, /dev/null, …). cleanup_image's
+# `umount -R` tears these down with the rest.
+bind_system_mounts() {
+    mount --bind /proc "$MNT/proc"
+    mount --bind /sys "$MNT/sys"
+    mount --bind /dev "$MNT/dev"
+    mount --bind /dev/pts "$MNT/dev/pts"
+}
+
 cleanup_image() {
     set +e
     if [[ -n "$MNT" && -d "$MNT" ]]; then

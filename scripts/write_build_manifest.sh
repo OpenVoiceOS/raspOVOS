@@ -16,29 +16,36 @@ VENV_PIP="${VENV_PIP:-/home/${OVOS_USER:-ovos}/.venvs/ovos/bin/pip}"
 
 mkdir -p "$(dirname "$OUT")"
 
-PY_ABI="$(python3 -c 'import sys; print(f"cp{sys.version_info[0]}{sys.version_info[1]}")')"
-OS_PRETTY="$(grep PRETTY_NAME /etc/os-release | cut -d'"' -f2)"
-BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-FROZEN="$("$VENV_PIP" freeze --all 2>/dev/null | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().splitlines()))')"
+# values reach python via the environment (quoted heredoc): no shell
+# interpolation into python source, no quoting/injection hazards
+M_PY_ABI="$(python3 -c 'import sys; print(f"cp{sys.version_info[0]}{sys.version_info[1]}")')"
+M_OS_PRETTY="$(grep PRETTY_NAME /etc/os-release | cut -d'"' -f2)"
+M_BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+M_FROZEN="$("$VENV_PIP" freeze --all 2>/dev/null || true)"
 
-RUN_URL=""
+M_RUN_URL=""
 if [[ -n "${GITHUB_RUN_ID:-}" && -n "${GITHUB_REPOSITORY:-}" ]]; then
-    RUN_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+    M_RUN_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 fi
 
-python3 - "$OUT" <<PYEOF
-import json, sys
+export M_PY_ABI M_OS_PRETTY M_BUILD_DATE M_FROZEN M_RUN_URL VARIANT
+export M_LANG="${LANG_CODE:-}" M_CONSTRAINTS="${CONSTRAINTS:-}" \
+       M_BASE_URL="${BASE_IMAGE_URL:-}" M_SHA="${GITHUB_SHA:-}"
+
+python3 - "$OUT" <<'PYEOF'
+import json, os, sys
+env = os.environ
 manifest = {
-    "variant": "${VARIANT}",
-    "lang": "${LANG_CODE:-}",
-    "build_date": "${BUILD_DATE}",
-    "base_os": "${OS_PRETTY}",
-    "python_abi": "${PY_ABI}",
-    "constraints": "${CONSTRAINTS:-}",
-    "base_image_url": "${BASE_IMAGE_URL:-}",
-    "git_sha": "${GITHUB_SHA:-}",
-    "workflow_run": "${RUN_URL}",
-    "resolved_packages": ${FROZEN},
+    "variant": env["VARIANT"],
+    "lang": env["M_LANG"],
+    "build_date": env["M_BUILD_DATE"],
+    "base_os": env["M_OS_PRETTY"],
+    "python_abi": env["M_PY_ABI"],
+    "constraints": env["M_CONSTRAINTS"],
+    "base_image_url": env["M_BASE_URL"],
+    "git_sha": env["M_SHA"],
+    "workflow_run": env["M_RUN_URL"],
+    "resolved_packages": env["M_FROZEN"].splitlines(),
 }
 with open(sys.argv[1], "w") as f:
     json.dump(manifest, f, indent=2, sort_keys=True)
