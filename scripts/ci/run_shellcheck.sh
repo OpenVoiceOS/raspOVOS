@@ -1,7 +1,7 @@
 #!/bin/bash
 # Lint every shell script in the repo: *.sh files plus extensionless scripts
 # (overlays/**/usr/local/bin, usr/libexec) identified by a sh/bash shebang.
-# Severity gate is set in .shellcheckrc; run locally with:
+# Run locally with:
 #   ./scripts/ci/run_shellcheck.sh
 set -euo pipefail
 

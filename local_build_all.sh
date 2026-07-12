@@ -64,23 +64,26 @@ if [[ -z "$langs" ]]; then
         | sed 's/build_raspOVOS_\(.*\)\.sh/\1/' | sort | tr '\n' ' ')"
 fi
 
-RASPOVOS_BASE="raspOVOS-DEV-bookworm-arm64-lite.img"
+# BASE_NAME is the output filename local_build.sh writes into the repo root;
+# BASE_PATH is the absolute path the language builds consume.
+BASE_NAME="raspOVOS-DEV-bookworm-arm64-${variant}-base.img"
+BASE_PATH="$BASEDIR/$BASE_NAME"
 
 if $skip_base; then
     [[ -f "$base_image" ]] || error "--skip-base requires --base-image pointing at an existing raspOVOS base image"
-    RASPOVOS_BASE="$base_image"
-    echo_yellow "Skipping base build, reusing: $RASPOVOS_BASE"
+    BASE_PATH="$(realpath "$base_image")"
+    echo_yellow "Skipping base build, reusing: $BASE_PATH"
 else
     echo_green "Starting build: raspOVOS base image (lite)"
     base_args=()
     [[ -n "$base_image" ]] && base_args=(--base-image "$base_image")
     /bin/bash ./local_build.sh --script-path build_raspOVOS_base_lite.sh \
-        --image-output-path "$RASPOVOS_BASE" "${base_args[@]}" \
+        --image-output-path "$BASE_NAME" "${base_args[@]}" \
         || error "Failed to build raspOVOS base image"
     if [[ "$variant" == "offline" ]]; then
         echo_green "Starting build: raspOVOS base image (full, needed for offline langs)"
         /bin/bash ./local_build.sh --script-path build_raspOVOS_base_full.sh \
-            --image-output-path "$RASPOVOS_BASE" --base-image "$BASEDIR/$RASPOVOS_BASE" \
+            --image-output-path "$BASE_NAME" --base-image "$BASE_PATH" \
             || error "Failed to build raspOVOS full base image"
     fi
 fi
@@ -93,7 +96,7 @@ for lang in $langs; do
     if [[ -f "$SCRIPT" ]]; then
         echo_yellow "Running build script: $SCRIPT"
         /bin/bash ./local_build.sh --script-path "$SCRIPT" \
-            --image-output-path "$OUTPUT" --base-image "$BASEDIR/$RASPOVOS_BASE" \
+            --image-output-path "$OUTPUT" --base-image "$BASE_PATH" \
             || error "Build failed for $lang"
         echo_green "Build for $lang completed successfully: $OUTPUT"
     else
