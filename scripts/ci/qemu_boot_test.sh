@@ -72,12 +72,17 @@ trap 'set +e; [[ -n "${QEMU_PID:-}" ]] && kill "$QEMU_PID" 2>/dev/null; rm -rf "
 
 # --- boot ---
 log "Booting image in qemu (timeout ${BOOT_TIMEOUT}s), serial -> $SERIAL_LOG"
+# the Raspberry Pi kernel has no virtio drivers; it does build in nvme,
+# xhci-pci and usb-storage (Pi 4/5 boot media), so present the disk as NVMe
+# and the NIC as a USB device
 QEMU_ARGS=(
     -M virt -cpu cortex-a72 -smp 4 -m 2048
     -kernel "$WORK/kernel8.img"
-    -append "console=ttyAMA0 root=/dev/vda2 rootwait rw"
-    -drive "file=$WORK/disk.img,format=raw,if=virtio"
-    -netdev user,id=net0 -device virtio-net-device,netdev=net0
+    -append "console=ttyAMA0 root=/dev/nvme0n1p2 rootwait rw"
+    -drive "file=$WORK/disk.img,format=raw,if=none,id=disk0"
+    -device "nvme,drive=disk0,serial=raspovos"
+    -device qemu-xhci
+    -netdev user,id=net0 -device usb-net,netdev=net0
     -nographic -serial mon:stdio
 )
 [[ -n "$INITRD" ]] && QEMU_ARGS+=(-initrd "$INITRD")
