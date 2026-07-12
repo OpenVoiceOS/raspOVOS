@@ -1,0 +1,32 @@
+name: downstream contract guard
+
+# Downstream images build on raspOVOS bases (docs/reference/downstream.md).
+# PRs touching contract-bearing files must say BREAKING in the PR body (or
+# confirm no interface changed) so downstream maintainers get a heads-up.
+
+on:
+  pull_request:
+    branches: [dev]
+    paths:
+      - 'build_raspOVOS_base_lite.sh'
+      - 'build_raspOVOS_base_full.sh'
+      - 'overlays/base_ovos/home/ovos/.config/systemd/user/**'
+      - 'overlays/base_ovos/etc/systemd/system/**'
+      - 'docs/reference/downstream.md'
+
+jobs:
+  check-breaking-note:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require a contract statement in the PR body
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if echo "$BODY" | grep -qE 'BREAKING|contract: unchanged'; then
+            echo "Contract statement found."
+          else
+            echo "::error::This PR touches downstream-contract paths (user, venv, unit names — see docs/reference/downstream.md)."
+            echo "::error::Add 'BREAKING: <what changed>' to the PR body, or 'contract: unchanged' if no stable interface moved."
+            exit 1
+          fi
