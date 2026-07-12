@@ -15,7 +15,7 @@ bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_es.sh
 
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
-export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}"
+export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang es-ES --hybrid --male --platform rpi4

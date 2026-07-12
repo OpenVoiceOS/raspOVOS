@@ -46,7 +46,7 @@ print_message "Using update tag: $TAG" "info"
 
 # Set the constraints file based on the tag
 CONSTRAINTS="https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-$TAG.txt"
-export UV_CONSTRAINT="$CONSTRAINTS" PIP_CONSTRAINT="$CONSTRAINTS"
+export UV_CONSTRAINT="$CONSTRAINTS" PIP_CONSTRAINT="$CONSTRAINTS" UV_PRERELEASE=allow
 
 # Print information about the constraints file
 print_message "Using constraints file: $CONSTRAINTS" "info"

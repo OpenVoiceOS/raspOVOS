@@ -10,7 +10,7 @@ set -e
 
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
-export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}"
+export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
 echo "Copying overlays..."
 sudo cp -rv /mounted-github-repo/overlays/de/* /
