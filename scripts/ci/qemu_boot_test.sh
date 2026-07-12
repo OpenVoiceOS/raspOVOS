@@ -49,11 +49,17 @@ mount_image "$IMG" ro
 BOOT_DIR="$MNT/boot/firmware"
 [[ -d "$BOOT_DIR" ]] || BOOT_DIR="$MNT/boot"
 cp "$BOOT_DIR/kernel8.img" "$WORK/kernel8.img" || fail "kernel8.img not found in boot partition"
+# the boot partition carries one initramfs per kernel flavor
+# (initramfs7/initramfs8/initramfs_2712...); we boot kernel8.img so pick
+# initramfs8, falling back to the first match on older layouts
 INITRD=""
-if compgen -G "$BOOT_DIR/initramfs*" >/dev/null; then
-    cp "$BOOT_DIR"/initramfs* "$WORK/initrd"
-    INITRD="$WORK/initrd"
-fi
+for cand in "$BOOT_DIR/initramfs8" "$BOOT_DIR"/initramfs*; do
+    if [[ -f "$cand" ]]; then
+        cp "$cand" "$WORK/initrd"
+        INITRD="$WORK/initrd"
+        break
+    fi
+done
 # keep a decompressed raw image copy for qemu (mount_image may have made one)
 if [[ "$(file -b --mime-type "$IMG")" == "application/x-xz" ]]; then
     RAW_IMG="$(dirname "$MNT")/image.img"
