@@ -1,15 +1,14 @@
 # RaspOVOS
 
-raspOVOS is the **flagship OpenVoiceOS experience for the Raspberry Pi**: ready-to-flash images that turn a Pi into a voice assistant.
+raspOVOS is the flagship [OpenVoiceOS](https://openvoiceos.org) experience for the Raspberry Pi. It provides ready-to-flash images that turn a Pi into a voice assistant.
 
-Using [TigreGotico/rpi-image-modifier](https://github.com/TigreGotico/rpi-image-modifier) (a fork of [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier)), we download
-a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and modify it to install OVOS on top. 
+The build uses [TigreGotico/rpi-image-modifier](https://github.com/TigreGotico/rpi-image-modifier) (a fork of [dtcooper/rpi-image-modifier](https://github.com/dtcooper/rpi-image-modifier)) to download a [raspios_lite_arm64](https://downloads.raspberrypi.com/raspios_lite_arm64/images) image and install OVOS on top of it.
 
 <p align="center">
   <img src="https://github.com/OpenVoiceOS/raspOVOS/blob/dev/logo.png?raw=true" alt="raspOVOS Logo" width="200"/>
 </p>
 
-The customized images are then uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases). 🎉
+The customized images are uploaded to [GitHub Releases](https://github.com/OpenVoiceOS/raspOVOS/releases).
 
 ---
 
@@ -26,43 +25,41 @@ The customized images are then uploaded to [GitHub Releases](https://github.com/
    + [Python Environment Setup](#python-environment-setup)
    + [Models and Skill Enhancements](#models-and-skill-enhancements)
    + [Raspberry Pi Optimizations](#raspberry-pi-optimizations)
-        
+- [Related projects](#related-projects)
+- [License](#license)
+
 ---
 
 ### Getting Started
 
-**Full documentation lives at [openvoiceos.github.io/raspOVOS](https://openvoiceos.github.io/raspOVOS/)** —
-flashing tutorials, hardware guidance, troubleshooting, and developer docs
-(in-repo source: [`docs/`](docs/index.md)).
+Full documentation lives at [openvoiceos.github.io/raspOVOS](https://openvoiceos.github.io/raspOVOS/). It covers flashing tutorials, hardware guidance, troubleshooting, and developer docs (in-repo source: [`docs/`](docs/index.md)).
 
 Find the latest images on the [Releases](https://github.com/OpenVoiceOS/raspOVOS/releases) page.
 
-Every image build is gated by automated static, functional, and boot smoke
-tests ([CI tiers](docs/dev/ci-tiers.md)); stable releases additionally pass a
-[hardware checklist](docs/dev/release-checklist.md).
+Every image build passes automated static, functional, and boot smoke tests ([CI tiers](docs/dev/ci-tiers.md). Stable releases also pass a [hardware checklist](docs/dev/release-checklist.md).
 
 ---
 
 ### Important Notes
 
-- **Default user**: `ovos`
-- **Default password**: `ovos`
-- **Default hostname**: `raspOVOS`
+- Default user: `ovos`
+- Default password: `ovos`
+- Default hostname: `raspOVOS`
 - OVOS services run under the `ovos` user, with autologin enabled.
 
-> ⚠️ **DO NOT** change the default user when burning the image or you will run into issues
+**Warning**: Do not change the default user when burning the image. Changing it causes problems.
 
 ---
 
 ### Image Variants
 
-- `lite` images delegate STT and TTS to public servers and have a minimal intents pipeline
-- `hybrid` images delegate STT to public servers, run TTS on device and have a balanced intents pipeline
-- `offline` images run STT and TTS on device and have a full intents pipeline
+- `lite` images delegate STT and TTS to public servers and have a minimal intents pipeline.
+- `hybrid` images delegate STT to public servers, run TTS on the device, and have a balanced intents pipeline.
+- `offline` images run STT and TTS on the device and have a full intents pipeline.
 
-> ⚠️ online servers are hosted by volunteers and provided on a **best effort** basis, [latency and uptime](https://openvoiceos.github.io/status) might vary wildly per request
+The online servers are hosted by volunteers on a best-effort basis. [Latency and uptime](https://openvoiceos.github.io/status) can vary per request.
 
-In general the following plugins are used for all images
+The following plugins are used for all images:
 
 | image_type | stt-plugin               | tts-plugin             | m2v-intent-model             |
 |------------|--------------------------|------------------------|------------------------------|
@@ -74,28 +71,27 @@ In general the following plugins are used for all images
 
 ### System requirements
 
-- `lite` images *might* work in a rpi3
-- `hybrid` images recommend at least a rpi4
-- `offline` images need at least 4GB RAM, preferably 8GB
+- `lite` images might work on a Raspberry Pi 3.
+- `hybrid` images need at least a Raspberry Pi 4.
+- `offline` images need at least 4GB RAM, preferably 8GB.
 
-> 💡 Please consider self-hosting your own [TTS](https://openvoiceos.github.io/ovos-technical-manual/201-tts_server/) and [STT](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/) servers in a more powerful device
-
+To get better performance, consider self-hosting your own [TTS](https://openvoiceos.github.io/ovos-technical-manual/201-tts_server/) and [STT](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/) servers on a device with more resources.
 
 ---
 
 ### Language specific plugins and models
 
-The following language specific plugin configurations are used
+The following language specific plugin configurations are used:
 
 | lang | tts-plugin                             |
-|------|----------------------------------------|
+|------|-----------------------------------------|
 | ca   | ovos-tts-plugin-matxa-multispeaker-cat |
 | gl   | ovos-tts-plugin-nos                    |
 | eu   | ovos-tts-plugin-ahotts                 |
 
 
 | lang | stt-plugin                    | stt-model                                   |
-|------|-------------------------------|---------------------------------------------|
+|------|-------------------------------|----------------------------------------------|
 | da   | ovos-stt-plugin-fasterwhisper | Systran/faster-whisper-base                 |
 | gl   | ovos-stt-plugin-fasterwhisper | Jarbas/faster-whisper-base-gl-cv13          |
 | eu   | ovos-stt-plugin-fasterwhisper | Jarbas/faster-whisper-base-eu-cv16          |
@@ -110,7 +106,7 @@ The following language specific plugin configurations are used
 
 
 | lang | intent-model                                                       |
-|------|--------------------------------------------------------------------|
+|------|----------------------------------------------------------------------|
 | mul  | ovos-model2vec-intents-LaBSE                                       |
 | en   | ovos-model2vec-intents-potion-32M                                  |
 | ca   | ovos-model2vec-intents-roberta-large-ca-v2-massive                 |
@@ -119,15 +115,13 @@ The following language specific plugin configurations are used
 | pt   | ovos-model2vec-intents-serafim-335m-portuguese-pt-sentence-encoder |
 | es   | ovos-model2vec-intents-roberta-large-bne                           |
 
-> NOTE: intent models are still undergoing training for some languages and might not actually be shipped yet
+Note: intent models are still in training for some languages and might not be shipped yet.
 
 ---
 
 ## What raspOVOS Does to Raspberry Pi OS
 
-raspOVOS is a customization layer for Raspberry Pi OS that transforms a standard base image into a fully functional,
-voice-enabled smart assistant platform powered by [OpenVoiceOS (OVOS)](https://openvoiceos.org). Here’s what the
-installation script modifies and installs:
+raspOVOS is a customization layer for Raspberry Pi OS. It turns a standard base image into a voice-enabled assistant platform powered by [OpenVoiceOS (OVOS)](https://openvoiceos.org). This section describes what the installation script modifies and installs.
 
 ---
 
@@ -137,8 +131,8 @@ installation script modifies and installs:
 
 * Renames the default `pi` user to a custom user (default: `ovos`).
 * Updates all references in system files (`/etc/passwd`, `/etc/group`, `/etc/shadow`) and moves the home directory.
-* Sets a default password (`ovos`) and ensures it's reflected across boot and login settings.
-* Adds the user to critical groups: `sudo`, `audio`, `pipewire`, `rtkit`, and a custom `ovos` group.
+* Sets a default password (`ovos`) and applies it across boot and login settings.
+* Adds the user to the groups `sudo`, `audio`, `pipewire`, `rtkit`, and a custom `ovos` group.
 
 **Hostname:**
 
@@ -146,16 +140,16 @@ installation script modifies and installs:
 
 **Performance Tuning:**
 
-* Modifies `/etc/fstab` via `setup_fstab.sh` to optimize disk usage and performance (e.g., zram swap).
+* Modifies `/etc/fstab` with `setup_fstab.sh` to optimize disk usage and performance (for example, zram swap).
 
 ---
 
 ### System Dependencies
 
-Installs essential system tools and packages, including:
+The image installs system tools and packages, including:
 
-* **Build and development tools:** `build-essential`, `swig`, `python3-dev`, `libssl-dev`, etc.
-* **Audio stack:** `pipewire`, `wireplumber`, `alsa-utils`, `portaudio`, `mpv`, `ffmpeg`, etc.
+* **Build and development tools:** `build-essential`, `swig`, `python3-dev`, `libssl-dev`, and others.
+* **Audio stack:** `pipewire`, `wireplumber`, `alsa-utils`, `portaudio`, `mpv`, `ffmpeg`, and others.
 * **Camera support:** `python3-libcamera`, `python3-kms++`.
 * **DLNA/Media support:** `gstreamer`, `libupnp`, `gmediarender`.
 
@@ -163,7 +157,7 @@ Installs essential system tools and packages, including:
 
 ### File System Overlays
 
-The file overlays introduce services, configs, and utilities specific to the OVOS runtime environment:
+The file overlays add services, configs, and utilities specific to the OVOS runtime environment:
 
 ```
 ├── etc
@@ -203,12 +197,12 @@ The file overlays introduce services, configs, and utilities specific to the OVO
 │   └── ls-*                                           # List available STT, TTS, skills, wakewords, etc.
 ```
 
-These overlays ensure:
+These overlays:
 
-* OVOS boots as a system-managed, modular assistant.
-* OS-level actions like reboot, shutdown, clock sync, or SSH enable/disable emit OVOS bus messages.
-* Splashscreen and audio initialization integrate tightly with boot services.
-* Tools like `ovos-update` and `ovos-reset-brain` provide maintenance and troubleshooting from CLI.
+* Boot OVOS as a system-managed, modular assistant.
+* Emit OVOS bus messages for OS-level actions like reboot, shutdown, clock sync, or SSH enable/disable.
+* Integrate the splashscreen and audio initialization with boot services.
+* Provide CLI tools such as `ovos-update` and `ovos-reset-brain` for maintenance and troubleshooting.
 
 ---
 
@@ -217,7 +211,7 @@ These overlays ensure:
 * Installs [uv](https://github.com/astral-sh/uv) and `sdnotify` globally.
 * Creates a Python virtual environment at `~/.venvs/ovos`.
 * Installs core OVOS components and their dependencies inside the venv:
-    * `ovos-core`, `ovos-gui`, `ovos-audio`, `ovos-phal`, `ovos-skill-config-tool`, etc.
+    * `ovos-core`, `ovos-gui`, `ovos-audio`, `ovos-phal`, `ovos-skill-config-tool`, and others.
     * STT/TTS plugins like `ovos-stt-plugin-fasterwhisper`, `ovos-audio-transformer-plugin-ggwave`.
 
 ---
@@ -226,16 +220,16 @@ These overlays ensure:
 
 * Downloads and installs:
 
-    * `model2vec` multilingual intent classification model.
-    * `fasterwhisper` for fast, lightweight speech-to-text with language detection.
+    * the `model2vec` multilingual intent classification model.
+    * `fasterwhisper` for lightweight speech-to-text with language detection.
 
-* Sets up Hugging Face shared model cache under the `ovos` user for efficient reuse across plugins.
+* Sets up a Hugging Face shared model cache under the `ovos` user for reuse across plugins.
 
 ---
 
 ### Raspberry Pi Optimizations
 
-Here is an overview of non-OVOS specific changes to the base raspios-lite image
+This section lists changes to the base raspios-lite image that are not specific to OVOS.
 
 | Change                     | Description                                                                                                                                         | Benefit for Hardware Performance                                                                                                                                                                                                                                            |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -257,7 +251,7 @@ Here is an overview of non-OVOS specific changes to the base raspios-lite image
 |                            | - `fs.inotify.max_user_instances=8192`, `fs.inotify.max_user_watches=524288`: Increases the number of file system watches.                          | Optimizes system performance by allowing more file monitoring, which can benefit real-time data processing tasks.                                                                                                                                                           |
 | udev rules                 | Configures udev rules for setting I/O scheduler for MMC and USB devices to "none", minimizing latency for disk and removable storage.               | This can reduce latency and improve performance for flash-based storage like MMC and USB devices. Flash storage does not require complex scheduling algorithms because it has no moving parts (like hard drives), so a simpler, more direct I/O approach is more efficient. |
 | Disable Wi-Fi power-saving | Copies the `wlan0-power.service` systemd service file to `/etc/systemd/system/` and enables it to manage Wi-Fi power consumption.                   | Reduces power consumption by disabling Wi-Fi power-saving features, which is important for maintaining stable network performance.                                                                                                                                          |
-| Setup ZRAM                 | Installs and configures ZRAM to create compressed swap space in RAM, improving system performance by reducing disk swap usage.                      | Enhances system performance by reducing reliance on slower disk-based swap and utilizing faster RAM for swap, which is especially useful on limited-resource devices like Raspberry Pi.                                                                                     |
+| Setup ZRAM                 | Installs and configures ZRAM to create compressed swap space in RAM, improving system performance by reducing disk swap usage.                      | Enhances system performance by reducing reliance on slower disk-based swap and using faster RAM for swap, which is especially useful on limited-resource devices like Raspberry Pi.                                                                                     |
 |                            | `vm.swappiness=100`                                                                                                                                 | Increases the system's tendency to use swap space (even if there is available RAM), which helps with memory management and reduces disk I/O.                                                                                                                                |
 |                            | `vm.page-cluster=0`                                                                                                                                 | Lowers the number of pages to swap at once, making memory swapping more granular and efficient in cases of memory pressure.                                                                                                                                                 |
 |                            | `vm.vfs_cache_pressure=500`                                                                                                                         | Reduces pressure on the VFS cache, ensuring more data stays in memory for faster file access, which is important for real-time applications.                                                                                                                                |
@@ -266,3 +260,14 @@ Here is an overview of non-OVOS specific changes to the base raspios-lite image
 
 ---
 
+## Related projects
+
+- [OpenVoiceOS/ovos-core](https://github.com/OpenVoiceOS/ovos-core) — the assistant runtime that raspOVOS ships.
+- [OpenVoiceOS/ovos-tools](https://github.com/OpenVoiceOS/ovos-tools) — helper bash utilities for raspOVOS and other Linux systems.
+- [OpenVoiceOS/raspovos-audio-setup](https://github.com/OpenVoiceOS/raspovos-audio-setup) — the audio setup used by raspOVOS images.
+- [TigreGotico/rpi-image-modifier](https://github.com/TigreGotico/rpi-image-modifier) — the image build tool raspOVOS uses to modify Raspberry Pi OS.
+
+## License
+
+See [LICENSE](LICENSE).
+</content>
