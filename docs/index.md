@@ -1,13 +1,8 @@
 # raspOVOS
 
-**raspOVOS turns a Raspberry Pi into a private, open-source voice assistant.**
-You flash an SD card, boot the Pi, and talk to it. No cloud account, no
-subscription, no data leaving your home unless you choose it.
+raspOVOS turns a Raspberry Pi into a private, open-source voice assistant. You flash an SD card, boot the Pi, and talk to it. No cloud account or subscription is needed, and no data leaves your home unless you choose it.
 
-It is the flagship [OpenVoiceOS](https://openvoiceos.org) experience:
-ready-made images with the whole OVOS stack — wake word, speech-to-text,
-intent handling, skills, text-to-speech — preinstalled, preconfigured and
-tuned for Raspberry Pi hardware.
+It is the flagship [OpenVoiceOS](https://openvoiceos.org) experience: ready-made images with the whole OVOS stack. Wake word, speech-to-text, intent handling, skills, and text-to-speech come preinstalled, preconfigured, and tuned for Raspberry Pi hardware.
 
 ## Choose your image
 
@@ -21,24 +16,24 @@ available in ~12 languages:
 | **offline** | **on device** | **on device** | Pi 4/5 with 4 GB+ RAM (8 GB best) | full privacy, no internet dependency |
 
 !!! note "About the public servers"
-    They are hosted by volunteers on a best-effort basis — latency and
-    uptime vary. If you have a bigger machine on your network you can
+    They are hosted by volunteers on a best-effort basis. Latency and
+    uptime vary. If you have a bigger machine on your network, you can
     [self-host STT/TTS](https://openvoiceos.github.io/ovos-technical-manual/200-stt_server/)
     and point any variant at it.
 
 ## Get started in three steps
 
 1. **Download** an image from the
-   [releases page](https://github.com/OpenVoiceOS/raspOVOS/releases)
-   (pick your variant and language).
-2. **Flash** it to an SD card — follow
+   [releases page](https://github.com/OpenVoiceOS/raspOVOS/releases).
+   Pick your variant and language.
+2. **Flash** it to an SD card. Follow
    [Flash your first image](tutorials/flash-your-first-image.md).
-3. **Boot and talk** — [First boot & talking to OVOS](tutorials/first-boot.md).
+3. **Boot and talk**. See [First boot & talking to OVOS](tutorials/first-boot.md).
 
 Default credentials: user `ovos`, password `ovos`, hostname `raspOVOS`.
 
 !!! warning
-    Do **not** change the default username when flashing — the images
+    Do **not** change the default username when flashing. The images
     expect the `ovos` user to exist.
 
 ## Where to next
