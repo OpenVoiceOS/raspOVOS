@@ -95,7 +95,7 @@ jobs:
         run: sudo make test-chroot IMG=raspOVOS-${{ matrix.lang }}-bookworm-arm64-offline.img.xz VARIANT=offline
 
       - name: Upload built image as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: raspOVOS-${{ matrix.lang }}
           path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-offline.img.xz
@@ -131,7 +131,7 @@ jobs:
         lang: [ca, gl, en, es, eu, pt, nl, de, it, fr, da]
     steps:
       - name: Download image artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: raspOVOS-${{ matrix.lang }}
 
