@@ -145,8 +145,12 @@ fi
 echo "Tuning /etc/fstab..."
 bash /mounted-github-repo/scripts/setup_fstab.sh
 
-#echo "Updating ovos-i2csound and raspovos-audio-setup"
-#bash /mounted-github-repo/scripts/update.sh
+echo "Updating ovos-i2csound and raspovos-audio-setup"
+bash /mounted-github-repo/scripts/update.sh
+
+# Install drivers for Mark 2 device
+echo "Installing VocalFusion Drivers"
+bash /mounted-github-repo/scripts/setup_vocalfusion.sh
 
 # Copy raspOVOS overlay to the system.
 echo "Copying raspOVOS overlay..."
