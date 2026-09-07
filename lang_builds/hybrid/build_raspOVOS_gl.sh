@@ -17,9 +17,6 @@ bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_gl.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
-echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang gl-ES --hybrid --female --platform rpi4
-
 echo "Downloading model2vec intent model ..."
 python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-bertinho-gl-base-cased'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
@@ -36,6 +33,9 @@ wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolv
 
 # TODO local cotovia binary
 uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos -c $CONSTRAINTS
+
+echo "Configuring for target language..."
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang gl-ES --hybrid --female --platform rpi4
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

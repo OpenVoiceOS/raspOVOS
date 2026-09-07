@@ -17,9 +17,6 @@ bash /mounted-github-repo/lang_builds/hybrid/build_raspOVOS_it.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
-echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang it-IT --offline --female --platform rpi5
-
 echo "Installing Italian Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
 
@@ -28,6 +25,9 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/st
 # since script was run as root, we need to move downloaded files
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--neongeckocom--stt_it_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_it_citrinet_512_gamma_0_25/
+
+echo "Configuring for target language..."
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang it-IT --offline --female --platform rpi5
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
