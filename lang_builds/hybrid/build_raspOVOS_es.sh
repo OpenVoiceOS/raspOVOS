@@ -17,9 +17,6 @@ bash /mounted-github-repo/lang_builds/lite/build_raspOVOS_es.sh
 source /home/$OVOS_USER/.venvs/ovos/bin/activate
 export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
-echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang es-ES --hybrid --male --platform rpi4
-
 echo "Downloading model2vec intent model ..."
 python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-model2vec-intents-roberta-large-bne'; files=['model.safetensors', 'tokenizer.json', 'config.json']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file)}') for file in files]"
 # since script was run as root, we need to move downloaded files
@@ -39,6 +36,9 @@ mkdir -p "$PIPER_DIR"
 echo "Downloading voice from $VOICE_URL..."
 wget "$VOICE_URL" -P "$PIPER_DIR"
 wget "$CONFIG_URL" -P "$PIPER_DIR"
+
+echo "Configuring for target language..."
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang es-ES --hybrid --male --platform rpi4
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
