@@ -10,7 +10,7 @@ set -e
 : "${CONSTRAINTS:=https://github.com/OpenVoiceOS/OpenVoiceOS/raw/refs/heads/main/constraints-alpha.txt}"
 
 # start from hybrid image
-bash /mounted-github-repo/lang_builds/hybrid/build_raspOVOS_gl.sh
+RASPOVOS_TIER=offline bash /mounted-github-repo/lang_builds/hybrid/build_raspOVOS_gl.sh
 
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate

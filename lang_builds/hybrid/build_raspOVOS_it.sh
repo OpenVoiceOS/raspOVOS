@@ -29,16 +29,24 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-mod
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-LaBSE/
 
-echo "Installing Piper TTS..."
-uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
+# TTS engine per tier: offline keeps the Piper voice; hybrid installs what
+# autoconfigure selects (phoonnx).
+if [[ "${RASPOVOS_TIER:-hybrid}" == "offline" ]]; then
+    echo "Installing Piper TTS..."
+    uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
-PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
-VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/riccardo/x_low/it_IT-riccardo-x_low.onnx?download=true"
-CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/riccardo/x_low/it_IT-riccardo-x_low.onnx.json?download=true"
-mkdir -p "$PIPER_DIR"
-echo "Downloading voice from $VOICE_URL..."
-wget "$VOICE_URL" -P "$PIPER_DIR"
-wget "$CONFIG_URL" -P "$PIPER_DIR"
+    # download default piper voice for italian
+    PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
+    VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/riccardo/x_low/it_IT-riccardo-x_low.onnx?download=true"
+    CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/riccardo/x_low/it_IT-riccardo-x_low.onnx.json?download=true"
+    mkdir -p "$PIPER_DIR"
+    echo "Downloading voice from $VOICE_URL..."
+    wget "$VOICE_URL" -P "$PIPER_DIR"
+    wget "$CONFIG_URL" -P "$PIPER_DIR"
+else
+    echo "Installing phoonnx TTS plugin (selected by hybrid autoconfigure)..."
+    uv pip install --no-progress phoonnx -c $CONSTRAINTS
+fi
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

@@ -6,3 +6,4 @@ ovos_gui
 ovos_bus_client
 ovos_config
 ovos_utils
+phoonnx
