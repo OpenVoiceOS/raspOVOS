@@ -19,6 +19,12 @@ export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRE
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang de-DE --offline --male --platform rpi5
 
+echo "Installing onnx-asr STT plugin (selected by offline recommends)..."
+uv pip install --no-progress ovos-stt-plugin-onnx-asr -c $CONSTRAINTS
+
+echo "Installing phoonnx TTS plugin (selected by offline recommends)..."
+uv pip install --no-progress phoonnx -c $CONSTRAINTS
+
 echo "Downloading base whisper model ..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-base'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
 # since script was run as root, we need to move downloaded files
