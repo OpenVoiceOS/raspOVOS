@@ -11,7 +11,7 @@ set -e
 ## Intended to run on top of the raspOVOS FULL image
 
 # start from hybrid image
-bash /mounted-github-repo/lang_builds/hybrid/build_raspOVOS_it.sh
+RASPOVOS_TIER=offline bash /mounted-github-repo/lang_builds/hybrid/build_raspOVOS_it.sh
 
 # Activate the virtual environment
 source /home/$OVOS_USER/.venvs/ovos/bin/activate

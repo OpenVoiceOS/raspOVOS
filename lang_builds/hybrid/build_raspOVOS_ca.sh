@@ -40,6 +40,12 @@ cd /tmp/espeak-ng
 rm -rf /tmp/espeak-ng
 cd /home/$OVOS_USER/
 
+# hybrid autoconfigure selects phoonnx; install what the tier selects
+if [[ "${RASPOVOS_TIER:-hybrid}" != "offline" ]]; then
+    echo "Installing phoonnx TTS plugin (selected by hybrid autoconfigure)..."
+    uv pip install --no-progress phoonnx -c $CONSTRAINTS
+fi
+
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$OVOS_USER

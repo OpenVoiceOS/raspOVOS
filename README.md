@@ -63,8 +63,8 @@ The following plugins are used for all images:
 
 | image_type | stt-plugin               | tts-plugin             | m2v-intent-model             |
 |------------|--------------------------|------------------------|------------------------------|
-| offline    | ovos-stt-plugin-citrinet | ovos-tts-plugin-piper  | ovos-model2vec-intents-LaBSE |
-| hybrid     | ovos-stt-plugin-server   | ovos-tts-plugin-piper  | ovos-model2vec-intents-LaBSE |
+| offline    | ovos-stt-plugin-onnx-asr | ovos-tts-plugin-phoonnx| ovos-model2vec-intents-LaBSE |
+| hybrid     | ovos-stt-plugin-server   | ovos-tts-plugin-phoonnx| ovos-model2vec-intents-LaBSE |
 | online     | ovos-stt-plugin-server   | ovos-tts-plugin-server | N/A                          |
 
 ---
@@ -81,7 +81,9 @@ To get better performance, consider self-hosting your own [TTS](https://openvoic
 
 ### Language specific plugins and models
 
-The following language specific plugin configurations are used:
+The following language specific plugin configurations are used. Hybrid images
+install `phoonnx` for TTS in every language; the engines below are the
+language specific additions that ship in the images that carry them.
 
 | lang | tts-plugin                             |
 |------|-----------------------------------------|

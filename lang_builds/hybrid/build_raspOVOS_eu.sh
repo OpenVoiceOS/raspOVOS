@@ -26,8 +26,15 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-mod
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-BERnaT-base/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-BERnaT-base/
 
-echo "Installing AhoTTS"
-uv pip install --no-progress ovos-tts-plugin-ahotts
+# TTS engine per tier: offline keeps the AhoTTS voice; hybrid installs what
+# autoconfigure selects (phoonnx).
+if [[ "${RASPOVOS_TIER:-hybrid}" == "offline" ]]; then
+    echo "Installing AhoTTS"
+    uv pip install --no-progress ovos-tts-plugin-ahotts
+else
+    echo "Installing phoonnx TTS plugin (selected by hybrid autoconfigure)..."
+    uv pip install --no-progress phoonnx -c $CONSTRAINTS
+fi
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

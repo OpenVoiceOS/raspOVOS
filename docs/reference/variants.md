@@ -5,8 +5,8 @@
 | Variant | STT | TTS | Intent pipeline | Minimum hardware |
 |---------|-----|-----|-----------------|------------------|
 | lite | `ovos-stt-plugin-server` (public) | `ovos-tts-plugin-server` (public) | minimal | Pi 3 (might work) |
-| hybrid | `ovos-stt-plugin-server` (public) | on-device (piper) | balanced | Pi 4 |
-| offline | on-device (citrinet / fasterwhisper) | on-device (piper) | full | Pi 4/5, 4 GB+ RAM |
+| hybrid | `ovos-stt-plugin-server` (public) | on-device (`ovos-tts-plugin-phoonnx`) | balanced | Pi 4 |
+| offline | on-device (`ovos-stt-plugin-onnx-asr`) | on-device (phoonnx) | full | Pi 4/5, 4 GB+ RAM |
 
 Release names look like `raspOVOS-<lang>-bookworm-arm64-<variant>.img.xz`.
 `DEV`-prefixed releases are the untranslated base images the language
@@ -26,8 +26,7 @@ STT per language (offline variant):
 
 | lang | stt-plugin | model |
 |------|------------|-------|
-| en, es, ca, pt, de, it, nl, fr | ovos-stt-plugin-citrinet | per-language citrinet ONNX |
-| da, gl, eu | ovos-stt-plugin-fasterwhisper | per-language faster-whisper |
+| all | ovos-stt-plugin-onnx-asr | per-language onnx-asr |
 
 Intent models (`ovos-model2vec-intents-*`) are selected per language where
 trained; the multilingual LaBSE model is the fallback.

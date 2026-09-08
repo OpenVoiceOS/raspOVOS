@@ -26,19 +26,26 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-mod
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-roberta-large-bne/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-roberta-large-bne/
 
-echo "Installing AhoTTS"
-uv pip install --no-progress ovos-tts-plugin-ahotts
+# TTS engine per tier: offline keeps the AhoTTS + Piper voices; hybrid installs
+# what autoconfigure selects (phoonnx).
+if [[ "${RASPOVOS_TIER:-hybrid}" == "offline" ]]; then
+    echo "Installing AhoTTS"
+    uv pip install --no-progress ovos-tts-plugin-ahotts
 
-echo "Installing Piper TTS"
-uv pip install --no-progress ovos-tts-plugin-piper
+    echo "Installing Piper TTS"
+    uv pip install --no-progress ovos-tts-plugin-piper
 
-PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
-VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx?download=true"
-CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json?download=true"
-mkdir -p "$PIPER_DIR"
-echo "Downloading voice from $VOICE_URL..."
-wget "$VOICE_URL" -P "$PIPER_DIR"
-wget "$CONFIG_URL" -P "$PIPER_DIR"
+    PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
+    VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx?download=true"
+    CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/sharvard/medium/es_ES-sharvard-medium.onnx.json?download=true"
+    mkdir -p "$PIPER_DIR"
+    echo "Downloading voice from $VOICE_URL..."
+    wget "$VOICE_URL" -P "$PIPER_DIR"
+    wget "$CONFIG_URL" -P "$PIPER_DIR"
+else
+    echo "Installing phoonnx TTS plugin (selected by hybrid autoconfigure)..."
+    uv pip install --no-progress phoonnx -c $CONSTRAINTS
+fi
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
