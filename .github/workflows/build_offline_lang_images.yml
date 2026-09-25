@@ -103,6 +103,15 @@ jobs:
   create-release:
     runs-on: ubuntu-24.04
     needs: [get-date-release-name, build-all-images]
+    # A release is cut by hand, never by a merge. The workflow also runs on
+    # a push to dev, and `github.ref` is refs/heads/dev on that push, so the
+    # branch test alone made every green dev push publish a public release
+    # dated that day (decision raspovos-dev-push-publishes-release, answered
+    # dispatch-only 2026-09-28). The event test is what holds:
+    #   push to dev            -> builds the images, publishes nothing
+    #   dispatch on a PR branch -> builds the images, publishes nothing
+    #   dispatch on dev         -> publishes, and only a person starts that
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'workflow_dispatch'
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
     steps:
@@ -125,6 +134,15 @@ jobs:
   upload-images:
     runs-on: ubuntu-24.04
     needs: [create-release, build-all-images]
+    # A release is cut by hand, never by a merge. The workflow also runs on
+    # a push to dev, and `github.ref` is refs/heads/dev on that push, so the
+    # branch test alone made every green dev push publish a public release
+    # dated that day (decision raspovos-dev-push-publishes-release, answered
+    # dispatch-only 2026-09-28). The event test is what holds:
+    #   push to dev            -> builds the images, publishes nothing
+    #   dispatch on a PR branch -> builds the images, publishes nothing
+    #   dispatch on dev         -> publishes, and only a person starts that
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
