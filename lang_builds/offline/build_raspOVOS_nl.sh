@@ -17,7 +17,7 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang n-NL --offline --male --platform rpi5
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang nl-NL --offline --male --platform rpi5
 
 echo "Installing Citrinet plugin..."
 uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
