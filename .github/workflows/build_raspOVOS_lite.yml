@@ -108,6 +108,7 @@ jobs:
 
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     needs: [ get-date-release-name, modify-rpi-image, smoke-test ]
     outputs:
@@ -140,6 +141,7 @@ jobs:
 
   # Stage 4: Upload to Release
   upload-image:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     if: ${{ needs.check-release-or-create.outputs.release_id }}
     needs: [ modify-rpi-image, check-release-or-create, get-date-release-name ]

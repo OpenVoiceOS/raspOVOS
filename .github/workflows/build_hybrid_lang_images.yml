@@ -101,6 +101,7 @@ jobs:
           path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-hybrid.img.xz
 
   create-release:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     needs: [get-date-release-name, build-all-images]
     outputs:
@@ -124,6 +125,7 @@ jobs:
 
 
   upload-images:
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
     needs: [create-release, build-all-images]
     strategy:
