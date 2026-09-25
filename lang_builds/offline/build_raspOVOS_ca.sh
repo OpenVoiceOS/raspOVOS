@@ -29,7 +29,7 @@ uv pip install --no-progress phoonnx -c $CONSTRAINTS
 echo "Baking the STT model and the TTS voice into the image..."
 # The plugins fetch at first use. An offline image must not need the
 # network to listen or speak, so the fetch happens here instead.
-HF_HOME=/home/$OVOS_USER/.cache/huggingface \
+HF_HOME=/home/$OVOS_USER/.cache/huggingface LANG_CODE=ca \
   /home/$OVOS_USER/.venvs/ovos/bin/python /mounted-github-repo/scripts/bake_offline_models.py
 
 echo "Ensuring permissions for $OVOS_USER user..."

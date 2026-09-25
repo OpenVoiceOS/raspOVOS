@@ -10,6 +10,13 @@ fetch, because a configuration value is not a repository id: the STT value
 ``whisper-base`` is served by the repository ``istupakov/whisper-base-onnx``,
 and only the plugin knows that mapping.
 
+Reading the configuration is not enough on its own. The configuration can name
+a model that is correct for the language it was written for and wrong for the
+image being built, if the build wrote the wrong language tag. So the build must
+also say which language it is building, in ``LANG_CODE``, the same value
+``write_build_manifest.sh`` already receives, and this script refuses when the
+two disagree.
+
 It exits non-zero when a fetch fails. A build that keeps going after a failed
 bake ships an image that reads as complete and needs the network at first use.
 """
@@ -19,6 +26,39 @@ from typing import List, Tuple
 
 STT_PLUGIN = "ovos-stt-plugin-onnx-asr"
 TTS_PLUGIN = "ovos-tts-plugin-phoonnx"
+
+
+def primary_subtag(tag: str) -> str:
+    """The language part of a BCP-47 tag: ``nl`` from ``nl-NL``."""
+    return tag.replace("_", "-").split("-")[0].strip().lower()
+
+
+def check_lang(config_lang) -> str:
+    """Refuse when the configuration is not for the language being built.
+
+    ``LANG_CODE`` comes from the build script and names the language of the
+    image. ``config_lang`` is what ``ovos-config autoconfigure`` wrote. A build
+    that writes the wrong tag selects models for another language, and an
+    offline image has no network to correct it, so this is where it stops.
+    """
+    lang_code = os.environ.get("LANG_CODE", "").strip()
+    if not lang_code:
+        raise SystemExit(
+            "LANG_CODE is not set. The build script must name the language it "
+            "is building, so this script can refuse a configuration written "
+            "for another language.")
+    if not config_lang:
+        raise SystemExit("the offline config names no lang")
+    want = primary_subtag(lang_code)
+    got = primary_subtag(str(config_lang))
+    if want != got:
+        raise SystemExit(
+            f"this build is for {lang_code!r}, but the offline config says "
+            f"lang={config_lang!r}. The models it names are for another "
+            "language, and an offline image cannot correct that at first use. "
+            "Check the --lang tag the build script passes to "
+            "'ovos-config autoconfigure'.")
+    return lang_code
 
 
 def read_config() -> dict:
@@ -75,6 +115,7 @@ def main() -> int:
     tts_module = config.get("tts", {}).get("module")
     print(f"lang={config.get('lang')} stt.module={stt_module} "
           f"tts.module={tts_module}")
+    check_lang(config.get("lang"))
     if stt_module != STT_PLUGIN or tts_module != TTS_PLUGIN:
         raise SystemExit(
             f"this script bakes {STT_PLUGIN} and {TTS_PLUGIN}, but the offline "
