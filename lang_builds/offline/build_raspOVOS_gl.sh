@@ -30,6 +30,12 @@ python -c "from huggingface_hub import snapshot_download; repo_id = 'Jarbas/fast
 # since script was run as root, we need to move downloaded files
 mv /root/.cache/huggingface/hub/models--Jarbas--faster-whisper-base-gl-cv13/ /home/ovos/.cache/huggingface/hub/models--Jarbas--faster-whisper-base-gl-cv13/
 
+echo "Baking the STT model and the TTS voice into the image..."
+# The plugins fetch at first use. An offline image must not need the
+# network to listen or speak, so the fetch happens here instead.
+HF_HOME=/home/$OVOS_USER/.cache/huggingface \
+  /home/$OVOS_USER/.venvs/ovos/bin/python /mounted-github-repo/scripts/bake_offline_models.py
+
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$OVOS_USER
