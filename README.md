@@ -85,7 +85,7 @@ The following language specific plugin configurations are used:
 
 | lang | tts-plugin                             |
 |------|-----------------------------------------|
-| ca   | ovos-tts-plugin-matxa-multispeaker-cat |
+| ca   | ovos-tts-plugin-phoonnx (`phoonnx`)    |
 | gl   | ovos-tts-plugin-nos                    |
 | eu   | ovos-tts-plugin-ahotts                 |
 
