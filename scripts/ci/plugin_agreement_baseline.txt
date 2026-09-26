@@ -1,0 +1,22 @@
+# Selections that name a plugin the build does not install, as of dev d1745881.
+#
+# The check fails when this set gains a member, and it fails when a member is
+# fixed and left here, so the list cannot rot. The goal is an empty file.
+#
+# All eleven are one defect: ovos-config autoconfigure --offline selects
+# ovos-stt-plugin-onnx-asr, and no script on dev installs it. raspOVOS#171
+# installs it in every offline script and empties this file; the check was run
+# on the #171-merged tree and reported nothing. #171 is held on its own live
+# stage (T-5965: it also removes every baked model, so the plugin would have
+# no model to load).
+offline ca stt ovos-stt-plugin-onnx-asr
+offline da stt ovos-stt-plugin-onnx-asr
+offline de stt ovos-stt-plugin-onnx-asr
+offline en stt ovos-stt-plugin-onnx-asr
+offline es stt ovos-stt-plugin-onnx-asr
+offline eu stt ovos-stt-plugin-onnx-asr
+offline fr stt ovos-stt-plugin-onnx-asr
+offline gl stt ovos-stt-plugin-onnx-asr
+offline it stt ovos-stt-plugin-onnx-asr
+offline nl stt ovos-stt-plugin-onnx-asr
+offline pt stt ovos-stt-plugin-onnx-asr

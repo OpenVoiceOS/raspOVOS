@@ -1,0 +1,43 @@
+name: Plugin agreement
+
+# What a tier's autoconfigure writes must be installed by that tier's build.
+# The check runs here because the guard proposed for this before was never
+# called by anything, so it could not have failed a pull request.
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'lang_builds/**'
+      - 'build_raspOVOS_base_*.sh'
+      - 'scripts/ci/check_plugin_agreement.py'
+      - '.github/workflows/plugin-agreement.yml'
+  pull_request:
+    paths:
+      - 'lang_builds/**'
+      - 'build_raspOVOS_base_*.sh'
+      - 'scripts/ci/check_plugin_agreement.py'
+      - '.github/workflows/plugin-agreement.yml'
+  workflow_dispatch:
+
+jobs:
+  plugin_agreement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv and ovos-config
+        run: |
+          pip install --quiet uv
+          # The check runs autoconfigure, so it needs the same tool the build
+          # runs. The alpha channel is what the images resolve against.
+          uv pip install --system --prerelease=allow ovos-config
+
+      - name: Every selected plugin must be installed by its build
+        run: ./scripts/ci/check_plugin_agreement.py
