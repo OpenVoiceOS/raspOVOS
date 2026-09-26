@@ -35,7 +35,7 @@ jobs:
       base_image_url: ${{ steps.resolve.outputs.base_image_url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Resolve base image URL
         id: resolve
@@ -59,7 +59,7 @@ jobs:
         lang: [ca, gl, en, es, eu, pt, nl, de, it, fr, da, mul]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
