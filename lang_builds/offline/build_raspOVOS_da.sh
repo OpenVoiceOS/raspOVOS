@@ -17,7 +17,7 @@ source /home/$OVOS_USER/.venvs/ovos/bin/activate
 export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRERELEASE=allow
 
 echo "Configuring for target language..."
-/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang de-DE --offline --male --platform rpi5
+/home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang da-DK --offline --male --platform rpi5
 
 echo "Downloading base whisper model ..."
 python -c "from huggingface_hub import snapshot_download; repo_id = 'Systran/faster-whisper-base'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
