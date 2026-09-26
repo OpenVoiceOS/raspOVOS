@@ -56,11 +56,26 @@ mount_image() {
 # Bind-mount the host's /proc, /sys, /dev into the image rootfs so chrooted
 # processes work (python multiprocessing, /dev/null, …). cleanup_image's
 # `umount -R` tears these down with the rest.
+#
+# /tmp is a tmpfs from the host, not a bind and not the image's own /tmp.
+# python's tempfile.gettempdir() raises "No usable temporary directory found"
+# the moment a write to /tmp fails, and ovos_config takes a NamedLock at
+# import, so that error arrives as an import error and hides whatever the
+# check meant to measure. Three languages failed that way on dev on
+# 2026-09-26 and seven did not; which property of the image separates them is
+# not established. A host tmpfs is correct whichever it is, because it depends
+# on neither the image's free space nor the mode of its /tmp. It costs the
+# image no bytes and changes none of them.
 bind_system_mounts() {
     mount --bind /proc "$MNT/proc"
     mount --bind /sys "$MNT/sys"
     mount --bind /dev "$MNT/dev"
     mount --bind /dev/pts "$MNT/dev/pts"
+    # A missing /tmp is reported by the caller's own check, so this only
+    # declines to mount and never hides the fact.
+    if [[ -d "$MNT/tmp" ]]; then
+        mount -t tmpfs -o size=256m,mode=1777 tmpfs "$MNT/tmp"
+    fi
 }
 
 cleanup_image() {
