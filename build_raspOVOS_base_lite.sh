@@ -188,7 +188,7 @@ echo "Installing OVOS..."
 uv pip install --no-progress --pre ovos-skill-config-tool ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener ovos-phal ovos-audio ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
 
 echo "Installing STT/TTS plugins..."
-uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
+uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
 echo "Installing extra utils..."
 uv pip install --no-progress --pre ovos-yaml-editor -c $CONSTRAINTS
