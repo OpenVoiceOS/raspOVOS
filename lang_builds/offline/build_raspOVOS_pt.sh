@@ -19,14 +19,17 @@ export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRE
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang pt-PT --offline --male --platform rpi5
 
-echo "Installing Citrinet plugin..."
-uv pip install --no-progress ovos-stt-plugin-citrinet -c $CONSTRAINTS
+echo "Installing onnx-asr STT plugin (selected by offline recommends)..."
+uv pip install --no-progress ovos-stt-plugin-onnx-asr -c $CONSTRAINTS
 
-echo "Downloading portuguese citrinet model..."
-python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/stt_pt_citrinet_512_gamma_0_25'; subfolder='onnx'; files=['model.onnx', 'tokenizer.spm', 'preprocessor.ts']; [print(f'Downloaded {file} to {hf_hub_download(repo_id=repo_id, filename=file, subfolder=subfolder)}') for file in files]"
-# since script was run as root, we need to move downloaded files
-mkdir -p /home/ovos/.cache/huggingface/hub/
-mv /root/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_0_25/
+echo "Installing phoonnx TTS plugin (selected by offline recommends)..."
+uv pip install --no-progress phoonnx -c $CONSTRAINTS
+
+echo "Baking the STT model and the TTS voice into the image..."
+# The plugins fetch at first use. An offline image must not need the
+# network to listen or speak, so the fetch happens here instead.
+HF_HOME=/home/$OVOS_USER/.cache/huggingface LANG_CODE=pt \
+  /home/$OVOS_USER/.venvs/ovos/bin/python /mounted-github-repo/scripts/bake_offline_models.py
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
