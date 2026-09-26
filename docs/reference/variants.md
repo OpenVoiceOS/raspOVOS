@@ -18,7 +18,7 @@ Languages with dedicated TTS plugins:
 
 | lang | tts-plugin |
 |------|------------|
-| ca | ovos-tts-plugin-matxa-multispeaker-cat |
+| ca | ovos-tts-plugin-phoonnx (from the `phoonnx` package) |
 | gl | ovos-tts-plugin-nos |
 | eu | ovos-tts-plugin-ahotts |
 
