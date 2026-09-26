@@ -12,7 +12,7 @@ on:
       - dev
     paths:
       - '.github/workflows/build_lite_lang_images.yml'
-      - 'lang_builds/lite/build_raspOVOS_.sh'
+      - 'lang_builds/lite/build_raspOVOS_*.sh'
       - 'overlays/**'
 
 jobs:
