@@ -102,6 +102,9 @@ jobs:
 
   create-release:
     runs-on: ubuntu-24.04
+    # A dispatch on a PR branch builds the images and runs the checks,
+    # but it must not publish a public release. Only dev releases.
+    if: github.ref == 'refs/heads/dev'
     needs: [get-date-release-name, build-all-images]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
@@ -124,6 +127,9 @@ jobs:
 
   upload-images:
     runs-on: ubuntu-24.04
+    # A dispatch on a PR branch builds the images and runs the checks,
+    # but it must not publish a public release. Only dev releases.
+    if: github.ref == 'refs/heads/dev'
     needs: [create-release, build-all-images]
     strategy:
       fail-fast: false

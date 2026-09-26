@@ -131,6 +131,9 @@ jobs:
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
     runs-on: ubuntu-24.04
+    # A dispatch on a PR branch builds the images and runs the checks,
+    # but it must not publish a public release. Only dev releases.
+    if: github.ref == 'refs/heads/dev'
     needs: [ get-date-release-name, modify-rpi-image, smoke-test ]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
