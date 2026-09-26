@@ -1,0 +1,23 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    uses: OpenVoiceOS/gh-automations/.github/workflows/lint.yml@dev
+    with:
+      # This repository holds no Python: 538 files in the tree, none a .py.
+      # Leaving ruff on its default of true would install it and check
+      # nothing, and the PR comment would report a clean ruff run as if it
+      # had read something.
+      ruff: false
+      # actionlint and actionlint_fail default to true. A workflow file
+      # GitHub cannot parse fails every push to every branch, with no job
+      # created and no trigger filter applied. A duplicate key inside a job
+      # is that same class and not a milder one: GitHub refuses the file
+      # rather than taking the last value, measured on run 36186384843.
+      # That belongs on the pull request, not on dev.
+      actionlint: true
