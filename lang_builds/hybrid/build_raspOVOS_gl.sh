@@ -34,8 +34,16 @@ mkdir -p /home/$OVOS_USER/.local/share/nos_tts_models/celtia
 wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/model.onnx -P /home/$OVOS_USER/.local/share/nos_tts_models/celtia
 wget https://huggingface.co/Jarbas/proxectonos-celtia-vits-graphemes-onnx/resolve/main/config.json -P /home/$OVOS_USER/.local/share/nos_tts_models/celtia
 
-# TODO local cotovia binary
-uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos -c $CONSTRAINTS
+# TTS engines per tier: NOS voices ship in both tiers; cotovia stays on
+# offline; hybrid installs what autoconfigure selects (phoonnx).
+if [[ "${RASPOVOS_TIER:-hybrid}" == "offline" ]]; then
+    # TODO local cotovia binary
+    uv pip install --no-progress ovos-tts-plugin-cotovia ovos-tts-plugin-nos -c $CONSTRAINTS
+else
+    uv pip install --no-progress ovos-tts-plugin-nos -c $CONSTRAINTS
+    echo "Installing phoonnx TTS plugin (selected by hybrid autoconfigure)..."
+    uv pip install --no-progress phoonnx -c $CONSTRAINTS
+fi
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

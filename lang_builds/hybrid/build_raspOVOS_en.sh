@@ -28,30 +28,37 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-mod
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-potion-32M/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-potion-32M/
 
-echo "Installing Piper TTS..."
-uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
+# TTS engine per tier: offline keeps the Piper voice; hybrid installs what
+# autoconfigure selects (phoonnx).
+if [[ "${RASPOVOS_TIER:-hybrid}" == "offline" ]]; then
+    echo "Installing Piper TTS..."
+    uv pip install --no-progress ovos-tts-plugin-piper -c $CONSTRAINTS
 
-# TODO - compile minimal without bundled voices
-#echo "Installing Mimic TTS (for G2P)"
-#apt-get -y --no-install-recommends install gcc make pkg-config automake libtool libasound2-dev libicu-dev
-#MIMIC_VERSION=1.2.0.2
-#git clone --branch ${MIMIC_VERSION} https://github.com/MycroftAI/mimic.git --depth=1 /tmp/mimic
-#cd /tmp/mimic
-#./autogen.sh
-#./configure --with-audio=alsa --enable-shared --prefix="$(pwd)"
-#make
-#make install
-#rm -rf /tmp/mimic
-#uv pip install --no-progress ovos-tts-plugin-mimic -c $CONSTRAINTS
+    # TODO - compile minimal without bundled voices
+    #echo "Installing Mimic TTS (for G2P)"
+    #apt-get -y --no-install-recommends install gcc make pkg-config automake libtool libasound2-dev libicu-dev
+    #MIMIC_VERSION=1.2.0.2
+    #git clone --branch ${MIMIC_VERSION} https://github.com/MycroftAI/mimic.git --depth=1 /tmp/mimic
+    #cd /tmp/mimic
+    #./autogen.sh
+    #./configure --with-audio=alsa --enable-shared --prefix="$(pwd)"
+    #make
+    #make install
+    #rm -rf /tmp/mimic
+    #uv pip install --no-progress ovos-tts-plugin-mimic -c $CONSTRAINTS
 
-# download default piper voice for english  (change this for other languages)
-PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
-VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/en_GB-alan-medium.onnx?download=true"
-CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/en_GB-alan-medium.onnx.json?download=true"
-mkdir -p "$PIPER_DIR"
-echo "Downloading voice from $VOICE_URL..."
-wget "$VOICE_URL" -P "$PIPER_DIR"
-wget "$CONFIG_URL" -P "$PIPER_DIR"
+    # download default piper voice for english  (change this for other languages)
+    PIPER_DIR="/home/$OVOS_USER/.local/share/piper_tts"
+    VOICE_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/en_GB-alan-medium.onnx?download=true"
+    CONFIG_URL="https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_GB/alan/medium/en_GB-alan-medium.onnx.json?download=true"
+    mkdir -p "$PIPER_DIR"
+    echo "Downloading voice from $VOICE_URL..."
+    wget "$VOICE_URL" -P "$PIPER_DIR"
+    wget "$CONFIG_URL" -P "$PIPER_DIR"
+else
+    echo "Installing phoonnx TTS plugin (selected by hybrid autoconfigure)..."
+    uv pip install --no-progress phoonnx -c $CONSTRAINTS
+fi
 
 
 echo "Ensuring permissions for $OVOS_USER user..."

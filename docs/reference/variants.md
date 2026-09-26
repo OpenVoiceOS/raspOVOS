@@ -5,7 +5,7 @@
 | Variant | STT | TTS | Intent pipeline | Minimum hardware |
 |---------|-----|-----|-----------------|------------------|
 | lite | `ovos-stt-plugin-server` (public) | `ovos-tts-plugin-server` (public) | minimal | Pi 3 (might work) |
-| hybrid | `ovos-stt-plugin-server` (public) | on-device (piper) | balanced | Pi 4 |
+| hybrid | `ovos-stt-plugin-server` (public) | on-device (`ovos-tts-plugin-phoonnx`) | balanced | Pi 4 |
 | offline | on-device (citrinet / fasterwhisper) | on-device (piper) | full | Pi 4/5, 4 GB+ RAM |
 
 Release names look like `raspOVOS-<lang>-bookworm-arm64-<variant>.img.xz`.
@@ -35,7 +35,8 @@ trained; the multilingual LaBSE model is the fallback.
 !!! note
     The per-language matrix is being migrated to a benchmark-backed
     `model_matrix.json` (with phoonnx TTS and onnx-asr STT as the new
-    offline defaults). Until then the tables above reflect what ships.
+    offline defaults, tracked separately from this change). Until then
+    the tables above reflect what ships.
 
 ## Known language gaps
 
