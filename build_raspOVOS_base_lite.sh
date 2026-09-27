@@ -187,8 +187,14 @@ uv pip install --no-progress ggwave
 echo "Installing OVOS..."
 uv pip install --no-progress --pre ovos-skill-config-tool ovos-docs-viewer ovos-utils[extras] ovos-dinkum-listener ovos-phal ovos-audio ovos-gui ovos-core[lgpl,plugins] -c $CONSTRAINTS
 
+# No tier that starts from this base selects ovos-stt-plugin-fasterwhisper:
+# the lite and hybrid tiers select ovos-stt-plugin-server, and the offline
+# tier selects ovos-stt-plugin-onnx-asr. This base also baked no
+# faster-whisper model, so the plugin could not run here. The offline base
+# installs the plugin itself, with the tiny model it uses for language
+# detection (T-4425, ruling raspovos-lite-base-fasterwhisper).
 echo "Installing STT/TTS plugins..."
-uv pip install --no-progress --pre ovos-stt-plugin-fasterwhisper ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
+uv pip install --no-progress --pre ovos-dinkum-listener[extras,linux,onnx] tflite_runtime ovos-audio-transformer-plugin-ggwave ovos-audio[extras] -c $CONSTRAINTS
 
 echo "Installing extra utils..."
 uv pip install --no-progress --pre ovos-yaml-editor -c $CONSTRAINTS

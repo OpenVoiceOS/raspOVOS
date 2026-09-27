@@ -41,6 +41,12 @@ Restart the listener: `systemctl --user restart ovos-listener`. List
 installed STT plugins with `ls-stt`. Bigger models are more accurate and
 slower — on a Pi 4 stay at `small` or below.
 
+!!! note
+    `ovos-stt-plugin-fasterwhisper` ships on the offline image only. On a
+    lite or hybrid image, install it first:
+    `uv pip install ovos-stt-plugin-fasterwhisper`. The plugin downloads the
+    model on first use, so the device needs the network for that one run.
+
 ## Use your own STT/TTS server
 
 Any variant can point at a self-hosted server instead of the public ones:
