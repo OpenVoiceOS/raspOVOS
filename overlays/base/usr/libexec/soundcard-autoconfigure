@@ -1,0 +1,369 @@
+#!/bin/bash
+# /usr/libexec/autoconfigure-soundcard
+# This script automatically configures the default soundcard based on the detected devices.
+# It runs after ovos-i2csound and when a USB soundcard is connected or removed.
+
+# Main Logic
+# 1. If an /etc/OpenVoiceOS/i2c_platform exists, check the detected platform.
+# 2. If a soundcard matching the platform is detected, set it as the ALSA default card.
+# 3. If no matching soundcard is detected:
+#    - Check for USB soundcards and set the first one detected as the ALSA default card.
+#    - If no USB soundcard is found, fallback to onboard BCM soundcard.
+# 4. If no soundcard is detected, log an error message.
+
+# Constants
+OVOS_USER="$(getent passwd 1000 | cut -d: -f1)"  # Get the username of the first non-system user
+
+# Function to detect the active sound server (PipeWire, PulseAudio, or ALSA)
+# Returns the sound server type as a string
+detect_sound_server() {
+    # Check if PipeWire is installed
+    if command -v pipewire > /dev/null; then
+        echo "pipewire"
+    # Check if PulseAudio is installed
+    elif command -v pulseaudio > /dev/null; then
+        echo "pulse"
+    # Check if ALSA is available
+    elif command -v aplay > /dev/null && command -v amixer > /dev/null; then
+        echo "alsa"
+    else
+        echo "No sound server detected"
+        exit 1
+    fi
+}
+
+# Detect the sound server
+SOUND_SERVER=$(detect_sound_server)
+
+# Card names for different soundcards
+MK1_CARD_NAME="snd_rpi_proto"  # Mark 1 soundcard
+HDMI_CARD_NAME="vc4-hdmi"       # HDMI soundcard
+HEADPHONES_CARD_NAME="bcm2835"  # Onboard soundcard, not available on RPi 5
+GOOGLE_VOICEKIT_V1="snd_rpi_googlevoicehat"  # User manually configures this soundcard
+RESPEAKER_2MIC="wm8960-soundcard"  # Respeaker 2mic card
+
+# Environment variables for PipeWire (or PulseAudio)
+export PULSE_RUNTIME_PATH="/run/user/1000/pulse/"
+export XDG_RUNTIME_DIR="/run/user/1000/"
+
+# Enable strict error handling
+set -euo pipefail
+
+# Function to handle errors
+# Logs an error message and exits the script
+# Arguments:
+#   $1: Line number where the error occurred
+#   $2: Error code
+error_handler() {
+    local line_no=$1
+    local error_code=$2
+    log_message "Error (code: ${error_code}) occurred on line ${line_no}"
+    exit ${error_code}
+}
+
+# Trap errors and call the error handler
+trap 'error_handler ${LINENO} $?' ERR
+
+# Function to log messages to both console and a log file
+# Arguments:
+#   $1: Message to log
+log_message() {
+    echo "$1"
+    echo "$(date) - $1" >> /tmp/autosoundcard.log
+}
+
+# Function to check if the script is running as root
+# Returns true if running as root, false otherwise
+is_root() {
+    [ "$(id -u)" -eq 0 ]
+}
+
+# ALSA configuration function
+# Configures ALSA to use the specified card number as the default
+# Arguments:
+#   $1: Card number
+alsa_configure() {
+    local card_number=$1
+    log_message "Configuring ALSA at '/home/$OVOS_USER/.asoundrc' with card $card_number"
+    echo -e "pcm.!default {\n  type hw\n  card $card_number\n}\nctl.!default {\n  type hw\n  card $card_number\n}" > "/home/$OVOS_USER/.asoundrc"
+}
+
+# PipeWire configuration function
+# Configures PipeWire to use the specified card as the default sink
+# Arguments:
+#   $1: Card number
+pw_configure() {
+    local card_number=$1
+    log_message "Configuring ALSA for PipeWire at '/home/$OVOS_USER/.asoundrc'"
+    echo -e "pcm.!default $SOUND_SERVER\nctl.!default $SOUND_SERVER" > "/home/$OVOS_USER/.asoundrc"
+    log_message "Match card $card_number to audio sink"
+    local sink=$(pw_card2sink "$card_number")
+    log_message "Setting default sink: $sink"
+    wpctl set-default $sink
+}
+
+# PulseAudio configuration function
+# Configures PulseAudio to use the specified card as the default sink
+# Arguments:
+#   $1: Card number
+pulse_configure() {
+    local card_number=$1
+    log_message "Configuring ALSA for Pulseaudio at '/home/$OVOS_USER/.asoundrc'"
+    echo -e "pcm.!default $SOUND_SERVER\nctl.!default $SOUND_SERVER" > "/home/$OVOS_USER/.asoundrc"
+
+    local sink_name
+    sink_name=$(pulse_card2sink "$card_number")
+    # If sink name is found, set it as the default using pactl
+    if [ "$sink_name" != "Card index not found" ]; then
+        log_message "Setting default sink to: $sink_name"
+        # Use pactl to set the default sink for PulseAudio
+        if is_root; then
+            runuser -u "$OVOS_USER" -- pactl set-default-sink "$sink_name"
+        else
+            pactl set-default-sink "$sink_name"
+        fi
+        log_message "Default sink set to: $sink_name"
+    else
+        log_message "Failed to map card number to output sink. Unable to set default sink."
+    fi
+}
+
+pw_card2sink() {
+    local CARD_IDX=$1
+
+    if [ "$SOUND_SERVER" == "alsa" ]; then
+        echo "alsa does not support individual sinks"
+        exit 1
+    elif [ "$SOUND_SERVER" == "pulseaudio" ]; then
+        echo "pulseaudio support not implemented"
+        exit 1
+    elif [ "$SOUND_SERVER" == "pipewire" ]; then
+       # Extract sink IDs
+        SINK_IDS=$(wpctl status | awk -v card_idx="$CARD_IDX" '
+            /├─ Sinks:/ {capture = 1; next}
+            /^ ├─|^ └─|^$/ {capture = 0}
+            capture {
+                if ($2 == "*") {
+                    gsub(/\.$/, "", $3)
+                    print $3
+                }
+                if ($2 ~ /^[0-9]+\.$/) {
+                    gsub(/\.$/, "", $2)
+                    print $2
+                }
+            }
+        ')
+
+        # Loop through each sink ID and inspect it
+        for SINK in $SINK_IDS; do
+            CIDX=$(wpctl inspect $SINK | grep -i "api.alsa.pcm.card" | awk -F'"' '{print $2}')
+            if [ "$CIDX" == "$CARD_IDX" ]; then
+              echo "$SINK"
+            fi
+        done
+    else
+        echo "Unsupported sound server: $SOUND_SERVER"
+        exit 1
+    fi
+}
+
+# Function to get the sink name associated with a given card index
+# Args:
+#   $1: The card index to search for
+# Returns:
+#   The sink name associated with the card index or an error message if not found
+pulse_card2sink() {
+    local card_index="$1"
+    if is_root; then
+        runuser -u "$OVOS_USER" -- pactl list sinks | awk -v card_index="$card_index" '
+          BEGIN {found = 0}
+          /Name: / { name = $2 }
+          /api.alsa.card/ {
+              gsub(/"/, "", $3)
+              if ($3 == card_index) {
+                  print name
+                  found = 1
+              }
+          }
+          END { if (found == 0) { print "Card index not found" } }'
+    else
+        pactl list sinks | awk -v card_index="$card_index" '
+          BEGIN {found = 0}
+          /Name: / { name = $2 }
+          /api.alsa.card/ {
+              gsub(/"/, "", $3)
+              if ($3 == card_index) {
+                  print name
+                  found = 1
+              }
+          }
+          END { if (found == 0) { print "Card index not found" } }'
+    fi
+}
+
+# Function to set up a sound card based on its detected type
+# Arguments:
+#   $1: Card index
+setup_card() {
+    local card_index="$1"
+    case "$SOUND_SERVER" in
+      *pipewire*) pw_configure $card_index ;;
+      *pulse*) pulse_configure $card_index ;;
+      *) alsa_configure $card_index ;;
+    esac
+}
+
+# Read i2c platform configuration from file
+if [ -f /etc/OpenVoiceOS/i2c_platform ]; then
+    i2c_platform=$(cat /etc/OpenVoiceOS/i2c_platform)
+else
+    sleep 1
+    # Read i2c platform configuration from file
+    if [ -f /etc/OpenVoiceOS/i2c_platform ]; then
+        i2c_platform=$(cat /etc/OpenVoiceOS/i2c_platform)
+    else
+        log_message "/etc/OpenVoiceOS/i2c_platform not found."
+        i2c_platform=""
+    fi
+fi
+
+# Function to check available soundcards
+check_soundcards() {
+    local retries=3
+    local attempt=1
+    local soundcards
+
+    # Retry up to 3 times if no output from aplay
+    while [[ $attempt -le $retries ]]; do
+        soundcards=$(aplay -l)
+
+        # If aplay returns no output or an error, retry after sleeping for 3 seconds
+        if [[ -z "$soundcards" ]]; then
+            log_message "No soundcards detected. Attempt $attempt of $retries. Retrying in 3 seconds..."
+            sleep 3
+            ((attempt++))
+        else
+            log_message "Soundcards detected:"
+            log_message "$soundcards"
+            return 0
+        fi
+    done
+
+    # If no soundcards detected after retries, log the failure
+    log_message "ERROR: No soundcards detected after $retries attempts."
+    return 1
+}
+
+# acts as a delay to ensure audio is fully loaded
+check_soundcards
+
+
+# Function to set up Respeaker 2mic soundcard
+setup_wm8960_soundcard() {
+    log_message "Respeaker-2mic (wm8960) detected by ovos-i2csound."
+    if aplay -l | grep "$RESPEAKER_2MIC"; then
+        local CARD_NUMBER=$(aplay -l | grep "$RESPEAKER_2MIC" | awk '{print $2}' | cut -d':' -f1)
+        log_message "Detected CARD_NUMBER for Respeaker-2mic soundcard: $CARD_NUMBER"
+        setup_card "$CARD_NUMBER"
+    else
+        log_message "Error: ovos-i2csound detected Respeaker-2mic but 'aplay -l' could not detect '$RESPEAKER_2MIC'"
+        exit 1
+    fi
+}
+
+# Function to set up Mark 1 soundcard
+setup_mark1_soundcard() {
+    log_message "Mark 1 soundcard detected by ovos-i2csound."
+    if aplay -l | grep "$MK1_CARD_NAME"; then
+        local CARD_NUMBER=$(aplay -l | grep "$MK1_CARD_NAME" | awk '{print $2}' | cut -d':' -f1)
+        log_message "Detected CARD_NUMBER for Mark 1 soundcard: $CARD_NUMBER"
+        setup_card "$CARD_NUMBER"
+    else
+        log_message "Error: ovos-i2csound detected Mark 1 but 'aplay -l' could not detect '$MK1_CARD_NAME'"
+        exit 1
+    fi
+}
+
+# Function to set up GoogleVoiceKit soundcard
+setup_googlevoicekitv1_soundcard() {
+    # NOTE: special case, not detected by ovos-i2csound (yet)
+    #  just a placeholder, ovos-i2csound will need to grep boot/config.txt to check if overlay is enabled
+    log_message "GoogleVoiceKit soundcard configured by user"
+    if aplay -l | grep "$GOOGLE_VOICEKIT_V1"; then
+        local CARD_NUMBER=$(aplay -l | grep "$GOOGLE_VOICEKIT_V1" | awk '{print $2}' | cut -d':' -f1)
+        log_message "Detected CARD_NUMBER for GoogleVoiceKit soundcard: $CARD_NUMBER"
+        setup_card "$CARD_NUMBER"
+    else
+        log_message "Error: user configured GoogleVoiceKit but 'aplay -l' could not detect '$GOOGLE_VOICEKIT_V1'"
+        exit 1
+    fi
+}
+
+# Function to set up fallback soundcard
+setup_fallback_soundcard() {
+    local USB_CARD=""
+    # Check for USB soundcard
+    if aplay -l | grep "card" | grep -i "usb"; then
+        local USB_CARDS=$(aplay -l | grep "card" | grep -i "usb" | awk '{print $2}' | cut -d':' -f1)
+        # If multiple USB soundcards are detected, log a warning and pick the last one
+        if [ -n "$USB_CARDS" ]; then
+            local CARD_COUNT=$(echo "$USB_CARDS" | wc -l)
+            if [ "$CARD_COUNT" -gt 1 ]; then
+                log_message "Warning: Multiple USB soundcards detected. Using the last detected card."
+            fi
+            # Select the last USB soundcard detected
+            USB_CARD=$(echo "$USB_CARDS" | tail -n 1)
+        fi
+    fi
+
+    if [ -n "$USB_CARD" ]; then
+        # Set ALSA defaults for the detected USB soundcard
+        log_message "USB soundcard detected."
+        setup_card "$USB_CARD"
+    else
+        # Check for any other non-BCM soundcard (prioritize user-installed cards over onboard ones)
+        local OTHER_CARD=$(aplay -l | grep "card"  | grep -v -i "$HEADPHONES_CARD_NAME" | grep -v -i "$HDMI_CARD_NAME" | awk '{print $2}' | cut -d':' -f1 | head -n 1)
+        if [ -n "$OTHER_CARD" ]; then
+            # Set ALSA defaults for the user-installed soundcard
+            log_message "User-installed soundcard detected."
+            setup_card "$OTHER_CARD"
+        else
+            # Default to onboard BCM soundcard if no other card is found
+            local BCM_CARD=$(aplay -l | grep "card" | grep -i "$HEADPHONES_CARD_NAME" | awk '{print $2}' | cut -d':' -f1 | head -n 1)
+            if [ -n "$BCM_CARD" ]; then
+                # Set ALSA defaults for the onboard BCM soundcard
+                log_message "Onboard BCM soundcard detected."
+                setup_card "$BCM_CARD"
+            else
+                # Fall back to HDMI soundcard if no onboard card is found
+                local HDMI_CARD=$(aplay -l | grep "card" | grep -i "$HDMI_CARD_NAME" | awk '{print $2}' | cut -d':' -f1 | head -n 1)
+                if [ -n "$HDMI_CARD" ]; then
+                    # Set ALSA defaults for the HDMI soundcard
+                    log_message "HDMI soundcard detected."
+                    setup_card "$HDMI_CARD"
+                else
+                    # No suitable soundcard detected, log an error
+                    log_message "Error: No suitable soundcard detected."
+                fi
+            fi
+        fi
+    fi
+}
+
+# Autoconfigure default soundcard
+# TODO - possible values not handled (some might be mic input only)
+#   "SJ201V6" "SJ201V10" "AIYVOICEBONNET", "ADAFRUIT", "RESPEAKER6", "RESPEAKER4"
+case "$i2c_platform" in
+    *WM8960*)
+        # inform user about possible MK1 arduino boot failure
+        # we have no way to know, it will just report as WM8960
+        log_message "WARNING [Mark1 only]: If this is a Mark 1 device, Arduino may not have booted properly. Power cycle your device until the eyes spin."
+        setup_wm8960_soundcard
+        ;;
+    *MARK1*)
+        setup_mark1_soundcard
+        ;;
+    *)
+        setup_fallback_soundcard
+        ;;
+esac

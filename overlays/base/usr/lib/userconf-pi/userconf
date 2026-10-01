@@ -1,0 +1,59 @@
+#!/bin/sh
+
+rename_user () {
+    usermod -l "$NEWNAME" "$FIRSTUSER"
+    usermod -m -d "/home/$NEWNAME" "$NEWNAME"
+    groupmod -n "$NEWNAME" "$FIRSTGROUP"
+    for file in /etc/subuid /etc/subgid; do
+        sed -i "s/^$FIRSTUSER:/$NEWNAME:/" "$file"
+    done
+    if [ -f /etc/sudoers.d/010_pi-nopasswd ]; then
+        sed -i "s/^$FIRSTUSER /$NEWNAME /" /etc/sudoers.d/010_pi-nopasswd
+    fi
+}
+
+add_to_ovos_group () {
+    # Check if group 'ovos' exists
+    if ! getent group ovos > /dev/null; then
+        echo "Creating group 'ovos'..."
+        groupadd ovos
+    fi
+
+    # Check if user is in the 'ovos' group
+    if ! id -nG "$NEWNAME" | grep -qw "ovos"; then
+        echo "Adding user '$NEWNAME' to group 'ovos'..."
+        usermod -aG ovos "$NEWNAME"
+    else
+        echo "User '$NEWNAME' is already in group 'ovos'."
+    fi
+
+    echo "Ensuring permissions for ovos group..."
+
+    # Ensure ownership of the home directory by the user and the ovos group
+    chown -R $NEWNAME:ovos /home/$NEWNAME
+    chmod -R 2775 /home/$NEWNAME
+
+}
+
+if [ $# -eq 3 ]; then
+    FIRSTUSER="$1"
+    FIRSTGROUP="$1"
+    shift
+else
+    FIRSTUSER="$(getent passwd 1000 | cut -d: -f1)"
+    FIRSTGROUP="$(getent group 1000 | cut -d: -f1)"
+fi
+
+NEWNAME=$1
+NEWPASS=$2
+
+if [ "$FIRSTUSER" != "$NEWNAME" ]; then
+    rename_user
+    add_to_ovos_group
+fi
+
+if [ -n "$NEWPASS" ]; then
+    echo "$NEWNAME:$NEWPASS" | chpasswd -e
+fi
+
+/usr/bin/cancel-rename "$NEWNAME"

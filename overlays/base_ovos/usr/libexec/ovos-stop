@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+import time
+
+from ovos_bus_client.message import Message
+from ovos_bus_client.util import get_mycroft_bus
+
+bus = get_mycroft_bus()
+bus.connected_event.wait()
+bus.emit(Message("mycroft.stop"))
+time.sleep(1)
+bus.close()

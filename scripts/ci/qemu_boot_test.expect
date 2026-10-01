@@ -1,0 +1,59 @@
+#!/usr/bin/expect -f
+# Serial-console driver for qemu_boot_test.sh. Waits for login, logs in as
+# $USER_NAME, then asserts the OVOS user units are active and the journal is
+# clean modulo journal-allowlist.txt. All output is mirrored to $SERIAL_LOG.
+
+set timeout $env(BOOT_TIMEOUT)
+log_file -a $env(SERIAL_LOG)
+
+spawn {*}$argv
+
+# --- wait for login prompt ---
+expect {
+    -re "login:" {}
+    timeout { puts "\nBOOT-TEST: timeout waiting for login prompt"; exit 2 }
+    eof     { puts "\nBOOT-TEST: qemu exited before login prompt"; exit 3 }
+}
+send "$env(USER_NAME)\r"
+expect {
+    -re "Password:" { send "$env(USER_PASS)\r" }
+    timeout { puts "\nBOOT-TEST: no password prompt"; exit 2 }
+}
+expect {
+    -re {\$ $} {}
+    -re "Login incorrect" { puts "\nBOOT-TEST: login failed"; exit 4 }
+    timeout { puts "\nBOOT-TEST: no shell after login"; exit 2 }
+}
+puts "\nBOOT-TEST: logged in"
+
+# systemctl --user needs the session bus env; serial getty logins don't
+# always export it even when pam_systemd ran
+send "export XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus\r"
+expect -re {\$ $}
+
+# --- wait for user units to settle ---
+set timeout $env(UNIT_BUDGET)
+send "for i in \$(seq 1 $env(UNIT_BUDGET)); do failed=\$(systemctl --user is-active ovos-messagebus ovos-skills ovos-audio ovos-listener ovos-phal 2>/dev/null | grep -cv '^active\$'); if \[ \"\$failed\" = 0 \]; then echo UNITS-OK; break; fi; sleep 1; done; \[ \"\$failed\" = 0 \] || { echo UNITS-FAIL; systemctl --user --no-pager --failed; }\r"
+expect {
+    "UNITS-OK"   { puts "\nBOOT-TEST: all ovos user units active" }
+    "UNITS-FAIL" { puts "\nBOOT-TEST: user units failed to activate"; exit 5 }
+    timeout      { puts "\nBOOT-TEST: timeout waiting for units"; exit 5 }
+}
+
+# --- dump journal errors to the serial log (checked host-side against
+# journal-allowlist.txt by qemu_boot_test.sh) ---
+set timeout 60
+send "echo JOURNAL-ERR-BEGIN; journalctl -p err -b --no-pager; echo JOURNAL-ERR-END\r"
+expect {
+    "JOURNAL-ERR-END" {}
+    timeout {}
+}
+
+puts "\nBOOT-TEST: PASS"
+
+send "sudo poweroff\r"
+expect {
+    eof {}
+    timeout { exit 0 }
+}
+exit 0

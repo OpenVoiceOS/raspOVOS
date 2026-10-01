@@ -1,0 +1,531 @@
+! version = 2.0
+// RPG game demo.
++ (play|demo|rpg) (game|a game)
+- Are you ready for an adventure? You can say help to get a list of commands.{topic=nasa_lobby}{@look}
+
+// Global triggers available everywhere
+> topic global
+	+ help
+	- Commands that might be helpful:
+	^ look: Give a description of the current room.
+	^ exits: List the exits of the current room.
+	^ north, south, east, west, up, down: Go through an exit.
+	^ inventory: Display your inventory.
+	^ exit: Quit the game.
+
+	+ inventory
+	- Your inventory: <get inventory>
+
+	+ exit
+	- Logging out of the game...<set inventory=undefined><set spacesuit=0>{topic=random}
+
+	+ _ *
+	- You don't need to use the word "<star1>" in this game.
+
+	+ *
+	- I'm not sure what you're trying to do.
+
+	// The following triggers get overridden on a room-by-room basis.
+	+ look
+	- There is nothing special in this room.
+
+	+ exits
+	- There are no exits to this room.
+
+	+ [*] north
+	- You can't go in that direction.
+
+	+ [*] west
+	- You can't go in that direction.
+
+	+ [*] south
+	- You can't go in that direction.
+
+	+ [*] east
+	- You can't go in that direction.
+
+	+ [*] up
+	- You can't go in that direction.
+
+	+ [*] down
+	- You can't go in that direction.
+
+< topic
+
+/////////////
+// World Topics: all the "rooms" in our game inherit their triggers from these
+// "world" topics. The world topics include the triggers from the global topic
+/////////////
+
+// Global triggers available on Earth
+> topic earth includes global
+	+ breathe
+	- There is plenty of oxygen here so breathing is easy!
+
+	+ what world (is this|am i on)
+	- You are on planet Earth right now.
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Global triggers available on Mars
+> topic mars includes global
+	+ breathe
+	- Thanks to your space suit you can breathe. There's no oxygen on this planet.
+
+	+ what world (is this|am i on)
+	- You are on planet Mars right now.
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+/////////////
+// Earth rooms: all these rooms are on Earth and their inherit the earth topic
+// above. This means you can type "breathe" and "what world is this?" from every
+// room on Earth.
+/////////////
+
+// The NASA building on Earth
+> topic nasa_lobby inherits earth
+	// All of these triggers have higher matching priority than all other
+	// triggers from the other topics, because this topic inherits a topic. So
+	// the matching list looks like this:
+	//   exits
+	//   north
+	//   look
+	//   (combined triggers from earth & global)
+	// Because our "north" is near the top of the match list, ours always gets
+	// called. But if we try saying "south", we end up matching the "south" from
+	// the global topic.
+	+ look
+	- You are in the lobby of a NASA launch base on Earth. {@exits}
+
+	+ exits
+	- There is an elevator to the north.
+
+	+ [*] north
+	- {topic=elevator}{@look}
+
+	+ [*] west
+	- You can't go in that direction.
+
+	+ [*] south
+	- You can't go in that direction.
+
+	+ [*] east
+	- You can't go in that direction.
+
+	+ [*] down
+	- You can't go in that direction.
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Elevator in NASA building on earth
+> topic elevator inherits earth
+	+ look
+	- You are in the elevator that leads to the rocket ship. {@exits}
+
+	+ exits
+	- Up: the path to the rocket
+	^ Down: the NASA lobby
+
+	+ [*] up
+	- {topic=walkway}{@look}
+
+	+ [*] down
+	- {topic=nasa_lobby}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Path to the rocket
+> topic walkway inherits earth
+	+ look
+	- You are on the walkway that leads to the rocket. {@exits}
+
+	+ exits
+	- The rocket is to the north. The elevator is to the south.
+
+	+ [*] north
+	- {topic=rocket}{@look}
+
+	+ [*] south
+	- {topic=elevator}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Rocket ship
+> topic rocket inherits earth
+	+ look
+	- You are on the rocket. There is a button here that activates the rocket. {@exits}
+
+	+ exits
+	- The walkway back to the NASA base is to the south.
+
+	+ [*] south
+	- {topic=walkway}{@look}
+
+	+ (push|press) button
+	- You push the button and the rocket activates and flies into outer space. The
+	^ life support system comes on, which includes an anesthesia to put you to sleep\s
+	^ for the duration of the long flight to Mars.
+	^ When you awaken, you are on Mars. The space shuttle seems to have crash-landed.\s
+	^ Take a look around.{topic=crashed}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Crashed on Mars
+> topic crashed inherits mars
+	+ [*]look[*]
+	- You are in the ruins of your space shuttle. There is a space suit here. The\s
+	^ door to the shuttle is able to be opened to get outside.
+
+	+ open door
+	* <get spacesuit> == 1 => You open the door and step outside onto the red Martian surface.{topic=crashsite}{@look}
+	- You can't go outside or you'll die. There's no oxygen here.
+
+	+ (take|put on|get) (space suit|suit|spacesuit)
+	* <get spacesuit> == 1 => You are already wearing the space suit.
+	- You put on the space suit. Now you can breathe outside with this.<set spacesuit=1><set inventory=spacesuit>
+
+	+ exits
+	- The only exit is through the door that leads outside.
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Martian surface
+> topic crashsite inherits mars
+	+ look
+	- You are standing on the red dirt ground on Mars. There is nothing but desert in all directions.
+
+	+ exits
+	- You can go in any direction from here; there is nothing but desert all around.
+
+	+ [*] north
+	- {topic=puzzle1}{@look}
+
+	+ [*] east
+	@ look
+
+	+ [*] west
+	@ look
+
+	+ [*] south
+	@ look
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+// Puzzle on Mars. The sequence to solve the puzzle is:
+// north, west, west, north.
+// Topic "puzzle" is a placeholder that sets all the directions to return
+// us to the crash site. puzzle inherits mars so that puzzle's directions
+// will override the directions of mars. All the steps of the puzzle then
+// "include" puzzle, and override only one direction. e.g. since "west"
+// exists in puzzle1, the response from puzzle1 is given, but if you're
+// in puzzle1 and type "north"... north was included from "puzzle", but
+// puzzle1 doesn't have a reply, so the reply from "puzzle" is given.
+
+> topic puzzle inherits mars
+	// Provides common directional functions for wandering around on Mars.
+	+ [*] north
+	- {topic=crashsite}{@look}
+
+	+ [*] east
+	- {topic=crashsite}{@look}
+
+	+ [*] west
+	- {topic=crashsite}{@look}
+
+	+ [*] south
+	- {topic=crashsite}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+> topic puzzle1 includes puzzle
+	+ look
+	- You wander to a part of the desert that looks different than other parts of the desert.
+
+	// We get 'exits' from crashsite
+
+	+ [*] west
+	- {topic=puzzle2}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+> topic puzzle2 includes puzzle
+	+ look
+	- This part looks even more different than the rest of the desert.
+
+	+ west
+	- {topic=puzzle3}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+> topic puzzle3 inherits mars puzzle
+	+ look
+	- Now this part is even MORE different. Also there is a space colony nearby.
+
+	+ north
+	- {topic=entrance}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+> topic entrance inherits mars
+	+ look
+	- You're standing at the entrance to a space colony. {@exits}
+
+	+ exits
+	- The entrance to the space colony is to the north.
+
+	+ [*] north
+	- {topic=vaccuum}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+> topic vaccuum inherits mars
+	+ look
+	- You're in the air lock entrance to the space colony. {@exits}
+
+	+ exits
+	- The inner part of the space colony is to the north. The martian surface is to the south.
+
+	+ [*] north
+	- {topic=colony}{@look}
+
+	+ [*] south
+	- {topic=vaccuum}{@look}
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+> topic colony inherits mars
+	+ look
+	- You've made it safely to the space colony on Mars. This concludes the game.
+
+	+ exits
+	- There are no exits here.
+
+	+ *
+	- This is the end of the game. There's nothing more to do.
+
+	+ *
+	- That is not a vaild command, try another command
+< topic
+
+
+//Madlib game
+
++ [*] (word game|madlib|madlibs) [*]
+- {topic=spy_madlib}{@next}
+- {topic=knight_madlib}{@next}
+- {topic=force_madlib}{@next}
+
+> topic force_madlib
+    + *
+    - lets start give me an adjective
+
+    + *
+    % lets start give me an adjective
+    - <set adjective1=<star>>give me a name
+
+    + *
+    % give me a name
+    - <set jedi_name=<star>>give me noun
+
+    + *
+    % give me noun
+    - <set noun1=<star>>give me another noun
+
+    + *
+    % give me another noun
+    - <set noun2=<star>>i need a verb
+
+    + *
+    % i need a verb
+    - <set verb=<star>>finally give me a plural noun
+
+    + *
+    % finally give me a plural noun
+    - <set pluralnoun=<star>>The Force is a mystical <get adjective1> power. As Jedi Master <get jedi_name> once said, the force is an energy <get noun1> created by all living <get pluralnoun>, that surrounds us, <get verb> us and binds the <get noun2> together.{topic=random}
+
+
+< topic
+
+> topic spy_madlib
+    + *
+    - lets start give me an adjective
+
+    + *
+    % lets start give me an adjective
+    - <set adjective1=<star>>i need another adjective
+
+    + *
+    % i need another adjective
+    - <set adjective2=<star>>give me noun
+
+    + *
+    % give me noun
+    - <set noun=<star>>give me a plural noun
+
+    + *
+    % give me a plural noun
+    - <set pluralnoun=<star>>Every <get adjective1> spy needs a pair of X-ray <get pluralnoun>, an invisible <get noun>, and a car with the most <get adjective2> features.{topic=random}
+< topic
+
+> topic knight_madlib
+    + *
+    - give me an adjective
+
+    + *
+    % give me an adjective
+    - <set adjective1=<star>>give me another adjective
+
+    + *
+    % give me another adjective
+    - <set adjective2=<star>>give me noun
+
+    + *
+    % give me noun
+    - <set noun=<star>>give me a plural noun
+
+    + *
+    % give me a plural noun
+    - <set pluralnoun=<star>>finally i need an adverb
+
+    + *
+    % finally i need an adverb
+    - <set adverb=<star>>The brave <get adjective1> knight rescued the <get adjective2> princess from a fire breathing <get noun>. Then the two <get pluralnoun> rode off into the sunset together and lived <get adverb> ever after.{topic=random}
+< topic
+
+//Memory game
+
++ [*] (memory game|copy me)
+- {topic=memory_start}{@first}
+
+> topic memory_start
+
++ first
+- welcome to the memory game, to end the game say done. are you ready to repeat what i say?
+
++ [*] (yes|roger|yup) [*]
+- {random}gold|blue|purple|black|yellow|silver|pink{/random}. {random}pink|gold|blue|purple|black|yellow|silver{/random}. {random}silver|pink|gold|blue|purple|black|yellow{/random}. {random}yellow|silver|pink|gold|blue|purple|black{/random}.
+
++ <reply1>
+- {topic=memory_second}{@second}
+
++ *
+- oops, you got it wrong, you said <star>,  game over. Do you want to play again? {topic=memory_start}
+
++ done
+- thanks for playing, what do you want to do now? {topic=random}
+
++ (no|no thank you|i do not think so)
+- thanks for playing, what do you want to do now? {topic=random}
+
+< topic
+
+> topic memory_second
+
++ second
+- {random}silver|pink|gold|blue|purple|black|yellow{/random}. {random}yellow|silver|pink|gold|blue|purple|black{/random}. {random}black|yellow|silver|pink|gold|blue|purple{/random}. {random}purple|black|yellow|silver|pink|gold|blue{/random}. {random}blue|purple|black|yellow|silver|pink|gold{/random}.
+
++ <reply1>
+- {topic=memory_third}{@third}
+
++ *
+- oops, you got it wrong, you said <star>,  game over. Do you want to play again? {topic=memory_start}
+
++ done
+- thanks for playing, what do you want to do now? {topic=random}
+
++ no
+- thanks for playing, what do you want to do now? {topic=random}
+
+< topic
+
+> topic memory_third
+
++ third
+- {random}black|yellow|silver|pink|gold|blue|purple{/random}. {random}purple|black|yellow|silver|pink|gold|blue{/random}. {random}blue|purple|black|yellow|silver|pink|gold{/random}. {random}pink|gold|blue|purple|black|yellow|silver{/random}. {random}silver|pink|gold|blue|purple|black|yellow{/random}. {random}yellow|silver|pink|gold|blue|purple|black{/random}.
+
++ <reply1>
+- {topic=memory_fourth}{@fourth}
+
++ *
+- oops, you got it wrong, you said <star>,  game over. Do you want to play again? {topic=memory_start}
+
++ done
+- thanks for playing, what do you want to do now? {topic=random}
+
++ no
+- thanks for playing, what do you want to do now? {topic=random}
+
+< topic
+
+> topic memory_fourth
+
++ fourth
+- {random}pink|gold|blue|purple|black|yellow|silver{/random}. {random}gold|blue|purple|black|yellow|silver|pink{/random}. {random}blue|purple|black|yellow|silver|pink|gold{/random}. {random}black|yellow|silver|pink|gold|blue|purple{/random}. {random}silver|pink|gold|blue|purple|black|yellow{/random}. {random}yellow|silver|pink|gold|blue|purple|black{/random}. {random}purple|black|yellow|silver|pink|gold|blue{/random}.
+
++ <reply1>
+- Congratulations, you won! You have a great memory!
+
++ *
+- oops, you got it wrong, you said <star>,  game over. Do you want to play again? {topic=memory_start}
+
++ done
+- thanks for playing, what do you want to do now? {topic=random}
+
++ no
+- thanks for playing, what do you want to do now? {topic=random}
+
+< topic
+
+// Math game
++ [*] math game
+- <set count=1><set answer=0><rnd rand:30:90><add answer=<get rand>><rnd rand1:3:9> <mult answer=<get rand1>><rnd rand2:11:39><sub answer=<get rand2>><rnd rand3:2:9><div answer=<get rand3>>
+^ Start with <get rand>. Multiply by <get rand1>. Subtract <get rand2>. Divide by <get rand3>. What is the answer? {topic=math_test}
+
+> topic math_test
+
++ (repeat|say again)
+- No problem, start with <get rand>. Multiply by <get rand1>. Subtract <get rand2>. Divide by <get rand3>. Yes, right?
+
++ (give up|quit|i quit)
+- The answer was <get answer> Do you want to try again?
+
++ (no|nope|not really)
+- Okay then, what shall we do? {topic=random}
+
++ #
+* <star> == <get answer> => you are correct, you got the answer with <get count> attempt. Do you want to try again?
+- not quite, try again. Start with <get rand>. Multiply by <get rand1>. Subtract <get rand2>. Divide by <get rand3>. What is the answer? <add count=1> You can say give up to get the answer.
+
++ (yes|sure)
+- {topic=random}{@[*] math test}
+
+<topic

@@ -1,0 +1,77 @@
+/******************************************************************************
+ * Aiden - A RiveScript Chatbot Personality                                   *
+ *----------------------------------------------------------------------------*
+ * This source code is released under a Creative Commons                      *
+ * Attribution-ShareAlike International License.                              *
+ * (C) Noah Petherbridge 2015                                                 *
+ ******************************************************************************/
+! version = 2.0
+
+/***
+ * Hello's and Goodbye's
+ ***/
+
+! array hello = hello hi hey yo aloh hallo allo howdy
+	^ good morning|good day|hi there|anybody home|anyone home
+! array bye = bye goodbye goodby byebye buhbye goodnight adios cya aurevoir
+	^ buh bye|hasta la vista|hasta luego|have to go|got to go|g2g|gtg|c ya
+	^ have a good night|good night|see you later|catch you later|by by|bye bye
+	^ i want to leave|i need to go|i going|i leaving
+
++ @hello
+* <get name> <> undefined => {@int hello with name}
+- {@int hello without name}
+
++ @hello *
+- {@hello} <@>
+
++ [*] @bye [*]
+* <get name> <> undefined => {@int bye with name}
+- {@int bye without name}
+
++ [what is] shalom
+- Does shalom mean hello or goodbye?
+
++ int hello with name
+- Hello again, <get name>.
+- Hi, <get name>!
+- How are you, <get name>?
+- {@int hello without name}{weight=4}
+
++ int hello without name
+- Hello!
+- Hi there!
+- Hey, how are you?
+- Hi. :)
+
++ int bye with name
+- Take care, <get name>.
+- See you later, <get name>.
+- Talk to you later, <get name>.
+- {@int bye without name}{weight=2}
+
++ int bye without name
+- Take care!
+- Talk to you later!
+- Bye!
+- See ya later!
+- Adios!
+
++ (how are you|how you doing)
+- I'm doing well, how are you?
+- I'm great, how are you?
+- I'm fine, thanks.
+- Good, thanks for asking.
+
++ [*] @good [*]
+% [*] how are you [*]
+- That's {random}great|good{/random} to hear!
+
++ [*] @good you{weight=1}
+% [*] how are you [*]
+- That's {random}great|good{/random} to hear! I'm doing well too, thanks.
+
++ [*] @bad [*]{weight=2}  // "not good" is a better match than "good"
+% * how are you
+* <get name> <> undefined => I'm sorry to hear that, <get name>.
+- Sorry to hear that.

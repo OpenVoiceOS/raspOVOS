@@ -1,0 +1,20 @@
+[Unit]
+Description=OVOS Listener
+PartOf=ovos.service
+After=ovos.service
+After=ovos-messagebus.service
+
+[Service]
+Type=notify
+Group=ovos
+UMask=002
+ExecStart=%h/.venvs/ovos/bin/python /usr/libexec/ovos-systemd-listener
+TimeoutStartSec=5m
+TimeoutStopSec=1m
+Restart=on-failure
+StartLimitInterval=5min
+StartLimitBurst=4
+
+[Install]
+WantedBy=ovos.service
+

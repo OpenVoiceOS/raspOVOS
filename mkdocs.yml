@@ -1,0 +1,62 @@
+site_name: raspOVOS
+site_description: Flagship OpenVoiceOS images for the Raspberry Pi
+site_url: https://openvoiceos.github.io/raspOVOS/
+repo_url: https://github.com/OpenVoiceOS/raspOVOS
+edit_uri: edit/dev/docs/
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.footer
+    - content.action.edit
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - pymdownx.superfences
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Tutorials:
+      - Flash your first image: tutorials/flash-your-first-image.md
+      - First boot & talking to OVOS: tutorials/first-boot.md
+      - Pick a microphone & speaker: tutorials/pick-hardware.md
+  - How-to guides:
+      - Change the voice or STT: how-to/change-voice-stt.md
+      - Update your device: how-to/update.md
+      - Troubleshoot audio: how-to/troubleshoot-audio.md
+      - Get help (support bundle): how-to/support-bundle.md
+  - Reference:
+      - Image variants & languages: reference/variants.md
+      - CLI tools: reference/cli-tools.md
+      - systemd units: reference/systemd-units.md
+      - Build manifest: reference/build-manifest.md
+      - Downstream contract: reference/downstream.md
+  - Understanding raspOVOS:
+      - Architecture of the build: explanation/architecture.md
+      - What we change on Raspberry Pi OS: explanation/anatomy.md
+  - Developing:
+      - Build images locally: dev/local-build.md
+      - Test images locally & in CI: dev/local-testing.md
+      - CI tiers: dev/ci-tiers.md
+      - Prebuilt wheels: dev/wheels.md
+      - Release checklist: dev/release-checklist.md

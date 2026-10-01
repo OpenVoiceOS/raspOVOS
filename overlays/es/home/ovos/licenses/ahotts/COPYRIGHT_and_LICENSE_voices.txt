@@ -1,0 +1,18 @@
+/******************************************************************************/
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*
+
+Each voice has its own license as follows:
+
+Basque (voice models & linguistic data):
+ 	Copyright: Aholab Signal Processing Laboratory, University of the Basque Country (UPV/EHU)
+	License: The files in this package are licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
+	         http://creativecommons.org/licenses/by-sa/3.0/
+
+Spanish: (voice models & linguistic data):
+ 	Copyright: Aholab Signal Processing Laboratory, University of the Basque Country (UPV/EHU)
+	License: The files in this package are licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
+	         http://creativecommons.org/licenses/by-sa/3.0/
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*
+/******************************************************************************/
+

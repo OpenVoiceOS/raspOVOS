@@ -1,0 +1,16 @@
+[Unit]
+Description=OVOS Spotifyd OCP Hooks
+PartOf=ovos.service
+After=ovos.service
+After=ovos-messagebus.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Group=ovos
+UMask=002
+ExecStart=/usr/bin/spotifyd --name raspOVOS --device-type "speaker" --initial-volume 100 --on-song-change-hook "/home/ovos/.venvs/ovos/bin/python /usr/libexec/ovos-spotifyd"
+Restart=on-failure
+
+[Install]
+WantedBy=ovos.service

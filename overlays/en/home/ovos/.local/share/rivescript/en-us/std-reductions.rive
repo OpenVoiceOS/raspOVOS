@@ -1,0 +1,18 @@
+/******************************************************************************
+ * Aiden - A RiveScript Chatbot Personality                                   *
+ *----------------------------------------------------------------------------*
+ * This source code is released under a Creative Commons                      *
+ * Attribution-ShareAlike International License.                              *
+ * (C) Noah Petherbridge 2015                                                 *
+ ******************************************************************************/
+! version = 2.0
+
+/***
+ * Reduce needlessly complicated questions into simpler forms.
+ ***/
+
++ my name is (now|just) *
+@ my name is <star2>
+
++ what is my nickname
+@ what is my name

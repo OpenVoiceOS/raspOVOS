@@ -1,0 +1,11 @@
+[Unit]
+Description=Connect your raspberry to your smartphone or tablet
+After=network-online.target
+After=dbus.service
+
+[Service]
+ExecStart=/usr/lib/aarch64-linux-gnu/libexec/kdeconnectd --platform offscreen
+BusName=org.kde.kdeconnect
+
+[Install]
+WantedBy=default.target

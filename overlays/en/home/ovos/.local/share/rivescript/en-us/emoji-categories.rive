@@ -1,0 +1,38 @@
+/******************************************************************************
+ * Aiden - A RiveScript Chatbot Personality                                   *
+ *----------------------------------------------------------------------------*
+ * This source code is released under a Creative Commons                      *
+ * Attribution-ShareAlike International License.                              *
+ * (C) Noah Petherbridge 2015                                                 *
+ ******************************************************************************/
+! version = 2.0
+
+/***
+ * Categorize groups of similar emojis.
+ ***/
+
+! array emoji_smile = grinning grin joy smiley smile sweat-smile laughing
+	^ satisfied smiling-imp relieved smirk slightly-smiling-face smile-cat
+	^ joy-cat smiley-cat smirk-cat
+
+! array emojiTongue = stuck-out-tongue stuck-out-tongue-winking-eye
+	^ stuck-out-tongue-closed-eyes
+
+! array emojiWink = wink
+
+! array emojiFlirt = heart-eyes kissing kissing-heart kissing-smiling-eyes
+	^ kissing-closed-eyes kissing-cat
+
+! array emojiAngry = angry rage
+
+! array emoji_sad = unamused pensive disappointed worried cry frowning
+	^ anguished slightly-frowning-face pouting-cat crying-cat-face
+
+! array emojiConfused = confused confounded
+
+! array emojiAfraid = anguished fearful cold-sweat scream grimacing
+	^ scream-cat
+
+! array emojiSleepy = weary sleepy tired-face
+
+! array emojiSurprised = astonished open-mouth dizzy-face

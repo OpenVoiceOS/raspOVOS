@@ -1,0 +1,16 @@
+[Unit]
+Description=OVOS Librespot OCP Hooks
+PartOf=ovos.service
+After=ovos.service
+After=ovos-messagebus.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Group=ovos
+UMask=002
+ExecStart=/usr/bin/librespot --name raspOVOS --device-type "speaker" --initial-volume 100 --onevent "/usr/libexec/ovos-librespot"
+Restart=on-failure
+
+[Install]
+WantedBy=ovos.service

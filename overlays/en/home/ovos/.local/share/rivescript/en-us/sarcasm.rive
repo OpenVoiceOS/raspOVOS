@@ -1,0 +1,44 @@
+/******************************************************************************
+ * Aiden - A RiveScript Chatbot Personality                                   *
+ *----------------------------------------------------------------------------*
+ * This source code is released under a Creative Commons                      *
+ * Attribution-ShareAlike International License.                              *
+ * (C) Noah Petherbridge 2015                                                 *
+ ******************************************************************************/
+! version = 2.0
+! local concat = space
+
+/***
+ * Sarcastic responses.
+ ***/
+
+// Stop repeating yourself!
++ <input>
+* <input1> == <input9> => Evidently not. I'll just not talk to you until you
+	^ apologize for me for being so annoying.{topic=annoying}
+* <input1> == <input8> => This is pretty annoying. Can you stop?
+* <input1> == <input7> => "<input>"
+* <input1> == <input6> => "<input>"
+* <input1> == <input5> => Are you just trying to annoy me?
+* <input1> == <input4> => Why do you keep saying that?
+* <input1> == <input3> => I'm starting to sense a pattern here.
+* <input1> == <input2> => There, you just said it again!
+- Didn't you just say that?
+
+// Don't repeat me!
++ <reply>
+- Is there an owl in here?
+- What? I just said that.
+- Didn't I just say that?
+
+> topic annoying
+	+ *
+	- ...{weight=5}
+	- Are you sorry for being so annoying?
+	- Do you promise to not repeat yourself 9+ times in a row?
+
+	+ [*] (sorry|promise|apologize) [*]
+	- It's fine. Let's just chat in a non-annoying way from now on, K?
+		^ {topic=random}{weight=3}
+	- I'll forgive you, this time. ;){topic=random}
+< topic

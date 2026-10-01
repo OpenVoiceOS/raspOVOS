@@ -1,0 +1,11 @@
+[Unit]
+Description=Emit OVOS reboot signal
+DefaultDependencies=no
+Before=reboot.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python /usr/libexec/ovos-reboot-signal
+
+[Install]
+WantedBy=reboot.target

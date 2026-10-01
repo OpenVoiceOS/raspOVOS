@@ -1,0 +1,15 @@
+[Unit]
+Description=DLNA Renderer
+Wants=network-online.target sound.target
+After=network-online.target sound.target
+PartOf=ovos.service
+After=ovos.service
+
+[Service]
+ExecStartPre=/bin/sleep 15
+ExecStart=/usr/bin/gmediarender -f "RaspOVOS" --gstout-audiosink=pipewiresink --logfile=stdout --mime-filter audio
+Restart=always
+
+[Install]
+WantedBy=default.target
+
