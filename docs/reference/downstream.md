@@ -5,6 +5,12 @@ HiveMind hub images). The interfaces below are a contract: changing any of
 them is a **breaking change** that must be flagged `BREAKING` in the PR
 and called out in release notes.
 
+A PR that touches a contract-bearing file must say `BREAKING: <what changed>`
+in its body, or `contract: unchanged` if no stable interface moved. The
+`downstream contract guard` workflow runs the `check-breaking-note` check,
+which reads the body at the time it runs. If the check is red, add the line to
+the body: the edit starts a new check run.
+
 ## Stable interfaces
 
 | Interface | Value |
