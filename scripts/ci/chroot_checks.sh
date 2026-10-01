@@ -77,6 +77,23 @@ while IFS= read -r unit; do
 done < <(find "$MNT/etc/systemd/system" "$MNT/home/ovos/.config/systemd/user" \
               -maxdepth 1 -name '*.service' 2>/dev/null)
 
+# --- 4. effective configuration (diagnostic, not asserted) ---
+# ovos-config autoconfigure runs as root during the build and writes
+# $HOME/.config/mycroft/mycroft.conf; a base overlay can also ship a
+# mycroft.conf for the ovos user at the same path, so the two can disagree.
+# The search order in ovos_config.locations puts the ovos user's own file
+# last, which means it wins, so this is the file the running service reads.
+log "Reading effective configuration (ovos user)"
+as_ovos "$VENV_PY -c 'from ovos_config import Configuration as C; c = C(); print(\"EFFECTIVE lang=\" + str(c.get(\"lang\")) + \" stt.module=\" + str(c[\"stt\"][\"module\"]) + \" tts.module=\" + str(c[\"tts\"][\"module\"]))'" \
+    || echo "EFFECTIVE: could not resolve (ovos-config not importable?)"
+for f in /home/ovos/.config/mycroft/mycroft.conf /root/.config/mycroft/mycroft.conf; do
+    if [[ -f "$MNT$f" ]]; then
+        log "stt.module in $f: $(grep -A2 '"stt"' "$MNT$f" | grep module || echo 'not set')"
+    else
+        log "$f: absent"
+    fi
+done
+
 rm -f "$MNT/usr/bin/qemu-aarch64-static"
 
 [[ "$ERRORS" -eq 0 ]] || fail "$ERRORS check(s) failed"

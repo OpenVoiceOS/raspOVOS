@@ -101,6 +101,14 @@ RC=0
 expect "${SCRIPT_DIR}/qemu_boot_test.expect" qemu-system-aarch64 "${QEMU_ARGS[@]}" || RC=$?
 [[ $RC -eq 0 ]] || fail "Tier 3 boot smoke failed (rc=$RC) — see $SERIAL_LOG"
 
+# --- effective configuration (diagnostic artifact, not asserted here;
+# the two candidate mycroft.conf files can disagree, see
+# scripts/ci/chroot_checks.sh for why) ---
+CONFIG_LOG="$ARTIFACTS/effective-config.log"
+sed -n '/CONFIG-BEGIN/,/CONFIG-END/p' "$SERIAL_LOG" \
+    | grep -vE 'CONFIG-(BEGIN|END)' > "$CONFIG_LOG" || true
+log "Effective configuration (booted, ovos user): $(cat "$CONFIG_LOG")"
+
 # --- journal errors modulo allowlist (dumped between markers by expect) ---
 log "Checking journal errors against allowlist"
 JOURNAL_ERR="$ARTIFACTS/journal-err.log"

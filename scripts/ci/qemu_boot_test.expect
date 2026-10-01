@@ -40,6 +40,15 @@ expect {
     timeout      { puts "\nBOOT-TEST: timeout waiting for units"; exit 5 }
 }
 
+# --- effective configuration, read as the ovos user after a real boot
+# (checked host-side and saved as an artifact by qemu_boot_test.sh) ---
+set timeout 30
+send "echo CONFIG-BEGIN; /home/ovos/.venvs/ovos/bin/python -c 'from ovos_config import Configuration as C; c=C(); print(\"lang=\" + str(c.get(\"lang\")) + \" stt.module=\" + str(c\[\"stt\"\]\[\"module\"\]) + \" tts.module=\" + str(c\[\"tts\"\]\[\"module\"\]))'; echo CONFIG-END\r"
+expect {
+    "CONFIG-END" {}
+    timeout {}
+}
+
 # --- dump journal errors to the serial log (checked host-side against
 # journal-allowlist.txt by qemu_boot_test.sh) ---
 set timeout 60
