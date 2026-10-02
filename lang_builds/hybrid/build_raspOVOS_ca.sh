@@ -26,11 +26,32 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='Jarbas/ovos-mod
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-roberta-large-ca-v2-massive/ /home/ovos/.cache/huggingface/hub/models--Jarbas--ovos-model2vec-intents-roberta-large-ca-v2-massive/
 
-# install matxa
-echo "Installing Matxa TTS..."
-# TODO matxa on pypi does not include the model need to git clone for now
-git clone https://github.com/OpenVoiceOS/ovos-tts-plugin-matxa-multispeaker-cat /home/$OVOS_USER/.ovos-tts-plugin-matxa-multispeaker-cat
-uv pip install --no-progress -e /home/$OVOS_USER/.ovos-tts-plugin-matxa-multispeaker-cat -c $CONSTRAINTS
+# install the TTS plugin the configuration names
+echo "Installing phoonnx TTS..."
+# 'ovos-config autoconfigure --lang ca-ES' writes the module
+# 'ovos-tts-plugin-phoonnx' with the voice below. That entry point comes from
+# the 'phoonnx' distribution, which also ships the models, so the git clone of
+# the old plugin is not needed any more. The old repository is archived and its
+# head caps ovos-plugin-manager below 2.2.0, which the constraints file cannot
+# satisfy.
+# The base image already carries phoonnx, and uv treats that copy as satisfying
+# the requirement: a plain install reports "Checked 1 package" and adds neither
+# extra. --reinstall-package is what makes the extras arrive. They are not
+# decoration: matcha is the engine of the Catalan voice, and espeak is the
+# espyak phonemizer that runs when the espeak-ng binary is absent.
+uv pip install --no-progress --reinstall-package phoonnx \
+  "phoonnx[espeak,matcha]" -c $CONSTRAINTS
+# the extras are the reason for the reinstall, so prove they are importable
+python -c "import espyak, scipy; print('espyak and scipy OK')"
+
+CA_VOICE="OpenVoiceOS/matxa-cat-multiaccent-wavenext"
+echo "Downloading $CA_VOICE ..."
+export HF_HOME="/home/$OVOS_USER/.cache/huggingface"
+# not 'phoonnx-voices download': on an image that never ran phoonnx that
+# command raises DatabaseNotCommitted on its own voice cache, and it exits 0
+# when the download fails. The script downloads and then proves the model file.
+/home/$OVOS_USER/.venvs/ovos/bin/python \
+  /mounted-github-repo/scripts/check_phoonnx_voice.py "$CA_VOICE"
 
 echo "Compiling latest espeak..."  # needed for matxa TTS phonemization
 apt-get install -y jq automake libtool
