@@ -46,6 +46,15 @@ if [[ "${RASPOVOS_TIER:-hybrid}" != "offline" ]]; then
     uv pip install --no-progress phoonnx -c $CONSTRAINTS
 fi
 
+# A constraint binds only a package the resolver is asked about, so a package
+# this image inherited and no install line names keeps the version the base
+# release froze (T-5125). Reconcile before the chown below, because this runs
+# as root and writes into the venv, and before the manifest, so the manifest
+# records what ships and Tier 2 finds nothing new.
+echo "Reconciling inherited packages with the constraints file..."
+/home/$OVOS_USER/.venvs/ovos/bin/python \
+  /mounted-github-repo/scripts/reconcile_constraints.py "$CONSTRAINTS"
+
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$OVOS_USER
