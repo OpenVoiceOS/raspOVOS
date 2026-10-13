@@ -46,7 +46,7 @@ jobs:
       base_image_url: ${{ steps.resolve.outputs.base_image_url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Resolve base image URL
         id: resolve
@@ -69,7 +69,7 @@ jobs:
       image-path: ${{ steps.create-image.outputs.image-path }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up QEMU for ARM64 emulation
         uses: docker/setup-qemu-action@v3
