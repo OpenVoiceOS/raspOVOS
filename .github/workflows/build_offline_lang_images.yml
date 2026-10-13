@@ -17,7 +17,7 @@ on:
 
 jobs:
   get-date-release-name:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       release_name: ${{ steps.current-date.outputs.release_name }}
     steps:
@@ -30,7 +30,7 @@ jobs:
 
   # Resolve the newest base image release (override via input)
   resolve-base:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       base_image_url: ${{ steps.resolve.outputs.base_image_url }}
     steps:
@@ -51,7 +51,7 @@ jobs:
           echo "Using base image: $url"
 
   build-all-images:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [ get-date-release-name, resolve-base ]
     strategy:
       fail-fast: false
@@ -101,7 +101,7 @@ jobs:
           path: raspOVOS-${{ matrix.lang }}-bookworm-arm64-offline.img.xz
 
   create-release:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [get-date-release-name, build-all-images]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
@@ -123,7 +123,7 @@ jobs:
           echo "release_id=$release_id" >> $GITHUB_OUTPUT
 
   upload-images:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [create-release, build-all-images]
     strategy:
       fail-fast: false
