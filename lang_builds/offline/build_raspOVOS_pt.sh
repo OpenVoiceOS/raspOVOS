@@ -28,6 +28,15 @@ python -c "from huggingface_hub import hf_hub_download; repo_id='neongeckocom/st
 mkdir -p /home/ovos/.cache/huggingface/hub/
 mv /root/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_0_25/ /home/ovos/.cache/huggingface/hub/models--neongeckocom--stt_pt_citrinet_512_gamma_0_25/
 
+# A constraint binds only a package the resolver is asked about, so a package
+# this image inherited and no install line names keeps the version the base
+# release froze (T-5125). Reconcile before the chown below, because this runs
+# as root and writes into the venv, and before the manifest, so the manifest
+# records what ships and Tier 2 finds nothing new.
+echo "Reconciling inherited packages with the constraints file..."
+/home/$OVOS_USER/.venvs/ovos/bin/python \
+  /mounted-github-repo/scripts/reconcile_constraints.py "$CONSTRAINTS"
+
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed
 chown -R 1000:1000 /home/$OVOS_USER
