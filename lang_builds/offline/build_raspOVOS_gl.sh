@@ -19,10 +19,17 @@ export UV_CONSTRAINT="${CONSTRAINTS:-}" PIP_CONSTRAINT="${CONSTRAINTS:-}" UV_PRE
 echo "Configuring for target language..."
 /home/$OVOS_USER/.venvs/ovos/bin/ovos-config autoconfigure --lang gl-ES --offline --female --platform rpi5
 
-echo "Downloading zuazo whisper model ..."
-python -c "from huggingface_hub import snapshot_download; repo_id = 'Jarbas/faster-whisper-base-gl-cv13'; file_path = snapshot_download(repo_id=repo_id); print(f'Downloaded {repo_id}')"
-# since script was run as root, we need to move downloaded files
-mv /root/.cache/huggingface/hub/models--Jarbas--faster-whisper-base-gl-cv13/ /home/ovos/.cache/huggingface/hub/models--Jarbas--faster-whisper-base-gl-cv13/
+echo "Installing onnx-asr STT plugin (selected by offline recommends)..."
+uv pip install --no-progress ovos-stt-plugin-onnx-asr -c $CONSTRAINTS
+
+echo "Installing phoonnx TTS plugin (selected by offline recommends)..."
+uv pip install --no-progress phoonnx -c $CONSTRAINTS
+
+echo "Baking the STT model and the TTS voice into the image..."
+# The plugins fetch at first use. An offline image must not need the
+# network to listen or speak, so the fetch happens here instead.
+HF_HOME=/home/$OVOS_USER/.cache/huggingface LANG_CODE=gl \
+  /home/$OVOS_USER/.venvs/ovos/bin/python /mounted-github-repo/scripts/bake_offline_models.py
 
 echo "Ensuring permissions for $OVOS_USER user..."
 # Replace 1000:1000 with the correct UID:GID if needed

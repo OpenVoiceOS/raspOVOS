@@ -8,3 +8,5 @@ ovos_config
 ovos_utils
 ggwave
 llama_cpp
+phoonnx
+ovos_stt_plugin_onnxasr
