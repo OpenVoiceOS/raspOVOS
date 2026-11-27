@@ -87,7 +87,7 @@ language specific additions that ship in the images that carry them.
 
 | lang | tts-plugin                             |
 |------|-----------------------------------------|
-| ca   | ovos-tts-plugin-matxa-multispeaker-cat |
+| ca   | ovos-tts-plugin-phoonnx (`phoonnx`)    |
 | gl   | ovos-tts-plugin-nos                    |
 | eu   | ovos-tts-plugin-ahotts                 |
 
