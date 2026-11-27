@@ -19,7 +19,7 @@ on:
 jobs:
   # Stage 1: Get Current Date and Release Name
   get-date-release-name:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       release_name: ${{ steps.current-date.outputs.release_name }}
       cache_key: ${{ steps.current-date.outputs.cache_key }}
@@ -41,7 +41,7 @@ jobs:
 
   # Stage 2: Build Image
   modify-rpi-image:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: get-date-release-name
     outputs:
       image-path: ${{ steps.create-image.outputs.image-path }}
@@ -87,7 +87,7 @@ jobs:
 
   # Stage 2.5: Smoke-test the image (Tier 1 static + Tier 2 chroot checks)
   smoke-test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [ get-date-release-name, modify-rpi-image ]
     steps:
       - name: Restore Cache for Image
@@ -108,7 +108,7 @@ jobs:
 
   # Stage 3: Check if Release Exists and Create if Needed
   check-release-or-create:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: [ get-date-release-name, modify-rpi-image, smoke-test ]
     outputs:
       release_id: ${{ steps.get-release-id.outputs.release_id }}
@@ -140,7 +140,7 @@ jobs:
 
   # Stage 4: Upload to Release
   upload-image:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: ${{ needs.check-release-or-create.outputs.release_id }}
     needs: [ modify-rpi-image, check-release-or-create, get-date-release-name ]
     steps:
